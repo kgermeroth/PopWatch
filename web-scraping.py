@@ -1,6 +1,7 @@
 import webbrowser
 import bs4
 import requests
+import re
 
 def open_webpages(filename):
 	"""Opens the webpages of the comp set hotels"""
@@ -43,22 +44,22 @@ def use_html_file(file_to_save_to):
 	return soup_object
 
 def get_data_out_of_soup(soup_object):
-	"""Take beautiful soup object and pull out releveant data
-	
-	#review count results
-	>>>reviewcountstring = str(soup_object.find_all("span", class_="reviewCount ui_link level_4"))
-	[<span class="reviewCount ui_link level_4">3,845 reviews</span>]
+	"""Take beautiful soup object and pull out releveant data"""
 
-	"""
+
 	# pull html with rank information out of soup object
-	rankhtmlstring = soup_object("span", class_="header_popularity popIndexValidation ui_link level_4")
-
+	rankhtmlstring = soup_object('span', class_='header_popularity popIndexValidation ui_link level_4')
 	rank_text = rankhtmlstring[0].text
+	#'#136 of 241 Hotels in San Francisco'
+
+	# Match the rank # in the rank_text
+	match_obj = re.search(r'\#(\d+) of (\d+)', rank_text)
+	rank = int(match_obj.group(1))
+	num_all_hotels = int(match_obj.group(2))
 
 
 	# parse out review count
-	reviewcount_html = soup_object("span", class_="reviewCount ui_link level_4")
-
+	reviewcount_html = soup_object('span', class_='reviewCount ui_link level_4')
 	reviewcount_text = reviewcount_html[0].text
 
 	reviewcount = reviewcount_text[:reviewcount_text.index(" ")]
@@ -73,7 +74,7 @@ def get_data_out_of_soup(soup_object):
 	else:																				#more 999,999 reviews
 		reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
 
-	return (reviewcount)
+	return (rank, num_all_hotels, reviewcount)
 
 # to find the span with avg review score:
 # >>> soup.find_all("span", {"class":"hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA"})
