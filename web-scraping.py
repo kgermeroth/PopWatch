@@ -2,16 +2,7 @@ import webbrowser
 import bs4
 import requests
 import re
-
-def open_webpages(filename):
-	"""Opens the webpages of the comp set hotels"""
-
-	website_file = open(filename)
-
-	for line in website_file:
-		webbrowser.open(line.rstrip().split('|')[1])
-
-	website_file.close()
+import time
 
 def get_html_for_testing(url, file_to_save_to):
 	"""Goes to URL, downloads html, and writes to a text file"""
@@ -46,7 +37,6 @@ def use_html_file(file_to_save_to):
 def get_data_out_of_soup(soup_object):
 	"""Take beautiful soup object and pull out releveant data"""
 
-
 	# pull html with rank information out of soup object
 	rankhtml = soup_object.find('span', class_='header_popularity popIndexValidation ui_link level_4').text
 
@@ -55,10 +45,10 @@ def get_data_out_of_soup(soup_object):
 	rank = int(match_obj.group(1))
 	num_all_hotels = int(match_obj.group(2))
 
-	# 
+	# Pull html with avg review score out of soup object and convert to float
+	avgscore = float(soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA').text)
 
-
-	# parse out review count and find num of reviews with regular expressions
+	# parse out review count and find num of reviews with regex
 	reviewcount_html = soup_object.find('span', class_='reviewCount ui_link level_4').text
 	match_obj = re.search(r'([0-9,]+)', reviewcount_html)
 	reviewcount = match_obj.group(1)
@@ -74,11 +64,17 @@ def get_data_out_of_soup(soup_object):
 		reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
 
 
-	return (rank, num_all_hotels, reviewcount)
+	return (rank, avgscore, num_all_hotels, reviewcount)
 
-# to find the span with avg review score:
-# >>> soup.find_all("span", {"class":"hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA"})
-# [<span class="hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA">3.5</span>]
+def scrape_webpages(filename):
+	"""Opens the webpages of the comp set hotels"""
+
+	website_file = open(filename)
+
+	for line in website_file:
+		web_url = (line.rstrip().split('|')[1])
+
+	website_file.close()
 
 
 
