@@ -50,16 +50,18 @@ def get_data_out_of_soup(soup_object):
 	[<span class="reviewCount ui_link level_4">3,845 reviews</span>]
 
 	"""
-	# parse out ranking and number of hotels in SF
-	rankstring = str(soup_object("span", class_="header_popularity popIndexValidation ui_link level_4"))
+	# pull html with rank information out of soup object
+	rankhtmlstring = soup_object("span", class_="header_popularity popIndexValidation ui_link level_4")
 
-	# get the string from the rank through the end
-	rankhalfstring = rankstring[rankstring.index("<b") + 16:] #clean up to slice the main desired portion
+	rank_text = rankhtmlstring[0].text
+
 
 	# parse out review count
-	reviewcountstring = str(soup_object.find_all("span", class_="reviewCount ui_link level_4"))
+	reviewcount_html = soup_object("span", class_="reviewCount ui_link level_4")
 
-	reviewcount = reviewcountstring[43:-16]
+	reviewcount_text = reviewcount_html[0].text
+
+	reviewcount = reviewcount_text[:reviewcount_text.index(" ")]
 
 	# need to account for commas before converting to int
 	if len(reviewcount) < 4:															#less than 1,000 reviews
@@ -71,7 +73,7 @@ def get_data_out_of_soup(soup_object):
 	else:																				#more 999,999 reviews
 		reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
 
-
+	return (reviewcount)
 
 # to find the span with avg review score:
 # >>> soup.find_all("span", {"class":"hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA"})
