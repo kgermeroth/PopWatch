@@ -48,21 +48,20 @@ def get_data_out_of_soup(soup_object):
 
 
 	# pull html with rank information out of soup object
-	rankhtmlstring = soup_object('span', class_='header_popularity popIndexValidation ui_link level_4')
-	rank_text = rankhtmlstring[0].text
-	#'#136 of 241 Hotels in San Francisco'
+	rankhtml = soup_object.find('span', class_='header_popularity popIndexValidation ui_link level_4').text
 
-	# Match the rank # in the rank_text
-	match_obj = re.search(r'\#(\d+) of (\d+)', rank_text)
+	# Match the rank # and number of hotels in the rank_text
+	match_obj = re.search(r'\#(\d+) of (\d+)', rankhtml)
 	rank = int(match_obj.group(1))
 	num_all_hotels = int(match_obj.group(2))
 
+	# 
 
-	# parse out review count
-	reviewcount_html = soup_object('span', class_='reviewCount ui_link level_4')
-	reviewcount_text = reviewcount_html[0].text
 
-	reviewcount = reviewcount_text[:reviewcount_text.index(" ")]
+	# parse out review count and find num of reviews with regular expressions
+	reviewcount_html = soup_object.find('span', class_='reviewCount ui_link level_4').text
+	match_obj = re.search(r'([0-9,]+)', reviewcount_html)
+	reviewcount = match_obj.group(1)
 
 	# need to account for commas before converting to int
 	if len(reviewcount) < 4:															#less than 1,000 reviews
@@ -74,14 +73,12 @@ def get_data_out_of_soup(soup_object):
 	else:																				#more 999,999 reviews
 		reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
 
+
 	return (rank, num_all_hotels, reviewcount)
 
 # to find the span with avg review score:
 # >>> soup.find_all("span", {"class":"hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA"})
 # [<span class="hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA">3.5</span>]
 
-# this will find the rank and number of hotels in SF:
-# >>> soup("span", class_="header_popularity popIndexValidation ui_link level_4")
-# [<span class="header_popularity popIndexValidation ui_link level_4" onclick="ta.util.cookie.setPIDCookie(15191);"><b class="rank">#136</b> of 241 <a href="/Hotels-g60713-San_Francisco_California-Hotels.html">Hotels in San Francisco</a></span>]
 
 
