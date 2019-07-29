@@ -16,6 +16,21 @@ def get_html_data(url):
 
 	return full_page.text
 
+
+def get_time_stamp():
+	"""Collects time stamp after successful shop"""
+
+	now = datetime.now()
+
+	return now
+
+
+def create_html_file_name(hotel_id, now):
+	"""Creates custom file name to save html data to"""
+
+	return hotel_id + str(now.year) + str(now.month) + str(now.day) + '.html'
+
+
 def write_html_to_file(full_page, filename):
 	"""Writes data to a text file"""
 
@@ -31,15 +46,19 @@ def write_html_to_file(full_page, filename):
 
 	return filepath
 
+
 def convert_html_file(file_to_save_to):
 	"""Takes in html file and coverts it to Beautiful Soup object"""
 
+	# open the html file and get data out
 	with open(file_to_save_to, 'r') as f:
 		the_text = f.read()
 
+	# turn html into a beautifulsoup object
 	soup_object = bs4.BeautifulSoup(the_text)
 
 	return soup_object
+	
 
 def get_data_out_of_soup(soup_object):
 	"""Take beautiful soup object and pull out releveant data"""
@@ -47,6 +66,7 @@ def get_data_out_of_soup(soup_object):
 	# pull html with rank information out of soup object
 	rankhtml = soup_object.find('span', class_='header_popularity')
 
+	# have to account for any missing class names when html doesn't pull properly
 	if rankhtml is None:
 		num_all_hotels = ''
 		rank = ''
@@ -61,6 +81,7 @@ def get_data_out_of_soup(soup_object):
 	# Pull html with avg review score out of soup object and convert to float
 	avgscore = soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA')
 
+	# have to account for any missing class names when html doesn't pull properly
 	if avgscore is None:
 		avgscore = ''
 
@@ -71,6 +92,7 @@ def get_data_out_of_soup(soup_object):
 	# parse out review count and find num of reviews with regex
 	reviewcount_html = soup_object.find('span', class_='reviewCount')
 
+	# have to account for any missing class names when html doesn't pull properly
 	if reviewcount_html is None:
 		reviewcount = ''
 
@@ -91,18 +113,6 @@ def get_data_out_of_soup(soup_object):
 
 
 	return (rank, avgscore, num_all_hotels, reviewcount)
-
-def get_time_stamp():
-	"""Collects time stamp after successful shop"""
-
-	now = datetime.now()
-
-	return now
-
-def create_html_file_name(hotel_id, now):
-	"""Creates custom file name to save html data to"""
-
-	return hotel_id + str(now.year) + str(now.month) + str(now.day) + '.html'
 	
 
 def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount):
@@ -133,17 +143,12 @@ def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, 
 	csvFile.close()	
 
 
-
 def scrape_store_webpages():
 	"""Compiles all pieces of webscraping process
-	- pull hotel info from file. For each hotel:
-		- scrape html data from TripAdvisor
-		- collect approx time stamp of shop
-		- create a filename to save data to
-		- save data to that html file
-		- parse data from html file
-		- save data to master csv file
-		- wait 5 minutes to shop next hotel """
+
+	Covers from downloading html up to storing data in csv.
+
+ 	"""
 
 	hotel_info_file = open('hotel_shopping_info.txt')
 
@@ -152,7 +157,7 @@ def scrape_store_webpages():
 
 		text = get_html_data(web_url)																# pull html from webpage
 		now = get_time_stamp()																		# get the time stamp
-		filename = create_html_file_name(hotel_id, now)												# creates a filename html file will be stored in
+		filename = create_html_file_name(hotel_id, now)												# creates a filename for the file html will be stored in
 		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
 		soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
 		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
