@@ -82,11 +82,14 @@ def get_time_stamps():
 
 def create_html_file_name(hotel_id, now):
 	"""Creates custom file name to save html data to"""
+
+	return filename = hotel_id + str(now.year) + str(now.month) + str(now.day) + '.html'
 	
 
-
-def store_data_in_csv():
+def store_data_in_csv(filename, hotelname, now, rank, num_all_hotels, avgscore, reviewcount):
 	"""Store all data in csv file"""
+
+
 	pass
 
 def scrape_store_webpages(filename):
@@ -100,13 +103,17 @@ def scrape_store_webpages(filename):
 		- save data to master csv file
 		- wait 5 minutes to shop next hotel """
 
-	website_file = open(filename)
+	hotel_info_file = open(filename)
 
-	for line in website_file:
+	for line in hotel_info_file:
 		hotel, hotel_id, web_url = line.rstrip().split('|')
 
 
-	website_file.close()
+		# wait five minutes until next shop
+		time.sleep(300)
+
+
+	hotel_info_file.close()
 
 
 
