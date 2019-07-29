@@ -45,7 +45,7 @@ def get_data_out_of_soup(soup_object):
 	"""Take beautiful soup object and pull out releveant data"""
 
 	# pull html with rank information out of soup object
-	rankhtml = soup_object.find('span', class_='header_popularity popIndexValidation ui_link level_4').text
+	rankhtml = soup_object.find('span', class_='header_popularity').text
 
 	# Match the rank # and number of hotels in the rank_text
 	match_obj = re.search(r'\#(\d+) of (\d+)', rankhtml)
@@ -56,7 +56,7 @@ def get_data_out_of_soup(soup_object):
 	avgscore = float(soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA').text)
 
 	# parse out review count and find num of reviews with regex
-	reviewcount_html = soup_object.find('span', class_='reviewCount ui_link level_4').text
+	reviewcount_html = soup_object.find('span', class_='reviewCount').text
 	match_obj = re.search(r'([0-9,]+)', reviewcount_html)
 	reviewcount = match_obj.group(1)
 
@@ -125,11 +125,9 @@ def scrape_store_webpages():
 		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 	# takes soup object and parses it to pull data
 		store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount)	# takes all data and writes it to csv file
 
-		break
-
 
 		# wait five minutes until next shop
-		time.sleep(300)
+		time.sleep(200)
 
 
 	hotel_info_file.close()
