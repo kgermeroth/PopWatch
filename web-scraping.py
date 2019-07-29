@@ -45,30 +45,49 @@ def get_data_out_of_soup(soup_object):
 	"""Take beautiful soup object and pull out releveant data"""
 
 	# pull html with rank information out of soup object
-	rankhtml = soup_object.find('span', class_='header_popularity').text
+	rankhtml = soup_object.find('span', class_='header_popularity')
 
-	# Match the rank # and number of hotels in the rank_text
-	match_obj = re.search(r'\#(\d+) of (\d+)', rankhtml)
-	rank = int(match_obj.group(1))
-	num_all_hotels = int(match_obj.group(2))
+	if rankhtml is None:
+		num_all_hotels = '#N/A'
+		rank = '#N/A'
+
+	else:
+		# Match the rank # and number of hotels in the rank_text
+		rankhtml = rankhtml.text
+		match_obj = re.search(r'\#(\d+) of (\d+)', rankhtml)
+		rank = int(match_obj.group(1))
+		num_all_hotels = int(match_obj.group(2))
 
 	# Pull html with avg review score out of soup object and convert to float
-	avgscore = float(soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA').text)
+	avgscore = soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA')
+
+	if avgscore is None:
+		avgscore = '#N/A'
+
+	else:
+		avgscore = float(avgscore.text)
+
 
 	# parse out review count and find num of reviews with regex
-	reviewcount_html = soup_object.find('span', class_='reviewCount').text
-	match_obj = re.search(r'([0-9,]+)', reviewcount_html)
-	reviewcount = match_obj.group(1)
+	reviewcount_html = soup_object.find('span', class_='reviewCount')
 
-	# need to account for commas before converting to int
-	if len(reviewcount) < 4:															#less than 1,000 reviews
-		reviewcount = int(reviewcount)
+	if reviewcount_html is None:
+		reviewcount = '#N/A'
 
-	elif len(reviewcount) > 3 and len(reviewcount) < 8:									#1,000 - 999,999 reviews
-		reviewcount = int((reviewcount[:-4] + reviewcount[-3:]))
+	else:
+		reviewcount_html = reviewcount_html.text
+		match_obj = re.search(r'([0-9,]+)', reviewcount_html)
+		reviewcount = match_obj.group(1)
 
-	else:																				#more 999,999 reviews
-		reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
+		# need to account for commas before converting to int
+		if len(reviewcount) < 4:															#less than 1,000 reviews
+			reviewcount = int(reviewcount)
+
+		elif len(reviewcount) > 3 and len(reviewcount) < 8:									#1,000 - 999,999 reviews
+			reviewcount = int((reviewcount[:-4] + reviewcount[-3:]))
+
+		else:																				#more 999,999 reviews
+			reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
 
 
 	return (rank, avgscore, num_all_hotels, reviewcount)
