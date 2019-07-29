@@ -48,8 +48,8 @@ def get_data_out_of_soup(soup_object):
 	rankhtml = soup_object.find('span', class_='header_popularity')
 
 	if rankhtml is None:
-		num_all_hotels = '#N/A'
-		rank = '#N/A'
+		num_all_hotels = ''
+		rank = ''
 
 	else:
 		# Match the rank # and number of hotels in the rank_text
@@ -62,7 +62,7 @@ def get_data_out_of_soup(soup_object):
 	avgscore = soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA')
 
 	if avgscore is None:
-		avgscore = '#N/A'
+		avgscore = ''
 
 	else:
 		avgscore = float(avgscore.text)
@@ -72,7 +72,7 @@ def get_data_out_of_soup(soup_object):
 	reviewcount_html = soup_object.find('span', class_='reviewCount')
 
 	if reviewcount_html is None:
-		reviewcount = '#N/A'
+		reviewcount = ''
 
 	else:
 		reviewcount_html = reviewcount_html.text

@@ -9,12 +9,12 @@ InterCon Mark Hopkins|markhop|https://www.tripadvisor.com/Hotel_Review-g60713-d1
 Buchanan|buch|https://www.tripadvisor.com/Hotel_Review-g60713-d80917-Reviews-Kimpton_Buchanan-San_Francisco_California.html
 Drisco|drisco|https://www.tripadvisor.com/Hotel_Review-g60713-d80983-Reviews-Hotel_Drisco_Pacific_Heights-San_Francisco_California.html
 Adagio|adagio|https://www.tripadvisor.com/Hotel_Review-g60713-d279426-Reviews-Hotel_Adagio_Autograph_Collection-San_Francisco_California.html
-Kabuki|kabuki|
-Hotel Del Sol|delsol|
-Laurel Inn|laurel|
-Westin St Francis|wesstfr|
-Zeppelin|zepp|
-Zetta|zetta|
-Zelos|zelos|
-Carlton|carl|
-Vertigo|vertigo|
+Kabuki|kabuki|https://www.tripadvisor.com/Hotel_Review-g60713-d113923-Reviews-Hotel_Kabuki_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+Hotel Del Sol|delsol|https://www.tripadvisor.com/Hotel_Review-g60713-d119643-Reviews-Hotel_Del_Sol_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+Laurel Inn|laurel|https://www.tripadvisor.com/Hotel_Review-g60713-d81114-Reviews-Laurel_Inn_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+Westin St Francis|wesstfr|https://www.tripadvisor.com/Hotel_Review-g60713-d81461-Reviews-The_Westin_St_Francis_San_Francisco_on_Union_Square-San_Francisco_California.html
+Zeppelin|zepp|https://www.tripadvisor.com/Hotel_Review-g60713-d81215-Reviews-Hotel_Zeppelin_San_Francisco-San_Francisco_California.html
+Zetta|zetta|https://www.tripadvisor.com/Hotel_Review-g60713-d112304-Reviews-Hotel_Zetta_San_Francisco-San_Francisco_California.html
+Zelos|zelos|https://www.tripadvisor.com/Hotel_Review-g60713-d80797-Reviews-Hotel_Zelos_San_Francisco-San_Francisco_California.html
+Carlton|carl|https://www.tripadvisor.com/Hotel_Review-g60713-d80925-Reviews-Hotel_Carlton_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+Vertigo|vertigo|https://www.tripadvisor.com/Hotel_Review-g60713-d81803-Reviews-Hotel_Vertigo-San_Francisco_California.html
