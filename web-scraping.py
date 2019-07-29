@@ -29,9 +29,9 @@ def write_html_to_file(full_page, filename):
 
 	text_file.close()
 
-	return file_to_save_to
+	return filepath
 
-def use_html_file(file_to_save_to):
+def convert_html_file(file_to_save_to):
 	"""Takes in html file and coverts it to Beautiful Soup object"""
 
 	with open(file_to_save_to, 'r') as f:
@@ -73,7 +73,7 @@ def get_data_out_of_soup(soup_object):
 
 	return (rank, avgscore, num_all_hotels, reviewcount)
 
-def get_time_stamps():
+def get_time_stamp():
 	"""Collects time stamp after successful shop"""
 
 	now = datetime.now()
@@ -101,7 +101,7 @@ def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, 
 	csvFile.close()	
 
 
-def scrape_store_webpages(filename):
+def scrape_store_webpages():
 	"""Compiles all pieces of webscraping process
 	- pull hotel info from file. For each hotel:
 		- scrape html data from TripAdvisor
@@ -112,10 +112,20 @@ def scrape_store_webpages(filename):
 		- save data to master csv file
 		- wait 5 minutes to shop next hotel """
 
-	hotel_info_file = open(filename)
+	hotel_info_file = open('hotel_shopping_info.txt')
 
 	for line in hotel_info_file:
 		hotelname, hotel_id, web_url = line.rstrip().split('|')
+
+		text = get_html_data(web_url)						# pull html from webpage
+		now = get_time_stamp()								# get the time stamp
+		filename = create_html_file_name(hotel_id, now)		# creates a filename html file will be stored in
+		filepath = write_html_to_file(text, filename)		# takes html text and puts it into a file with the created filename
+		soup_object = convert_html_file(filepath)			# takes the html file and converts it into a soup object
+		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 	# takes soup object and parses it to pull data
+		store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount)	# takes all data and writes it to csv file
+
+		break
 
 
 		# wait five minutes until next shop
