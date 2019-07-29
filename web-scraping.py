@@ -108,7 +108,20 @@ def create_html_file_name(hotel_id, now):
 def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount):
 	"""Store all data in one row of the csv file"""
 
-	date_shopped = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
+	#date needs to be in 'yyyy-mm-dd' format
+	if len(str(now.month)) == 1:
+		month = '0' + str(now.month)
+
+	else:
+		month = str(now.month)
+
+	if len(str(now.day)) == 1:
+		day = '0' + str(now.day)
+
+	else:
+		day = str(now.day)
+
+	date_shopped = str(now.year) + '-' + month + '-' + day
 	time_shopped = str(now.hour) + ":" + str(now.minute) + ":" + str(now.second)
 
 	row = [hotelname, filename[:-5], date_shopped, time_shopped, rank, num_all_hotels, avgscore, reviewcount]
@@ -118,6 +131,7 @@ def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, 
 		writer.writerow(row)
 
 	csvFile.close()	
+
 
 
 def scrape_store_webpages():
@@ -136,17 +150,17 @@ def scrape_store_webpages():
 	for line in hotel_info_file:
 		hotelname, hotel_id, web_url = line.rstrip().split('|')
 
-		text = get_html_data(web_url)						# pull html from webpage
-		now = get_time_stamp()								# get the time stamp
-		filename = create_html_file_name(hotel_id, now)		# creates a filename html file will be stored in
-		filepath = write_html_to_file(text, filename)		# takes html text and puts it into a file with the created filename
-		soup_object = convert_html_file(filepath)			# takes the html file and converts it into a soup object
-		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 	# takes soup object and parses it to pull data
+		text = get_html_data(web_url)																# pull html from webpage
+		now = get_time_stamp()																		# get the time stamp
+		filename = create_html_file_name(hotel_id, now)												# creates a filename html file will be stored in
+		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
+		soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
+		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
 		store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount)	# takes all data and writes it to csv file
 
 
-		# wait five minutes until next shop
-		time.sleep(200)
+		# wait two minutes until next shop
+		time.sleep(120)
 
 
 	hotel_info_file.close()
