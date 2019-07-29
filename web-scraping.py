@@ -111,7 +111,7 @@ def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, 
 	date_shopped = str(now.month) + '/' + str(now.day) + '/' + str(now.year)
 	time_shopped = str(now.hour) + ":" + str(now.minute) + ":" + str(now.second)
 
-	row = [hotelname, filename, date_shopped, time_shopped, rank, num_all_hotels, avgscore, reviewcount]
+	row = [hotelname, filename[:-5], date_shopped, time_shopped, rank, num_all_hotels, avgscore, reviewcount]
 
 	with open('hotel_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
