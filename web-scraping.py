@@ -2,21 +2,28 @@ import webbrowser
 import bs4
 import requests
 import re
+import csv
 import time
+from datetime import datetime
 
-def get_html_for_testing(url, file_to_save_to):
-	"""Goes to URL, downloads html, and writes to a text file"""
+def get_html_data(url):
+	"""Goes to URL and downloads html"""
 
 	# download the main page from the website
 	full_page = requests.get(url)
 
 	full_page.raise_for_status()
 
+	return full_page.text
+
+def write_html_to_file(full_page, file_to_save_to):
+	"""Writes data to a text file"""
+
 	# creates a new text file and opens it in write mode
 	text_file = open(file_to_save_to, 'w')
 
 	# convert the url content to text and write to the file
-	text_file.write(full_page.text)
+	text_file.write(full_page)
 
 	text_file.close()
 
@@ -66,13 +73,38 @@ def get_data_out_of_soup(soup_object):
 
 	return (rank, avgscore, num_all_hotels, reviewcount)
 
-def scrape_webpages(filename):
-	"""Opens the webpages of the comp set hotels"""
+def get_time_stamps():
+	"""Collects time stamp after successful shop"""
+
+	now = datetime.now()
+
+	return now
+
+def create_html_file_name(hotel_id, now):
+	"""Creates custom file name to save html data to"""
+	
+
+
+def store_data_in_csv():
+	"""Store all data in csv file"""
+	pass
+
+def scrape_store_webpages(filename):
+	"""Compiles all pieces of webscraping process
+	- pull hotel info from file. For each hotel:
+		- scrape html data from TripAdvisor
+		- collect approx time stamp of shop
+		- create a filename to save data to
+		- save data to that html file
+		- parse data from html file
+		- save data to master csv file
+		- wait 5 minutes to shop next hotel """
 
 	website_file = open(filename)
 
 	for line in website_file:
-		web_url = (line.rstrip().split('|')[1])
+		hotel, hotel_id, web_url = line.rstrip().split('|')
+
 
 	website_file.close()
 
