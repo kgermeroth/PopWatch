@@ -16,18 +16,18 @@ def get_html_data(url):
 
 	return full_page.text
 
-def write_html_to_file(full_page, file_to_save_to):
+def write_html_to_file(full_page, filename):
 	"""Writes data to a text file"""
 
+	filepath = 'hotel_html_pages/' + filename
+
 	# creates a new text file and opens it in write mode
-	text_file = open(file_to_save_to, 'w')
+	text_file = open(filepath, 'w')
 
 	# convert the url content to text and write to the file
 	text_file.write(full_page)
 
 	text_file.close()
-
-	#add a datetime object here and return it?
 
 	return file_to_save_to
 
