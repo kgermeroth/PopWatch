@@ -5,6 +5,7 @@ import re
 import csv
 import time
 from datetime import datetime
+import schedule
 
 def get_html_data(url):
 	"""Goes to URL and downloads html"""
@@ -58,7 +59,7 @@ def convert_html_file(file_to_save_to):
 	soup_object = bs4.BeautifulSoup(the_text)
 
 	return soup_object
-	
+
 
 def get_data_out_of_soup(soup_object):
 	"""Take beautiful soup object and pull out releveant data"""
@@ -140,8 +141,6 @@ def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, 
 		writer = csv.writer(csvFile)
 		writer.writerow(row)
 
-	csvFile.close()	
-
 
 def scrape_store_webpages():
 	"""Compiles all pieces of webscraping process
@@ -169,6 +168,14 @@ def scrape_store_webpages():
 
 
 	hotel_info_file.close()
+
+
+schedule.every().day.at("01:00").do(scrape_store_webpages)
+
+if __name__ == '__main__':
+	while True:
+		schedule.run_pending()
+		time.sleep(30)
 
 
 
