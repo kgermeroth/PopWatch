@@ -35,7 +35,7 @@ def create_html_file_name(hotel_id, now):
 def write_html_to_file(full_page, filename):
 	"""Writes data to a text file"""
 
-	filepath = 'hotel_html_pages/' + filename
+	filepath = '/media/storage/home/kristin/src_old/TripAdvisor_Project/hotel_html_pages/' + filename
 
 	# creates a new text file and opens it in write mode
 	text_file = open(filepath, 'w')
@@ -56,7 +56,7 @@ def convert_html_file(file_to_save_to):
 		the_text = f.read()
 
 	# turn html into a beautifulsoup object
-	soup_object = bs4.BeautifulSoup(the_text)
+	soup_object = bs4.BeautifulSoup(the_text, features="html.parser")
 
 	return soup_object
 
@@ -119,25 +119,9 @@ def get_data_out_of_soup(soup_object):
 def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount):
 	"""Store all data in one row of the csv file"""
 
-	#date needs to be in 'yyyy-mm-dd' format
-	if len(str(now.month)) == 1:
-		month = '0' + str(now.month)
+	row = [hotelname, filename[:-5], now.isoformat(), rank, num_all_hotels, avgscore, reviewcount]
 
-	else:
-		month = str(now.month)
-
-	if len(str(now.day)) == 1:
-		day = '0' + str(now.day)
-
-	else:
-		day = str(now.day)
-
-	date_shopped = str(now.year) + '-' + month + '-' + day
-	time_shopped = str(now.hour) + ":" + str(now.minute) + ":" + str(now.second)
-
-	row = [hotelname, filename[:-5], date_shopped, time_shopped, rank, num_all_hotels, avgscore, reviewcount]
-
-	with open('hotel_data.csv', 'a') as csvFile:
+	with open('/media/storage/home/kristin/src_old/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerow(row)
 
@@ -149,7 +133,7 @@ def scrape_store_webpages():
 
  	"""
 
-	hotel_info_file = open('hotel_shopping_info.txt')
+	hotel_info_file = open('/media/storage/home/kristin/src_old/TripAdvisor_Project/hotel_shopping_info.txt')
 
 	for line in hotel_info_file:
 		hotelname, hotel_id, web_url = line.rstrip().split('|')
@@ -170,12 +154,13 @@ def scrape_store_webpages():
 	hotel_info_file.close()
 
 
-schedule.every().day.at("01:00").do(scrape_store_webpages)
+# schedule.every().day.at("01:00").do(scrape_store_webpages)
 
 if __name__ == '__main__':
-	while True:
-		schedule.run_pending()
-		time.sleep(30)
+	# while True:
+	# 	schedule.run_pending()
+	# 	time.sleep(30)
+	scrape_store_webpages()
 
 
 
