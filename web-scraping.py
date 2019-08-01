@@ -35,7 +35,7 @@ def create_html_file_name(hotel_id, now):
 def write_html_to_file(full_page, filename):
 	"""Writes data to a text file"""
 
-	filepath = '/media/storage/home/kristin/src_old/TripAdvisor_Project/hotel_html_pages/' + filename
+	filepath = '/media/storage/home/kristin/src/TripAdvisor_Project/hotel_html_pages/' + filename
 
 	# creates a new text file and opens it in write mode
 	text_file = open(filepath, 'w')
@@ -121,7 +121,7 @@ def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, 
 
 	row = [hotelname, filename[:-5], now.isoformat(), rank, num_all_hotels, avgscore, reviewcount]
 
-	with open('/media/storage/home/kristin/src_old/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
+	with open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerow(row)
 
@@ -133,7 +133,7 @@ def scrape_store_webpages():
 
  	"""
 
-	hotel_info_file = open('/media/storage/home/kristin/src_old/TripAdvisor_Project/hotel_shopping_info.txt')
+	hotel_info_file = open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_shopping_info.txt')
 
 	for line in hotel_info_file:
 		hotelname, hotel_id, web_url = line.rstrip().split('|')
