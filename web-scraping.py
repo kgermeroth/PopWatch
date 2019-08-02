@@ -5,7 +5,6 @@ import re
 import csv
 import time
 from datetime import datetime
-import schedule
 
 def get_html_data(url):
 	"""Goes to URL and downloads html"""
@@ -17,6 +16,12 @@ def get_html_data(url):
 
 	return full_page.text
 
+def get_ta_id(url):
+	"""Gets the TripAdvisor id out of URL"""
+
+	match_obj = re.search(r'view-(\w+-\w+)', url)
+
+	return match_obj.group(1)
 
 def get_time_stamp():
 	"""Collects time stamp after successful shop"""
@@ -116,10 +121,10 @@ def get_data_out_of_soup(soup_object):
 	return (rank, avgscore, num_all_hotels, reviewcount)
 	
 
-def store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount):
+def store_data_in_csv(hotelname, ta_id, filename, now, rank, num_all_hotels, avgscore, reviewcount):
 	"""Store all data in one row of the csv file"""
 
-	row = [hotelname, filename[:-5], now.isoformat(), rank, num_all_hotels, avgscore, reviewcount]
+	row = [hotelname, ta_id, filename[:-5], now.isoformat(), rank, num_all_hotels, avgscore, reviewcount]
 
 	with open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
@@ -138,13 +143,14 @@ def scrape_store_webpages():
 	for line in hotel_info_file:
 		hotelname, hotel_id, web_url = line.rstrip().split('|')
 
-		text = get_html_data(web_url)																# pull html from webpage
-		now = get_time_stamp()																		# get the time stamp
-		filename = create_html_file_name(hotel_id, now)												# creates a filename for the file html will be stored in
-		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
-		soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
-		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
-		store_data_in_csv(hotelname, filename, now, rank, num_all_hotels, avgscore, reviewcount)	# takes all data and writes it to csv file
+		text = get_html_data(web_url)																		# pull html from webpage
+		ta_id = get_ta_id(web_url)																			# pulls TripAdvisor id out of URL
+		now = get_time_stamp()																				# get the time stamp
+		filename = create_html_file_name(hotel_id, now)														# creates a filename for the file html will be stored in
+		filepath = write_html_to_file(text, filename)														# takes html text and puts it into a file with the created filename
+		soup_object = convert_html_file(filepath)															# takes the html file and converts it into a soup object
+		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 					# takes soup object and parses it to pull data
+		store_data_in_csv(hotelname, ta_id, filename, now, rank, num_all_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
 
 
 		# wait two minutes until next shop

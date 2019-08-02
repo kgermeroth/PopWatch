@@ -1,2 +1,5 @@
 hotel_html_pages/
 env/
+conversion.py
+converted.csv
+to_convert.csv

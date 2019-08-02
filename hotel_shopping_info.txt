@@ -1,7 +1,3 @@
-King George|george|https://www.tripadvisor.com/Hotel_Review-g60713-d80786-Reviews-King_George_Hotel_A_Greystone_Hotel-San_Francisco_California.html
-
-
-
 Sir Francis Drake|sfd|https://www.tripadvisor.com/Hotel_Review-g60713-d81377-Reviews-Kimpton_Sir_Francis_Drake_Hotel-San_Francisco_California.html
 Grand Hyatt|ghyattus|https://www.tripadvisor.com/Hotel_Review-g60713-d80999-Reviews-Grand_Hyatt_San_Francisco-San_Francisco_California.html
 Marriott Union Square|marrus|https://www.tripadvisor.com/Hotel_Review-g60713-d124765-Reviews-San_Francisco_Marriott_Union_Square-San_Francisco_California.html
@@ -22,7 +18,3 @@ Zetta|zetta|https://www.tripadvisor.com/Hotel_Review-g60713-d112304-Reviews-Hote
 Zelos|zelos|https://www.tripadvisor.com/Hotel_Review-g60713-d80797-Reviews-Hotel_Zelos_San_Francisco-San_Francisco_California.html
 Carlton|carl|https://www.tripadvisor.com/Hotel_Review-g60713-d80925-Reviews-Hotel_Carlton_a_Joie_de_Vivre_hotel-San_Francisco_California.html
 Vertigo|vertigo|https://www.tripadvisor.com/Hotel_Review-g60713-d81803-Reviews-Hotel_Vertigo-San_Francisco_California.html
-
-
-
-
