@@ -1,9 +1,4 @@
-import webbrowser
-import bs4
-import requests
-import re
-import csv
-import time
+import webbrowser, bs4, requests, re, csv, time
 from datetime import datetime
 
 def get_html_data(url):
@@ -121,10 +116,10 @@ def get_data_out_of_soup(soup_object):
 	return (rank, avgscore, num_all_hotels, reviewcount)
 	
 
-def store_data_in_csv(hotelname, ta_id, filename, now, rank, num_all_hotels, avgscore, reviewcount):
+def store_data_in_csv(hotel_id, ta_id, now, rank, num_all_hotels, avgscore, reviewcount):
 	"""Store all data in one row of the csv file"""
 
-	row = [hotelname, ta_id, filename[:-5], now.isoformat(), rank, num_all_hotels, avgscore, reviewcount]
+	row = [hotel_id, ta_id, now.isoformat(), rank, num_all_hotels, avgscore, reviewcount]
 
 	with open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
@@ -141,16 +136,16 @@ def scrape_store_webpages():
 	hotel_info_file = open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_shopping_info.txt')
 
 	for line in hotel_info_file:
-		hotelname, hotel_id, web_url = line.rstrip().split('|')
+		hotel_id, hotelname, nickname, web_url = line.rstrip().split('|')
 
 		text = get_html_data(web_url)																		# pull html from webpage
 		ta_id = get_ta_id(web_url)																			# pulls TripAdvisor id out of URL
 		now = get_time_stamp()																				# get the time stamp
-		filename = create_html_file_name(hotel_id, now)														# creates a filename for the file html will be stored in
+		filename = create_html_file_name(nickname, now)														# creates a filename for the file html will be stored in
 		filepath = write_html_to_file(text, filename)														# takes html text and puts it into a file with the created filename
 		soup_object = convert_html_file(filepath)															# takes the html file and converts it into a soup object
 		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 					# takes soup object and parses it to pull data
-		store_data_in_csv(hotelname, ta_id, filename, now, rank, num_all_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
+		store_data_in_csv(hotel_id, ta_id, now, rank, num_all_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
 
 
 		# wait two minutes until next shop
@@ -159,13 +154,8 @@ def scrape_store_webpages():
 
 	hotel_info_file.close()
 
-
-# schedule.every().day.at("01:00").do(scrape_store_webpages)
-
 if __name__ == '__main__':
-	# while True:
-	# 	schedule.run_pending()
-	# 	time.sleep(30)
+
 	scrape_store_webpages()
 
 
