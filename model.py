@@ -19,6 +19,25 @@ class Hotel(db.Model):
 	def __repr__(self):
 		return f'<hotel_id={self.hotel_id} hotel_name={self.hotel_name}>'
 
+class Scrape(db.Model):
+	"""Scrape model - details info collected from each scrape"""
+
+	__tablename__ = 'scrapes'
+
+	scrape_id = db.Column(db.Integer, primary_key=True, autoincrement=True,)
+	hotel_id = db.Column(db.Integer, db.ForeignKey('hotels.hotel_id'), nullable=False,)
+	ta_id = db.Column(db.String(20), nullable=True,)
+	shop_timestamp = db.Column(db.DateTime, nullable=False,)
+	ranking = db.Column(db.Integer, nullable=True,)
+	num_hotels = db.Column(db.Integer, nullable=True,)
+	avg_score = db.Column(db.Float, nullable=True,)
+	review_count = db.Column(db.Integer, nullable=True,)
+
+	def __repr__(self):
+		print(f'<scrape_id={self.scrape_id} hotel_id={self.hotel_id}>')
+
+	hotel = db.relationship('Hotel', backref='scrapes')
+
 
 
 
