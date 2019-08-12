@@ -34,7 +34,7 @@ class Scrape(db.Model):
 	review_count = db.Column(db.Integer, nullable=True,)
 
 	def __repr__(self):
-		print(f'<scrape_id={self.scrape_id} hotel_id={self.hotel_id}>')
+		return(f'<scrape_id={self.scrape_id} hotel_id={self.hotel_id}>')
 
 	hotel = db.relationship('Hotel', backref='scrapes')
 
@@ -49,7 +49,7 @@ class User(db.Model):
 	default_view = db.Column(db.Integer, db.ForeignKey('view.view_id'), nullable=True,)
 
 	def __repr__(self):
-		print(f'<user_id={self.user_id}> default_view={self.default_view}')
+		return(f'<user_id={self.user_id}> default_view={self.default_view}')
 
 	view = db.relationship('View', backref='users')
 
@@ -63,13 +63,16 @@ class View(db.Model):
 	view_name = db.Column(db.String(50), nullable=False,)
 
 	def __repr__(self):
-		print(f'<view_id={self.view_id} user_id={self.user_id} view_name={self.view_name}>')
+		return(f'<view_id={self.view_id} user_id={self.user_id} view_name={self.view_name}>')
 
 class ViewHotel(db.Model):
 	"""View Hotel Model - the hotels associated with a view."""
 
 	view_id = db.Column(db.Integer, db.ForeignKey('view.view_id'), primary_key=True,)
 	hotel_id = db.Column(db.Integer, db.ForeignKey('hotels.hotel_id'), primary_key=True,)
+
+	def __repr__(self):
+		return(f'<view_id={self.view_id} hotel_id={self.hotel_id}>')
 
 ######################################################
 # Helper functions
