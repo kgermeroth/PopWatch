@@ -138,13 +138,13 @@ def scrape_store_webpages():
 	for line in hotel_info_file:
 		hotel_id, hotelname, nickname, web_url = line.rstrip().split('|')
 
-		text = get_html_data(web_url)																		# pull html from webpage
-		ta_id = get_ta_id(web_url)																			# pulls TripAdvisor id out of URL
-		now = get_time_stamp()																				# get the time stamp
-		filename = create_html_file_name(nickname, now)														# creates a filename for the file html will be stored in
-		filepath = write_html_to_file(text, filename)														# takes html text and puts it into a file with the created filename
-		soup_object = convert_html_file(filepath)															# takes the html file and converts it into a soup object
-		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 					# takes soup object and parses it to pull data
+		text = get_html_data(web_url)																# pull html from webpage
+		ta_id = get_ta_id(web_url)																	# pulls TripAdvisor id out of URL
+		now = get_time_stamp()																		# get the time stamp
+		filename = create_html_file_name(nickname, now)												# creates a filename for the file html will be stored in
+		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
+		soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
+		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
 		store_data_in_csv(hotel_id, ta_id, now, rank, num_all_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
 
 
