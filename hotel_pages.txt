@@ -1,8 +1,0 @@
-Marker|marker|https://www.tripadvisor.com/Hotel_Review-g60713-d81985-Reviews-The_Marker_San_Francisco-San_Francisco_California.html
-Sir Francis Drake|sfd|https://www.tripadvisor.com/Hotel_Review-g60713-d81377-Reviews-Kimpton_Sir_Francis_Drake_Hotel-San_Francisco_California.html
-Grand Hyatt|ghyattus|https://www.tripadvisor.com/Hotel_Review-g60713-d80999-Reviews-Grand_Hyatt_San_Francisco-San_Francisco_California.html
-Marriott Union Square|marrus|https://www.tripadvisor.com/Hotel_Review-g60713-d124765-Reviews-San_Francisco_Marriott_Union_Square-San_Francisco_California.html
-Hotel Nikko|nikko|https://www.tripadvisor.com/Hotel_Review-g60713-d80793-Reviews-Hotel_Nikko_San_Francisco-San_Francisco_California.html
-Spero|spero|https://www.tripadvisor.com/Hotel_Review-g60713-d80802-Reviews-Hotel_Spero-San_Francisco_California.html
-Villa Florence|vilflo|https://www.tripadvisor.com/Hotel_Review-g60713-d81529-Reviews-Villa_Florence-San_Francisco_California.html
-InterCon Mark Hopkins|markhop|https://www.tripadvisor.com/Hotel_Review-g60713-d115623-Reviews-InterContinental_Mark_Hopkins_San_Francisco-San_Francisco_California.html
