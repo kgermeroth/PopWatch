@@ -35,8 +35,6 @@ def setUp():
 	# Connect to test database
 	connect_to_db(app)
 
-	#create tables and add sample data
-
 
 def example_data():
 	"""Create some sample data"""
