@@ -48,10 +48,13 @@ class User(db.Model):
 	password = db.Column(db.String, nullable=False,)
 	default_view = db.Column(db.Integer, db.ForeignKey('view.view_id'), nullable=True,)
 
+	defaultview = db.relationship('View', foreign_keys='User.default_view')
+
+	# views = db.relationship('View', backref='users', foreign_keys='View.view_id', primaryjoin='User.user_id==View.user_id')
+
 	def __repr__(self):
 		return(f'<user_id={self.user_id}> default_view={self.default_view}')
 
-	# views = db.relationship('View', backref='users', foreign_keys='View.view_id', primaryjoin='User.user_id==View.user_id')
 
 class View(db.Model):
 	"""View model."""
@@ -62,11 +65,15 @@ class View(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False,)
 	view_name = db.Column(db.String(50), nullable=False,)
 
+	user = db.relationship('User', foreign_keys='View.user_id', backref='views')
+
 	def __repr__(self):
 		return(f'<view_id={self.view_id} user_id={self.user_id} view_name={self.view_name}>')
 
 class ViewHotel(db.Model):
 	"""View Hotel Model - the hotels associated with a view."""
+
+	__tablename__ = 'view_hotel'
 
 	view_id = db.Column(db.Integer, db.ForeignKey('view.view_id'), primary_key=True,)
 	hotel_id = db.Column(db.Integer, db.ForeignKey('hotels.hotel_id'), primary_key=True,)
