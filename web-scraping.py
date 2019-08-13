@@ -1,5 +1,6 @@
 import webbrowser, bs4, requests, re, csv, time
 from datetime import datetime
+from model import *
 
 def get_html_data(url):
 	"""Goes to URL and downloads html"""
@@ -21,9 +22,7 @@ def get_ta_id(url):
 def get_time_stamp():
 	"""Collects time stamp after successful shop"""
 
-	now = datetime.now()
-
-	return now
+	return datetime.now()
 
 
 def create_html_file_name(hotel_id, now):
@@ -69,7 +68,7 @@ def get_data_out_of_soup(soup_object):
 
 	# have to account for any missing class names when html doesn't pull properly
 	if rankhtml is None:
-		num_all_hotels = ''
+		num_hotels = ''
 		rank = ''
 
 	else:
@@ -77,7 +76,7 @@ def get_data_out_of_soup(soup_object):
 		rankhtml = rankhtml.text
 		match_obj = re.search(r'\#(\d+) of (\d+)', rankhtml)
 		rank = int(match_obj.group(1))
-		num_all_hotels = int(match_obj.group(2))
+		num_hotels = int(match_obj.group(2))
 
 	# Pull html with avg review score out of soup object and convert to float
 	avgscore = soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA')
@@ -113,17 +112,40 @@ def get_data_out_of_soup(soup_object):
 			reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
 
 
-	return (rank, avgscore, num_all_hotels, reviewcount)
+	return (rank, avgscore, num_hotels, reviewcount)
 	
 
-def store_data_in_csv(hotel_id, ta_id, now, rank, num_all_hotels, avgscore, reviewcount):
+def store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount):
 	"""Store all data in one row of the csv file"""
 
-	row = [hotel_id, ta_id, now.isoformat(), rank, num_all_hotels, avgscore, reviewcount]
+	row = [hotel_id, ta_id, now.isoformat(), rank, num_hotels, avgscore, reviewcount]
 
 	with open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerow(row)
+
+
+def store_data_in_database(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount):
+	"""Store all data in the database."""
+	# need to account for NULLs. Postgres will not accept empty values or incorrect type
+	# The '0' strings are to give a falsey value in case the variable is null, otherwise will get an error if variable is null
+	
+	rank = int(rank or '0') or None
+	num_hotels = int(num_hotels or '0') or None
+	avgscore = float(avgscore or '0') or None
+	reviewcount = int(reviewcount or '0') or None
+		
+		# instantiate a scrape object with the shop data
+	scrape = Scrape(hotel_id=hotel_id,
+					ta_id=ta_id,
+					shop_timestamp=now,
+					ranking=rank,
+					num_hotels=num_hotels,
+					avg_score=avgscore,
+					review_count=reviewcount)
+
+	db.session.add(scrape)
+	db.session.commit()
 
 
 def scrape_store_webpages():
@@ -132,21 +154,31 @@ def scrape_store_webpages():
 	Covers from downloading html up to storing data in csv.
 
  	"""
+ 	# use csv to do shops:
+	# hotel_info_file = open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_shopping_info.txt')
 
-	hotel_info_file = open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_shopping_info.txt')
+	# for line in hotel_info_file:
+	# 	hotel_id, hotelname, nickname, web_url = line.rstrip().split('|')
 
-	for line in hotel_info_file:
-		hotel_id, hotelname, nickname, web_url = line.rstrip().split('|')
+	# pull all hotel objects from database
+	hotels = Hotel.query.all()
 
+	# loop through all the hotels and assign the needed variables
+	for hotel in hotels:
+		hotel_id = hotel.hotel_id
+		nickname = hotel.hotel_nickname
+		web_url = hotel.ta_url
+
+		# do all the magic :)
 		text = get_html_data(web_url)																# pull html from webpage
 		ta_id = get_ta_id(web_url)																	# pulls TripAdvisor id out of URL
 		now = get_time_stamp()																		# get the time stamp
 		filename = create_html_file_name(nickname, now)												# creates a filename for the file html will be stored in
 		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
 		soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
-		rank, avgscore, num_all_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
-		store_data_in_csv(hotel_id, ta_id, now, rank, num_all_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
-
+		rank, avgscore, num_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
+		store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
+		store_data_in_database(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)
 
 		# wait two minutes until next shop
 		time.sleep(120)
@@ -155,7 +187,7 @@ def scrape_store_webpages():
 	hotel_info_file.close()
 
 if __name__ == '__main__':
-
+	init_app()
 	scrape_store_webpages()
 
 
