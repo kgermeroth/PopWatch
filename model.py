@@ -51,7 +51,7 @@ class User(db.Model):
 	def __repr__(self):
 		return(f'<user_id={self.user_id}> default_view={self.default_view}')
 
-	view = db.relationship('View', backref='users')
+	# views = db.relationship('View', backref='users', foreign_keys='View.view_id', primaryjoin='User.user_id==View.user_id')
 
 class View(db.Model):
 	"""View model."""

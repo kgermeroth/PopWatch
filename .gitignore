@@ -3,3 +3,4 @@ env/
 conversion.py
 converted.csv
 to_convert.csv
+__pycache__/
