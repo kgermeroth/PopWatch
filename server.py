@@ -57,19 +57,6 @@ def check_user_password():
 		return redirect('/')
 
 
-@app.route('/manage')
-def show_mange_compset():
-	"""Displays manage compset page"""
-	
-	return render_template('manage_ph.html')
-
-@app.route('/dashboard')
-def show_dashboard():
-	"""Displays dashboard page"""
-
-	return render_template('dashboard_ph.html')
-
-
 @app.route('/register')
 def show_registration_form():
 	"""Displays registration form."""
@@ -83,15 +70,34 @@ def handle_registration():
 	new_email = request.form.get('email')
 	new_password = request.form.get('password')
 
-	new_user = User(email=new_email, password=new_password)
+	if User.query.filter(User.email==new_email):
+		flash('This email address already exists. Please use a different email address.')
+		return redirect('/register')
 
-	db.session.add(new_user)
-	db.session.commit()
+	else:
+		new_user = User(email=new_email, password=new_password)
 
-	flash('You have successfully registered!')
-	flash('Please log in with your new credentials')
+		db.session.add(new_user)
+		db.session.commit()
 
-	return redirect('/')	
+		flash('You have successfully registered!')
+		flash('Please log in with your new credentials')
+
+		return redirect('/')	
+
+
+@app.route('/manage')
+def show_mange_compset():
+	"""Displays manage compset page"""
+	
+	return render_template('manage_ph.html')
+
+@app.route('/dashboard')
+def show_dashboard():
+	"""Displays dashboard page"""
+
+	return render_template('dashboard_ph.html')
+
 
 if __name__ == '__main__':
 
