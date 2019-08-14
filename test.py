@@ -1,8 +1,8 @@
 
 from model import *
-from datetime import datetime
+
 import unittest
-from flask import Flask
+from server import app
 
 
 class FlaskTests(unittest.TestCase):
@@ -10,7 +10,6 @@ class FlaskTests(unittest.TestCase):
 
 	def setUp(self):
 		"""Stuff to do before every test."""
-		app = Flask(__name__)
 		self.client = app.test_client()
 		app.config['TESTING'] = True
 
@@ -29,7 +28,6 @@ class FlaskDatabaseTests(unittest.TestCase):
 
 	def init_app(self):
 		"""Need to make a Flask app so we can use Flask-SQLALchemy"""
-		app = Flask(__name__)
 
 		connect_to_db(app)
 
@@ -54,8 +52,37 @@ class FlaskDatabaseTests(unittest.TestCase):
 		db.create_all()
 		example_data()
 
+	def test_table_creation(self):
+		"""forces database to be created"""
+
+		pass
+
+def no_test_dbsetup():
+	"""Set up test database when no tests exist"""
+	def init_app():
+		"""Need to make a Flask app so we can use Flask-SQLALchemy"""
+
+		connect_to_db(app)
+
+		client = app.test_client
+
+	def connect_to_db(app):
+		"""Connect the database to our Flask app"""
+
+		app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///testdb'
+		app.config['TESTING'] = True
+		app.config['SQLALCHEMY_ECHO'] = False
+		app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+		db.app = app
+		db.init_app(app)
+
+	init_app()
+	db.create_all()
+	example_data()
 
 
 if __name__ == '__main__':
 	
 	unittest.main()
+
+

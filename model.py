@@ -1,5 +1,5 @@
 """Models and database functions for hotels db."""
-
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
