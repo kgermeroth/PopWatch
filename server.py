@@ -23,9 +23,52 @@ def check_user_password():
 	"""Checks the user provided email and password to ensure a match"""
 
 	entered_email = request.args.get('email')
-	entereed_password = request.args.get('password')
-
+	entered_password = request.args.get('password')
 	
+	# validate user entry
+	try:
+		# try to get user by the entered email address
+		stored_user = User.query.filter(User.email == entered_email).one()
+
+		# if user exists and password is correct
+		if stored_user.password == entered_password:
+
+			# set the session id to be the user_id in the database
+			session['user_id'] = stored_user.user_id
+			flash('You are logged in.')
+
+			# if user hasn't set a default view, send them to page to set up comp set
+			if stored_user.default_view is None:
+				flash('Please define a comp set to continue')
+				return redirect('/manage')
+
+			# if they do have a default page send them to the main dashboard
+			else:
+				return redirect('/dashboard')
+
+		# if user exists but password is incorrect			
+		elif stored_user.password != entered_password:
+			flash('Password is incorrect. Please try again.')	
+			return redirect('/')
+
+		# if attempt to get user fails it is due to user not existing
+	except:
+		flash('That email does not exist. Please check spelling or register below.')
+		return redirect('/')
+
+
+@app.route('/manage')
+def show_mange_compset():
+	"""Displays manage compset page"""
+	
+	return render_template('manage_ph.html')
+
+@app.route('/dashboard')
+def show_dashboard():
+	"""Displays dashboard page"""
+
+	return render_template('dashboard_ph.html')
+
 
 @app.route('/register')
 def show_registration_form():
