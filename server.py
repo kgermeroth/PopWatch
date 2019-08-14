@@ -12,6 +12,21 @@ app.secret_key = 'ABC123'
 # gives an error in jinga template if undefined variable rather than failing silently
 app.jinja_env.undefined = StrictUndefined
 
+@app.route('/')
+def show_login_form():
+	"""Displays the login form"""
+
+	return render_template('home.html')
+
+@app.route('/login')
+def check_user_password():
+	"""Checks the user provided email and password to ensure a match"""
+
+	entered_email = request.args.get('email')
+	entereed_password = request.args.get('password')
+
+	
+
 @app.route('/register')
 def show_registration_form():
 	"""Displays registration form."""
