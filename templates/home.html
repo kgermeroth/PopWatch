@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Log In to Monitor TripAdvisor Activity </h1>
+<form action="/login">
+	Email: <input type="text" name="email"><br><br>
+	Password: <input type="password" name="password"><br><br>
+	<input type="submit">
+</form>
+<p>Not yet a user? Click <a href="/register">here</a> to register.</p>
+
+{% endblock %}
