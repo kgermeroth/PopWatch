@@ -16,19 +16,52 @@ class Trash extends React.Component {
 	}
 }
 
-// Test combining both elements (and see if icons render)
-class Test extends React.Component {
+// this is the dropdown to select a hotel
+class HotelNameSelector extends React.Component {
+	constructor(props) {
+		super(props);		
+	}
 	render() {
-		return (
-			React.createElement('div', null,
-			React.createElement(Trash, null,),
-			React.createElement(Add, null)
-			));
+		console.log(this.props.hotels);
+		return(<select>
+			{ this.props.hotels.map((hotel) => {
+				return (
+				<option key={hotel.hotel_id} value={hotel.hotel_id}>{hotel.hotel_name}</option>
+				)
+			})}
+			}
+		</select>
+			)
+	}
+}
+
+// Test combining both elements (and see if icons render)
+class HotelContainer extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			hotels:[]
+		}
+	}
+
+	//when this component mounts, change the state to be 
+	componentDidMount() {
+		const hotels = [{hotel_id: 1, hotel_name: "Grand Hyatt"}];
+		this.setState ({
+			hotels
+		});
+	}
+	render() {
+		return (<div>
+			<HotelNameSelector hotels={this.state.hotels}/>
+			<Trash />
+			</div>
+		);
 	}
 }
 
 ReactDOM.render(
-	React.createElement(Test, null),
-	document.getElementById("root")
+	React.createElement(HotelContainer, null),
+	document.getElementById("hotel-dropdowns")
 	);
 
