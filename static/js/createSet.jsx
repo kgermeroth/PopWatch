@@ -16,7 +16,6 @@ class Trash extends React.Component {
 	}
 }
 
-
 // Test combining both elements (and see if icons render)
 class Test extends React.Component {
 	render() {
