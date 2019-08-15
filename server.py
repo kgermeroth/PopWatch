@@ -3,6 +3,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
+import jsonify
 
 app = Flask(__name__)
 
@@ -93,6 +94,12 @@ def show_manage_compset():
 	hotels = Hotel.query.all()
 	
 	return render_template('create.html', hotels=hotels)
+
+@app.route('/set_comp_set')
+def process_new_set():
+	"""Takes in new comp set and processes it"""
+
+	return redirect('/dashboard')
 
 @app.route('/dashboard')
 def show_dashboard():
