@@ -40,7 +40,7 @@ def check_user_password():
 			# if user hasn't set a default view, send them to page to set up comp set
 			if stored_user.default_view is None:
 				flash('Please define a comp set to continue')
-				return redirect('/manage')
+				return redirect('/create')
 
 			# if they do have a default page send them to the main dashboard
 			else:
@@ -86,17 +86,19 @@ def handle_registration():
 		return redirect('/')	
 
 
-@app.route('/manage')
-def show_mange_compset():
+@app.route('/create')
+def show_manage_compset():
 	"""Displays manage compset page"""
+
+	hotels = Hotel.query.all()
 	
-	return render_template('manage_ph.html')
+	return render_template('create.html', hotels=hotels)
 
 @app.route('/dashboard')
 def show_dashboard():
 	"""Displays dashboard page"""
 
-	return render_template('dashboard_ph.html')
+	return render_template('dashboard.html')
 
 
 if __name__ == '__main__':
