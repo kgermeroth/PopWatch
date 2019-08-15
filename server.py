@@ -1,9 +1,8 @@
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, redirect, flash, session
+from flask import Flask, render_template, request, redirect, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
-import jsonify
 
 app = Flask(__name__)
 
@@ -90,10 +89,25 @@ def handle_registration():
 @app.route('/create')
 def show_manage_compset():
 	"""Displays manage compset page"""
-
-	hotels = Hotel.query.all()
 	
-	return render_template('create.html', hotels=hotels)
+	return render_template('create.html')
+
+@app.route('/hotels.json')
+def create_hotels_json():
+	"""Takes all hotels and converts them to JSON"""
+
+	# get a list of all hotel objects
+	db_hotels = Hotel.query.all()
+
+	hotels = []
+
+	# loop through each hotel object and add hotel id and hotel name to the list in key:value pairs
+	for hotel_obj in db_hotels:
+		hotel = {"hotel_id":hotel_obj.hotel_id, "hotel_name":hotel_obj.hotel_name}
+		hotels.append(hotel)
+
+	return jsonify(hotels)
+
 
 @app.route('/set_comp_set')
 def process_new_set():
