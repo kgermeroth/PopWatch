@@ -3,6 +3,23 @@
 <head>
 	<title>PopWatch</title>
 	<script src="http://code.jquery.com/jquery.js"></script>
+
+	<!-- Load React Dependencies -->
+	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.11/css/all.css">
+
+    {% block js %}
+	{% endblock %}
+
+	<style>
+		i {
+			margin-right: 20px;
+		}
+	</style>
+
 </head>
 <body>
 	<ul>
