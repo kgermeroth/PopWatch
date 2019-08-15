@@ -2,7 +2,7 @@
 class Add extends React.Component {
 	render() {
 		return (
-			<i className="fas fa-plus"></i> 
+			<p>Add Hotel: <i className="fas fa-plus"></i></p> 
 			);
 	}
 }
@@ -18,38 +18,42 @@ class Trash extends React.Component {
 
 // this is the dropdown to select a hotel
 class HotelNameSelector extends React.Component {
-	constructor(props) {
-		super(props);		
+	constructor() {
+		super();		
 	}
+	
 	render() {
-		console.log(this.props.hotels);
-		return(<select>
-			{ this.props.hotels.map((hotel) => {
-				return (
-				<option key={hotel.hotel_id} value={hotel.hotel_id}>{hotel.hotel_name}</option>
-				)
-			})}
-			}
-		</select>
-			)
+		// create an empty list
+		const hotel_options = [];
+
+		hotel_options.push(<option key="" defaultValue>Select Hotel</option>)
+
+		// Loop through each hotel in the hotels property (JSON object), and append an option tag with the hotel variables inside
+		for (const hotel of this.props.hotels) {
+			hotel_options.push(<option  placeholder="Select Hotel" key={hotel.hotel_id} value={hotel.hotel_id}>{hotel.hotel_name}</option>);
+		}
+
+		// return the array of options in select tags
+		return <select>{hotel_options}</select>
+			
 	}
 }
 
 // Test combining both elements (and see if icons render)
 class HotelContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor() {
+		super();
 		this.state = {
 			hotels:[]
 		}
 	}
 
-	//when this component mounts, change the state to be 
+	//when this component mounts, change the state to be equal to the get results (MUST have a success function)
 	componentDidMount() {
-		const hotels = [{hotel_id: 1, hotel_name: "Grand Hyatt"}];
-		this.setState ({
+		const hotels = $.get('/hotels.json', (hotels)=> this.setState({
 			hotels
-		});
+		}));
+
 	}
 	render() {
 		return (<div>
@@ -61,7 +65,12 @@ class HotelContainer extends React.Component {
 }
 
 ReactDOM.render(
-	React.createElement(HotelContainer, null),
+	<HotelContainer />,
 	document.getElementById("hotel-dropdowns")
+	);
+
+ReactDOM.render(
+	<Add />,
+	document.getElementById("add-hotel")
 	);
 
