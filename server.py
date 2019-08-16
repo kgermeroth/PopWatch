@@ -109,9 +109,10 @@ def create_hotels_json():
 	return jsonify(hotels)
 
 
-@app.route('/set_comp_set')
+@app.route('/set_comp_set', methods=["POST"])
 def process_new_set():
 	"""Takes in new comp set and processes it"""
+	print(request.form)
 
 	return redirect('/dashboard')
 
