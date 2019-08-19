@@ -35,12 +35,23 @@ class HotelNameSelector extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			selection: ''
-		}		 
+			selection: '0'
+		};
+
+		this.handleChange1 = this.handleChange1.bind(this); 		 
 	}
 
-	handleChange(event) {
-		this.setState(this.props.handleOnClick(event.target.value));
+	handleChange1(event) {
+		console.log('original value of hotelnameselector state: ' + this.state.selection);
+		console.log('value of event: ' + event.target.value);
+		// update the state with the selected value
+		let value = event.target.value;
+		this.setState({selection: value});
+
+		console.log('new value of hotelnameselector state: ' + this.state.selection);
+
+		// disable the dropdown
+		// this.props.disabled = "disabled";
 	}
 	
 	render() {
@@ -57,8 +68,7 @@ class HotelNameSelector extends React.Component {
 		}
 
 		// return the array of options in select tags
-		// return <select name="hotel_choice[]" onChange={this.handleChange}>{hotel_options}</select>
-		return <select name="hotel_choice[]" selection={this.state.selection}>{hotel_options}</select>
+		return <select name="hotel_choice[]" selection={this.state.selection} onChange={this.handleChange1}>{hotel_options}</select>
 			
 	}
 }
@@ -80,7 +90,7 @@ class SingleHotelContainer extends React.Component {
 }
 
 // This component holds everything: multiple HotelContainers (which are the hotel dropdown and trash icon) and the addHotel icon
-class HotelDropDowns extends React.Component {
+class AllHotelDropDowns extends React.Component {
 
     constructor() {
     	super();
@@ -102,23 +112,25 @@ class HotelDropDowns extends React.Component {
 		}));
     }
 
-    handleChange(idx, event) {
+    handleChange2(idx, value) {
     	const hotelContainers = this.state.hotelContainers;
-
-    	let value = this.props.hotelSelection
 
     	hotelContainers[idx] = {"hotel_id": value};
 
     	const newHotelContainers = hotelContainers;
 
-    	this.setState({newHotelContainers});
+    	this.setState({hotelContainers: newHotelContainers});
+
+    	console.log(this.state.hotelContainers);
+
+    	// need to remove this hotel from the availhotels state as well!
     }
 
     addHotel() {
     	
     	const hotelContainers = this.state.hotelContainers;
 
-    	// add a new hotel container to the list (not a JSX, just data)
+    	// add a new hotel container to the list, this will create a new hotel container
     	hotelContainers.push({"hotel_id": 0});
 
     	// update the react state
@@ -148,7 +160,7 @@ class HotelDropDowns extends React.Component {
                 	key={idx}
                 	handleDropContainer={() => this.dropHotelContainer(idx)}
                 	hotelSelection={this.props.hotelSelection}
-                	handleChange={this.handleChange({idx}, {this.props.hotelSelection})}
+                	handleChange={() => this.handleChange2(idx, this.props.hotelSelection)} 
                 	hotels={this.state.hotels}
                 />
                 )
@@ -167,6 +179,6 @@ class HotelDropDowns extends React.Component {
 }
 
 ReactDOM.render(
-	<HotelDropDowns />,
+	<AllHotelDropDowns />,
 	document.getElementById("hotel-dropdowns")
 	);
