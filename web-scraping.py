@@ -28,7 +28,7 @@ def get_time_stamp():
 def create_html_file_name(hotel_id, now):
 	"""Creates custom file name to save html data to"""
 
-	return hotel_id + str(now.year) + str(now.month) + str(now.day) + '.html'
+	return str(hotel_id) + str(now.year) + str(now.month) + str(now.day) + '.html'
 
 
 def write_html_to_file(full_page, filename):
@@ -216,14 +216,13 @@ def scrape_store_webpages():
 	# loop through all the hotels and assign the needed variables
 	for hotel in hotels:
 		hotel_id = hotel.hotel_id
-		nickname = hotel.hotel_nickname
 		web_url = hotel.ta_url
 
 		# do all the magic :)
 		text = get_html_data(web_url)																# pull html from webpage
 		ta_id = get_ta_id(web_url)																	# pulls TripAdvisor id out of URL
 		now = get_time_stamp()																		# get the time stamp
-		filename = create_html_file_name(nickname, now)												# creates a filename for the file html will be stored in
+		filename = create_html_file_name(hotel_id, now)												# creates a filename for the file html will be stored in
 		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
 		# soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
 		# rank, avgscore, num_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
