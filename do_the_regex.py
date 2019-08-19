@@ -1,9 +1,5 @@
-def get_ta_id(url):
-	"""Gets the TripAdvisor id out of URL"""
-
-	match_obj = re.search(r'view-(\w+-\w+)', url)
-
-	return match_obj.group(1)
+import webbrowser, requests, re, csv
+from model import *
 
 def use_regex(file_to_save_to):
 	"""Opens HTML file and uses Regex to get information"""
@@ -14,35 +10,30 @@ def use_regex(file_to_save_to):
 
 	#find ranking and total number of hotels
 	match_obj = re.search(r'ranked #(\d+) of (\d+)', the_text)
-	rank = match_obj.group(1)
-	num_hotels = match_obj.group(2)
-
-	if rank is None:
+	if match_obj is None:
 		rank = ''
-	else:
-		rank = int(rank)
-
-	if num_hotels is None:
 		num_hotels = ''
+
 	else:
-		num_hotels = int(num_hotels)
+		rank = int(match_obj.group(1))
+		num_hotels = int(match_obj.group(2))
 
 	# find the ranking
 	match_obj = re.search(r'rated (\d?\.?\d+) of', the_text)
-	avgscore = match_obj.group(1)
-
-	if avgscore is None:
+	if match_obj is None:
 		avgscore = ''
-	else:
-		avgscore = float(avgscore)
+
+	else: 
+		avgscore = float(match_obj.group(1))
+
 
 	# find review count
 	match_obj = re.search(r'See (\d?\,?\d+) traveler', the_text)
-	reviewcount = match_obj.group(1)
-
-	if reviewcount is None:
+	if match_obj is None:
 		reviewcount = ''
+		
 	else:
+		reviewcount = match_obj.group(1)
 		# need to account for commas before converting to int
 		if len(reviewcount) < 4:															#less than 1,000 reviews
 			reviewcount = int(reviewcount)
@@ -56,46 +47,55 @@ def use_regex(file_to_save_to):
 	return (rank, avgscore, num_hotels, reviewcount)
 
 
-def store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount):
+def store_data_in_csv(hotel_id, ta_id, datestamp, rank, num_hotels, avgscore, reviewcount):
 	"""Store all data in one row of the csv file"""
 
-	row = [hotel_id, ta_id, now.isoformat(), rank, num_hotels, avgscore, reviewcount]
+	row = [hotel_id, ta_id, datestamp, rank, num_hotels, avgscore, reviewcount]
 
-	with open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
+	with open('/media/storage/home/kristin/src/TripAdvisor_Project/new_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerow(row)
 
 
-def scrape_store_webpages():
+def redo_data():
 	"""Compiles all pieces of webscraping process
 
 	Covers from downloading html up to storing data in csv.
 
  	"""
- 
+	the_text = open('hotel_data.csv')
+
+	for line in the_text:
+		hotel_id, ta_id, datestamp, *sadstuff = line.rstrip().split(',')
+
+	# get file name
+		regex_object = re.search(r'2019-(\d+)-(\d+)T', datestamp)
+
+		month = regex_object.group(1)
+		if month[0] == '0':
+			month = month[1]
+
+		day = regex_object.group(2)
+		if day[0] == '0':
+			day = day[1]
+
+		filepath = 'hotel_html_pages/' + hotel_id + '2019' + month + day + '.html'
+
 		# do all the magic :)
-		text = get_html_data(web_url)																# pull html from webpage
-		ta_id = get_ta_id(web_url)																	# pulls TripAdvisor id out of URL
-		now = get_time_stamp()																		# get the time stamp
-		filename = create_html_file_name(nickname, now)												# creates a filename for the file html will be stored in
-		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
 		rank, avgscore, num_hotels, reviewcount = use_regex(filepath)							# takes html file and parses with regex
-		store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
+		store_data_in_csv(hotel_id, ta_id, datestamp, rank, num_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
 
 
-	hotel_info_file.close()
+	the_text.close()
 
 
 # to do:
-
-		# change file names to use hotel_ids? - yes!
-			# also update the code that creates the data so all files are saved this way
 		
 	# loop through hotel_data file!!
 		# split string on comma with hotel_id, ta_id, datestamp, *sadstuff
 
 		# get the file name:
-			# regex object = r'(2019-(\d+)-(\d+)T, datestring)				# 
+			# regex object = r'(2019-(\d+)-(\d+)T, datestring)				
 			# hotel_id + 2019 + int(group1)(removing leading 0 separate out function earlier!) + (intgroup2)(remove leading 0 separate function out earlier)+ 'html'
 		# open the file
 		# feed it into html function, get the good stuff
