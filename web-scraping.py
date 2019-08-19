@@ -237,9 +237,9 @@ def scrape_store_webpages():
 
 	hotel_info_file.close()
 
-# if __name__ == '__main__':
-# 	init_app()
-# 	scrape_store_webpages()
+if __name__ == '__main__':
+	init_app()
+	scrape_store_webpages()
 
 
 
