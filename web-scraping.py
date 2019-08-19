@@ -47,60 +47,111 @@ def write_html_to_file(full_page, filename):
 	return filepath
 
 
-def convert_html_file(file_to_save_to):
-	"""Takes in html file and coverts it to Beautiful Soup object"""
+# def convert_html_file(file_to_save_to):
+# 	"""Takes in html file and coverts it to Beautiful Soup object"""
+
+# 	# open the html file and get data out
+# 	with open(file_to_save_to, 'r') as f:
+# 		the_text = f.read()
+
+# 	# turn html into a beautifulsoup object
+# 	soup_object = bs4.BeautifulSoup(the_text, features="html.parser")
+
+# 	return soup_object
+
+
+# def get_data_out_of_soup(soup_object):
+# 	"""Take beautiful soup object and pull out releveant data"""
+
+# 	# pull html with rank information out of soup object
+# 	rankhtml = soup_object.find('span', class_='header_popularity')
+
+# 	# have to account for any missing class names when html doesn't pull properly
+# 	if rankhtml is None:
+# 		num_hotels = ''
+# 		rank = ''
+
+# 	else:
+# 		# Match the rank # and number of hotels in the rank_text
+# 		rankhtml = rankhtml.text
+# 		match_obj = re.search(r'\#(\d+) of (\d+)', rankhtml)
+# 		rank = int(match_obj.group(1))
+# 		num_hotels = int(match_obj.group(2))
+
+# 	# Pull html with avg review score out of soup object and convert to float
+# 	avgscore = soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA')
+
+# 	# have to account for any missing class names when html doesn't pull properly
+# 	if avgscore is None:
+# 		avgscore = ''
+
+# 	else:
+# 		avgscore = float(avgscore.text)
+
+
+# 	# parse out review count and find num of reviews with regex
+# 	reviewcount_html = soup_object.find('span', class_='reviewCount')
+
+# 	# have to account for any missing class names when html doesn't pull properly
+# 	if reviewcount_html is None:
+# 		reviewcount = ''
+
+# 	else:
+# 		reviewcount_html = reviewcount_html.text
+# 		match_obj = re.search(r'([0-9,]+)', reviewcount_html)
+# 		reviewcount = match_obj.group(1)
+
+# 		# need to account for commas before converting to int
+# 		if len(reviewcount) < 4:															#less than 1,000 reviews
+# 			reviewcount = int(reviewcount)
+
+# 		elif len(reviewcount) > 3 and len(reviewcount) < 8:									#1,000 - 999,999 reviews
+# 			reviewcount = int((reviewcount[:-4] + reviewcount[-3:]))
+
+# 		else:																				#more 999,999 reviews
+# 			reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
+
+
+# 	return (rank, avgscore, num_hotels, reviewcount)
+
+def use_regex(file_to_save_to):
+	"""Opens HTML file and uses Regex to get information"""
 
 	# open the html file and get data out
 	with open(file_to_save_to, 'r') as f:
 		the_text = f.read()
 
-	# turn html into a beautifulsoup object
-	soup_object = bs4.BeautifulSoup(the_text, features="html.parser")
+	#find ranking and total number of hotels
+	match_obj = re.search(r'ranked #(\d+) of (\d+)', the_text)
+	rank = match_obj.group(1)
+	num_hotels = match_obj.group(2)
 
-	return soup_object
-
-
-def get_data_out_of_soup(soup_object):
-	"""Take beautiful soup object and pull out releveant data"""
-
-	# pull html with rank information out of soup object
-	rankhtml = soup_object.find('span', class_='header_popularity')
-
-	# have to account for any missing class names when html doesn't pull properly
-	if rankhtml is None:
-		num_hotels = ''
+	if rank is None:
 		rank = ''
-
 	else:
-		# Match the rank # and number of hotels in the rank_text
-		rankhtml = rankhtml.text
-		match_obj = re.search(r'\#(\d+) of (\d+)', rankhtml)
-		rank = int(match_obj.group(1))
-		num_hotels = int(match_obj.group(2))
+		rank = int(rank)
 
-	# Pull html with avg review score out of soup object and convert to float
-	avgscore = soup_object.find('span', class_='hotels-hotel-review-about-with-photos-Reviews__overallRating--vElGA')
+	if num_hotels is None:
+		num_hotels = ''
+	else:
+		num_hotels = int(num_hotels)
 
-	# have to account for any missing class names when html doesn't pull properly
+	# find the ranking
+	match_obj = re.search(r'rated (\d?\.?\d+) of', the_text)
+	avgscore = match_obj.group(1)
+
 	if avgscore is None:
 		avgscore = ''
-
 	else:
-		avgscore = float(avgscore.text)
+		avgscore = float(avgscore)
 
+	# find review count
+	match_obj = re.search(r'See (\d?\,?\d+) traveler', the_text)
+	reviewcount = match_obj.group(1)
 
-	# parse out review count and find num of reviews with regex
-	reviewcount_html = soup_object.find('span', class_='reviewCount')
-
-	# have to account for any missing class names when html doesn't pull properly
-	if reviewcount_html is None:
+	if reviewcount is None:
 		reviewcount = ''
-
 	else:
-		reviewcount_html = reviewcount_html.text
-		match_obj = re.search(r'([0-9,]+)', reviewcount_html)
-		reviewcount = match_obj.group(1)
-
 		# need to account for commas before converting to int
 		if len(reviewcount) < 4:															#less than 1,000 reviews
 			reviewcount = int(reviewcount)
@@ -111,9 +162,8 @@ def get_data_out_of_soup(soup_object):
 		else:																				#more 999,999 reviews
 			reviewcount = int((reviewcount[:-8] + reviewcount[-7:-4] + reviewcount[-3:]))
 
-
 	return (rank, avgscore, num_hotels, reviewcount)
-	
+
 
 def store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount):
 	"""Store all data in one row of the csv file"""
@@ -175,8 +225,9 @@ def scrape_store_webpages():
 		now = get_time_stamp()																		# get the time stamp
 		filename = create_html_file_name(nickname, now)												# creates a filename for the file html will be stored in
 		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
-		soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
-		rank, avgscore, num_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
+		# soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
+		# rank, avgscore, num_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
+		rank, avgscore, num_hotels, reviewcount = use_regex(filepath)							# takes html file and parses with regex
 		store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
 		store_data_in_database(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)
 
@@ -186,9 +237,9 @@ def scrape_store_webpages():
 
 	hotel_info_file.close()
 
-if __name__ == '__main__':
-	init_app()
-	scrape_store_webpages()
+# if __name__ == '__main__':
+# 	init_app()
+# 	scrape_store_webpages()
 
 
 
