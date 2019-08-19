@@ -13,7 +13,6 @@ class Hotel(db.Model):
 
 	hotel_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	hotel_name = db.Column(db.String(100), nullable=False)
-	hotel_nickname = db.Column(db.String(10), nullable=False)
 	ta_url = db.Column(db.Text, nullable=False)
 
 	def __repr__(self):
@@ -123,11 +122,11 @@ def example_data():
 	Hotel.query.delete()
 
 	# Add sample hotels
-	h1 = Hotel(hotel_id=1, hotel_name='Sir Francis Drake', hotel_nickname='sfd', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d81377-Reviews-Kimpton_Sir_Francis_Drake_Hotel-San_Francisco_California.html')
-	h2 = Hotel(hotel_id=2, hotel_name='Grand Hyatt', hotel_nickname='ghyattus', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d80999-Reviews-Grand_Hyatt_San_Francisco-San_Francisco_California.html')
-	h3 = Hotel(hotel_id=3, hotel_name='Marriott Union Square', hotel_nickname='marrus', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d124765-Reviews-San_Francisco_Marriott_Union_Square-San_Francisco_California.html')
-	h4 = Hotel(hotel_id=4, hotel_name='Hotel Nikko', hotel_nickname='nikko', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d80793-Reviews-Hotel_Nikko_San_Francisco-San_Francisco_California.html')
-	h5 = Hotel(hotel_id=5, hotel_name='Spero', hotel_nickname='spero', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d80802-Reviews-Hotel_Spero-San_Francisco_California.html')
+	h1 = Hotel(hotel_id=1, hotel_name='Sir Francis Drake', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d81377-Reviews-Kimpton_Sir_Francis_Drake_Hotel-San_Francisco_California.html')
+	h2 = Hotel(hotel_id=2, hotel_name='Grand Hyatt', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d80999-Reviews-Grand_Hyatt_San_Francisco-San_Francisco_California.html')
+	h3 = Hotel(hotel_id=3, hotel_name='Marriott Union Square', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d124765-Reviews-San_Francisco_Marriott_Union_Square-San_Francisco_California.html')
+	h4 = Hotel(hotel_id=4, hotel_name='Hotel Nikko', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d80793-Reviews-Hotel_Nikko_San_Francisco-San_Francisco_California.html')
+	h5 = Hotel(hotel_id=5, hotel_name='Spero', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d80802-Reviews-Hotel_Spero-San_Francisco_California.html')
 
 	# Add sample scrapes
 	now = datetime.now()

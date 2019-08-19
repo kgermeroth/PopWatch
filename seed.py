@@ -12,12 +12,11 @@ def load_hotels():
 	# go through each line in file, split on | and assign variables
 	for line in file:
 		line = line.rstrip()
-		hotel_id, hotel_name, hotel_nickname, ta_url = line.split('|')
+		hotel_id, hotel_name, ta_url = line.split('|')
 
 		# instantiate a hotel object
 		hotel = Hotel(hotel_id=hotel_id, 
 					  hotel_name=hotel_name, 
-					  hotel_nickname=hotel_nickname,
 					  ta_url=ta_url)
 
 		db.session.add(hotel)
