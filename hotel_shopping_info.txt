@@ -1,20 +1,20 @@
-1|Sir Francis Drake|sfd|https://www.tripadvisor.com/Hotel_Review-g60713-d81377-Reviews-Kimpton_Sir_Francis_Drake_Hotel-San_Francisco_California.html
-2|Grand Hyatt|ghyattus|https://www.tripadvisor.com/Hotel_Review-g60713-d80999-Reviews-Grand_Hyatt_San_Francisco-San_Francisco_California.html
-3|Marriott Union Square|marrus|https://www.tripadvisor.com/Hotel_Review-g60713-d124765-Reviews-San_Francisco_Marriott_Union_Square-San_Francisco_California.html
-4|Hotel Nikko|nikko|https://www.tripadvisor.com/Hotel_Review-g60713-d80793-Reviews-Hotel_Nikko_San_Francisco-San_Francisco_California.html
-5|Spero|spero|https://www.tripadvisor.com/Hotel_Review-g60713-d80802-Reviews-Hotel_Spero-San_Francisco_California.html
-6|Marker|marker|https://www.tripadvisor.com/Hotel_Review-g60713-d81985-Reviews-The_Marker_San_Francisco-San_Francisco_California.html
-7|Villa Florence|vilflo|https://www.tripadvisor.com/Hotel_Review-g60713-d81529-Reviews-Villa_Florence-San_Francisco_California.html
-8|InterCon Mark Hopkins|markhop|https://www.tripadvisor.com/Hotel_Review-g60713-d115623-Reviews-InterContinental_Mark_Hopkins_San_Francisco-San_Francisco_California.html
-9|Buchanan|buch|https://www.tripadvisor.com/Hotel_Review-g60713-d80917-Reviews-Kimpton_Buchanan-San_Francisco_California.html
-10|Drisco|drisco|https://www.tripadvisor.com/Hotel_Review-g60713-d80983-Reviews-Hotel_Drisco_Pacific_Heights-San_Francisco_California.html
-11|Adagio|adagio|https://www.tripadvisor.com/Hotel_Review-g60713-d279426-Reviews-Hotel_Adagio_Autograph_Collection-San_Francisco_California.html
-12|Kabuki|kabuki|https://www.tripadvisor.com/Hotel_Review-g60713-d113923-Reviews-Hotel_Kabuki_a_Joie_de_Vivre_hotel-San_Francisco_California.html
-13|Hotel Del Sol|delsol|https://www.tripadvisor.com/Hotel_Review-g60713-d119643-Reviews-Hotel_Del_Sol_a_Joie_de_Vivre_hotel-San_Francisco_California.html
-14|Laurel Inn|laurel|https://www.tripadvisor.com/Hotel_Review-g60713-d81114-Reviews-Laurel_Inn_a_Joie_de_Vivre_hotel-San_Francisco_California.html
-15|Westin St Francis|wesstfr|https://www.tripadvisor.com/Hotel_Review-g60713-d81461-Reviews-The_Westin_St_Francis_San_Francisco_on_Union_Square-San_Francisco_California.html
-16|Zeppelin|zepp|https://www.tripadvisor.com/Hotel_Review-g60713-d81215-Reviews-Hotel_Zeppelin_San_Francisco-San_Francisco_California.html
-17|Zetta|zetta|https://www.tripadvisor.com/Hotel_Review-g60713-d112304-Reviews-Hotel_Zetta_San_Francisco-San_Francisco_California.html
-18|Zelos|zelos|https://www.tripadvisor.com/Hotel_Review-g60713-d80797-Reviews-Hotel_Zelos_San_Francisco-San_Francisco_California.html
-19|Carlton|carl|https://www.tripadvisor.com/Hotel_Review-g60713-d80925-Reviews-Hotel_Carlton_a_Joie_de_Vivre_hotel-San_Francisco_California.html
-20|Vertigo|vertigo|https://www.tripadvisor.com/Hotel_Review-g60713-d81803-Reviews-Hotel_Vertigo-San_Francisco_California.html
+1|Sir Francis Drake|https://www.tripadvisor.com/Hotel_Review-g60713-d81377-Reviews-Kimpton_Sir_Francis_Drake_Hotel-San_Francisco_California.html
+2|Grand Hyatt|https://www.tripadvisor.com/Hotel_Review-g60713-d80999-Reviews-Grand_Hyatt_San_Francisco-San_Francisco_California.html
+3|Marriott Union Square|https://www.tripadvisor.com/Hotel_Review-g60713-d124765-Reviews-San_Francisco_Marriott_Union_Square-San_Francisco_California.html
+4|Hotel Nikko|https://www.tripadvisor.com/Hotel_Review-g60713-d80793-Reviews-Hotel_Nikko_San_Francisco-San_Francisco_California.html
+5|Spero|https://www.tripadvisor.com/Hotel_Review-g60713-d80802-Reviews-Hotel_Spero-San_Francisco_California.html
+6|Marker|https://www.tripadvisor.com/Hotel_Review-g60713-d81985-Reviews-The_Marker_San_Francisco-San_Francisco_California.html
+7|Villa Florence|https://www.tripadvisor.com/Hotel_Review-g60713-d81529-Reviews-Villa_Florence-San_Francisco_California.html
+8|InterCon Mark Hopkins|https://www.tripadvisor.com/Hotel_Review-g60713-d115623-Reviews-InterContinental_Mark_Hopkins_San_Francisco-San_Francisco_California.html
+9|Buchanan|https://www.tripadvisor.com/Hotel_Review-g60713-d80917-Reviews-Kimpton_Buchanan-San_Francisco_California.html
+10|Drisco|https://www.tripadvisor.com/Hotel_Review-g60713-d80983-Reviews-Hotel_Drisco_Pacific_Heights-San_Francisco_California.html
+11|Adagio|https://www.tripadvisor.com/Hotel_Review-g60713-d279426-Reviews-Hotel_Adagio_Autograph_Collection-San_Francisco_California.html
+12|Kabuki|https://www.tripadvisor.com/Hotel_Review-g60713-d113923-Reviews-Hotel_Kabuki_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+13|Hotel Del Sol|https://www.tripadvisor.com/Hotel_Review-g60713-d119643-Reviews-Hotel_Del_Sol_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+14|Laurel Inn|https://www.tripadvisor.com/Hotel_Review-g60713-d81114-Reviews-Laurel_Inn_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+15|Westin St Francis|https://www.tripadvisor.com/Hotel_Review-g60713-d81461-Reviews-The_Westin_St_Francis_San_Francisco_on_Union_Square-San_Francisco_California.html
+16|Zeppelin|https://www.tripadvisor.com/Hotel_Review-g60713-d81215-Reviews-Hotel_Zeppelin_San_Francisco-San_Francisco_California.html
+17|Zetta|https://www.tripadvisor.com/Hotel_Review-g60713-d112304-Reviews-Hotel_Zetta_San_Francisco-San_Francisco_California.html
+18|Zelos|https://www.tripadvisor.com/Hotel_Review-g60713-d80797-Reviews-Hotel_Zelos_San_Francisco-San_Francisco_California.html
+19|Carlton|https://www.tripadvisor.com/Hotel_Review-g60713-d80925-Reviews-Hotel_Carlton_a_Joie_de_Vivre_hotel-San_Francisco_California.html
+20|Vertigo|https://www.tripadvisor.com/Hotel_Review-g60713-d81803-Reviews-Hotel_Vertigo-San_Francisco_California.html
