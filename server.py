@@ -28,6 +28,7 @@ def check_user_password():
 	# validate user entry
 	try:
 		# try to get user by the entered email address
+		print("\n\n\n\n\n\n\n\nWell we tried to query!")
 		stored_user = User.query.filter(User.email == entered_email).one()
 
 		# if user exists and password is correct
@@ -70,7 +71,7 @@ def handle_registration():
 	new_email = request.form.get('email')
 	new_password = request.form.get('password')
 
-	if User.query.filter(User.email==new_email):
+	if User.query.filter(User.email==new_email).all():
 		flash('This email address already exists. Please use a different email address.')
 		return redirect('/register')
 
@@ -112,7 +113,47 @@ def create_hotels_json():
 @app.route('/set_comp_set', methods=["POST"])
 def process_new_set():
 	"""Takes in new comp set and processes it"""
-	print(request.form)
+	
+	submission = request.form
+
+	# loop through request to do things with the tuples
+	default=False
+	hotel_choices = []
+	view_name = ''
+
+	user_id = int(session['user_id'])
+
+	for (name,value) in submission:
+		if name == 'view_name':
+			# change view_name to be name
+			view_name = name
+
+		elif name == 'default':
+			default = True
+
+		elif name == 'hotel_choice[]':
+			hotel_choices.append(int(hotel_choices))
+
+	# instantiate a View object
+	view = View(user_id=user_id,
+				view_name=view_name)
+	#add
+	#commit
+
+	# query to get the view number
+
+	# update User default if necessary
+		# after the loop, do conditional on query to see if user has a default. 
+			#If no, change default to True
+		#If default is True
+			#then update the User object (need to query first?) with view number from earlier query
+
+	# add all the views!
+		# loop through list of hotel_choices and instantiate a view_hotels object
+			#add
+			#commit
+
+	#flash your comp set has been submitted!
 
 	return redirect('/dashboard')
 
