@@ -77,7 +77,7 @@ class SingleHotelContainer extends React.Component {
 
 	render() {
 		return (<div className="HotelContainer">
-			<HotelNameSelector hotels={this.props.hotels} selection={this.props.selection}/>
+			<HotelNameSelector hotels={this.props.hotels} handleChange={this.props.handleChange}/>
 			<Trash handleOnClick={this.props.handleDropContainer} />
 			</div>
 		);
@@ -108,6 +108,7 @@ class AllHotelDropDowns extends React.Component {
     }
 
     handleChange(idx, event) {
+    	console.log("Testing if this runs")
     	const hotelContainers = this.state.hotelContainers;
 
     	const value = event.target.value;
