@@ -21,16 +21,11 @@ class Add extends React.Component {
 class Trash extends React.Component {
 	constructor() {
 		super();
-		this.dropHotel = this.dropHotel.bind(this);
-	}
-
-	dropHotel() {
-		this.props.onClick()
 	}
 
 	render() {
 		return (
-			<i onClick={this.drophotel} className="fas fa-trash"></i>
+			<i onClick={this.props.handleOnClick} className="fas fa-trash"></i>
 			);
 	}
 }
@@ -83,7 +78,7 @@ class SingleHotelContainer extends React.Component {
 	render() {
 		return (<div className="HotelContainer">
 			<HotelNameSelector hotels={this.props.hotels} selection={this.props.selection}/>
-			<Trash dropHotel={this.props.dropHotel} />
+			<Trash handleOnClick={this.props.handleDropContainer} />
 			</div>
 		);
 	}
@@ -160,7 +155,7 @@ class AllHotelDropDowns extends React.Component {
                 hotelContainers.push(
                 	<SingleHotelContainer
                 	key={idx}
-                	dropHotel={() => this.dropHotelContainer(idx)}
+                	handleDropContainer={() => this.dropHotelContainer(idx)}
                 	handleChange={(event) => this.handleChange(idx, event)} 
                 	hotels={this.state.hotels}
                 />
