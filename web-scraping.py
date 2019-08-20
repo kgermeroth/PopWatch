@@ -1,4 +1,4 @@
-import webbrowser, requests, re, csv
+import webbrowser, requests, re, csv, time
 from datetime import datetime
 from model import *
 
@@ -137,12 +137,6 @@ def scrape_store_webpages():
 	Covers from downloading html up to storing data in csv.
 
  	"""
- 	# use csv to do shops:
-	# hotel_info_file = open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_shopping_info.txt')
-
-	# for line in hotel_info_file:
-	# 	hotel_id, hotelname, nickname, web_url = line.rstrip().split('|')
-
 	# pull all hotel objects from database
 	hotels = Hotel.query.all()
 
@@ -164,10 +158,7 @@ def scrape_store_webpages():
 		store_data_in_database(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)
 
 		# wait two minutes until next shop
-		time.sleep(120)
-
-
-	hotel_info_file.close()
+		time.sleep(60)
 
 if __name__ == '__main__':
 	init_app()
