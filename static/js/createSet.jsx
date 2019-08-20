@@ -21,11 +21,16 @@ class Add extends React.Component {
 class Trash extends React.Component {
 	constructor() {
 		super();
+		this.dropHotel = this.dropHotel.bind(this);
+	}
+
+	dropHotel() {
+		this.props.onClick()
 	}
 
 	render() {
 		return (
-			<i onClick={this.props.handleOnClick} className="fas fa-trash"></i>
+			<i onClick={this.drophotel} className="fas fa-trash"></i>
 			);
 	}
 }
@@ -34,25 +39,20 @@ class Trash extends React.Component {
 class HotelNameSelector extends React.Component {
 	constructor() {
 		super();
-		this.state = {
-			selection: '0'
-		};
+	}		 
 
-		this.handleChange1 = this.handleChange1.bind(this); 		 
-	}
+	// handleChange1(event) {
+	// 	console.log('original value of hotelnameselector state: ' + this.state.selection);
+	// 	console.log('value of event: ' + event.target.value);
+	// 	// update the state with the selected value
+	// 	let value = event.target.value;
+	// 	this.setState({selection: value});
 
-	handleChange1(event) {
-		console.log('original value of hotelnameselector state: ' + this.state.selection);
-		console.log('value of event: ' + event.target.value);
-		// update the state with the selected value
-		let value = event.target.value;
-		this.setState({selection: value});
+	// 	console.log('new value of hotelnameselector state: ' + this.state.selection);
 
-		console.log('new value of hotelnameselector state: ' + this.state.selection);
-
-		// disable the dropdown
-		// this.props.disabled = "disabled";
-	}
+	// 	// disable the dropdown
+	// 	// this.props.disabled = "disabled";
+	// }
 	
 	render() {
 		// create an empty list
@@ -68,7 +68,7 @@ class HotelNameSelector extends React.Component {
 		}
 
 		// return the array of options in select tags
-		return <select name="hotel_choice[]" selection={this.state.selection} onChange={this.handleChange1}>{hotel_options}</select>
+		return <select name="hotel_choice[]" onChange={this.props.handleChange}>{hotel_options}</select>
 			
 	}
 }
@@ -82,8 +82,8 @@ class SingleHotelContainer extends React.Component {
 
 	render() {
 		return (<div className="HotelContainer">
-			<HotelNameSelector hotels={this.props.hotels} hotelSelection={this.props.selection}/>
-			<Trash handleOnClick={this.props.handleDropContainer} />
+			<HotelNameSelector hotels={this.props.hotels} selection={this.props.selection}/>
+			<Trash dropHotel={this.props.dropHotel} />
 			</div>
 		);
 	}
@@ -102,7 +102,7 @@ class AllHotelDropDowns extends React.Component {
         };
         this.addHotel = this.addHotel.bind(this);
         this.dropHotelContainer = this.dropHotelContainer.bind(this);
-        // this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -112,8 +112,10 @@ class AllHotelDropDowns extends React.Component {
 		}));
     }
 
-    handleChange2(idx, value) {
+    handleChange(idx, event) {
     	const hotelContainers = this.state.hotelContainers;
+
+    	const value = event.target.value;
 
     	hotelContainers[idx] = {"hotel_id": value};
 
@@ -158,9 +160,8 @@ class AllHotelDropDowns extends React.Component {
                 hotelContainers.push(
                 	<SingleHotelContainer
                 	key={idx}
-                	handleDropContainer={() => this.dropHotelContainer(idx)}
-                	hotelSelection={this.props.hotelSelection}
-                	handleChange={() => this.handleChange2(idx, this.props.hotelSelection)} 
+                	dropHotel={() => this.dropHotelContainer(idx)}
+                	handleChange={(event) => this.handleChange(idx, event)} 
                 	hotels={this.state.hotels}
                 />
                 )
