@@ -12,7 +12,10 @@ class Add extends React.Component {
 
 	render() {
 		return (
-			<p>Add Hotel: <i onClick={this.addHotel} className="fas fa-plus"></i></p> 
+			<p>Add Hotel: <i 
+			onClick={this.addHotel} 
+			className="fas fa-plus"
+			></i></p> 
 			);
 	}
 }
@@ -127,8 +130,6 @@ class AllHotelDropDowns extends React.Component {
 
     	this.setState({ hotelContainers: newHotelContainers });
 
-    	console.log(this.state.hotelContainers);
-
     	// need to remove this hotel from the availhotels state as well!
     }
 
@@ -136,25 +137,25 @@ class AllHotelDropDowns extends React.Component {
     	
     	const hotelContainers = this.state.hotelContainers;
 
-    	// add a new hotel container to the list, this will create a new hotel container
-    	hotelContainers.push({ selectedHotel: 'Select Hotel' });
+    	if (hotelContainers.length < 8) {
+	    	// add a new hotel container to the list, this will create a new hotel container
+	    	hotelContainers.push({ selectedHotel: 'Select Hotel' });
+	    	 // update the react state
+    		this.setState({ hotelContainers });
+	    } else {
+	    	alert('There is a maximum of 8 hotels.');
+	    }
 
-    	// update the react state
-    	this.setState({ hotelContainers });
+
 
     }
 
     dropHotelContainer(idx) {
-    	// const hotelContainers = this.state.hotelContainers.filter((container, i) =>{
-    	// 	return i !== idx;
-    	// });
 
-    	const hotelContainers = this.state.hotelContainers;
-		hotelContainers.splice(idx, 1);
-		const newHotelContainers = hotelContainers;
+    	const newHotelContainers = this.state.hotelContainers.slice();
+		newHotelContainers.splice(idx, 1);
 
     	this.setState({hotelContainers: newHotelContainers});
-    	console.log(this.state.hotelContainers);
     }
 
     render() {
