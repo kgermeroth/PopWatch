@@ -38,19 +38,6 @@ class HotelNameSelector extends React.Component {
 	constructor() {
 		super();
 	}		 
-
-	// handleChange1(event) {
-	// 	console.log('original value of hotelnameselector state: ' + this.state.selection);
-	// 	console.log('value of event: ' + event.target.value);
-	// 	// update the state with the selected value
-	// 	let value = event.target.value;
-	// 	this.setState({selection: value});
-
-	// 	console.log('new value of hotelnameselector state: ' + this.state.selection);
-
-	// 	// disable the dropdown
-	// 	// this.props.disabled = "disabled";
-	// }
 	
 	render() {
 		// create an empty list
