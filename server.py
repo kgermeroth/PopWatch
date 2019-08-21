@@ -129,20 +129,32 @@ def show_dashboard():
 
 	user_id = session['user_id']
 
+	# get user object from the session
 	user = User.query.get(user_id)
 
+	# set the session to have 'set_choice' with the default view. Update later via AJAX if choice changes
+	session['set_choice'] = user.default_view
+
+	# get a list of view objects for that user
 	views = user.views
 
+	# get the view object for the default view
 	default_view = View.query.filter(View.view_id == user.default_view).one()
 
 	# get a list of non-default views
 	non_default_views = [view for view in views if view.view_id != user.default_view]
 
+	metrics = ['Rank', 'Average Score', 'Number of Reviews']
+
+	timeframes = ['Weekly', 'Daily', 'Monthly']
+
 
 	return render_template('dashboard.html', user=user,
 											 views=views,
 											 default_view=default_view,
-											 non_default_views=non_default_views)
+											 non_default_views=non_default_views,
+											 metrics=metrics,
+											 timeframes=timeframes)
 
 
 if __name__ == '__main__':

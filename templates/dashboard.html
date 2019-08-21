@@ -2,6 +2,30 @@
 
 {% block content %}
 
-	<p>This will be where the dashboard displays</p>
+	<p>Dashboard</p>
+
+	<form action="/render-graph">
+		Comp Set: 
+			<select name="comp_set_choice">
+				<option value="{{ default_view.view_id }}">{{ default_view.view_name }}
+				{% for view in non_default_views %}
+					<option value="{{ view.view_id }}">{{ view.view_name }}
+				{% endfor %}
+			</select>
+		Metric: 
+			<select  name="metric_choice">
+				{% for metric in metrics %}
+					<option value="{{ metric }}">{{ metric }}
+				{% endfor %}
+			</select>
+		Timeframe:
+			<select name="timeframe_choice">
+				{% for timeframe in timeframes %}
+					<option value="{{ timeframe }}">{{ timeframe }}
+				{% endfor %}
+			</select>
+
+
+	</form>
 
 {% endblock %}
