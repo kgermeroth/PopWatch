@@ -3,6 +3,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, redirect, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
+from functions import *
 
 app = Flask(__name__)
 
@@ -116,48 +117,7 @@ def process_new_set():
 	
 	submission = request.form
 
-	default = False
-
-	if submission.get('default') == 'true':
-		default = True
-
-	# this returns a list of all hotel choices where the choice is zero
-	hotel_choices = submission.getlist('hotel_choice[]')
-
-	view_name = submission['view_name']
-
-	user_id = int(session['user_id'])
-
-	# instantiate a View object and commit to database
-	view = View(user_id=user_id,
-				view_name=view_name)
-	
-	db.session.add(view)
-	db.session.commit()
-
-	# query to get the view number
-	view_id = (View.query.filter(View.view_name == view_name, View.user_id == user_id).one()).view_id
-
-	# check to see if a user already has a default. If not, set this as the default
-	user = User.query.filter(User.user_id == user_id).one()
-
-	if user.default_view == None:
-		default = True
-	
-	if default == True:
-		user.default_view = view_id
-
-	db.session.add(user)
-	db.session.commit()
-			
-	# add all the hotels to the view_hotel table in database
-	for choice in hotel_choices:
-		if choice != 'Select Hotel':
-			view_hotel = ViewHotel(view_id=view_id, hotel_id=int(choice))
-
-			db.session.add(view_hotel)
-			db.session.commit()
-
+	submit_to_database(submission)
 
 	flash('Your comp set has been submitted.')
 
@@ -167,7 +127,22 @@ def process_new_set():
 def show_dashboard():
 	"""Displays dashboard page"""
 
-	return render_template('dashboard.html')
+	user_id = session['user_id']
+
+	user = User.query.get(user_id)
+
+	views = user.views
+
+	default_view = View.query.filter(View.view_id == user.default_view).one()
+
+	# get a list of non-default views
+	non_default_views = [view for view in views if view.view_id != user.default_view]
+
+
+	return render_template('dashboard.html', user=user,
+											 views=views,
+											 default_view=default_view,
+											 non_default_views=non_default_views)
 
 
 if __name__ == '__main__':
