@@ -148,7 +148,7 @@ def set_chart_inputs():
 
 	print('\n\n\n\n', inputs)
 
-	session['set_choice'] = inputs['comp_set_choice']
+	session['set_choice'] = int(inputs['comp_set_choice'])
 	session['metric_choice'] = inputs['metric_choice']
 	session['timeframe_choice'] = inputs['timeframe_choice']
 	session['hotels_selection'] = [int(hotel) for hotel in (inputs.getlist('hotel'))]

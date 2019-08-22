@@ -7,32 +7,40 @@
 	<form action="/set-chart-inputs" id="chart_inputs">
 		Comp Set: 
 			<select name="comp_set_choice">
-				<option value="{{ default_view.view_id }}">{{ default_view.view_name }}
+				<option value="{{ default_view.view_id }}"
+					{{ 'selected' if default_view.view_id == session['set_choice'] else '' }}
+				>{{ default_view.view_name }}
 				{% for view in non_default_views %}
-					<option value="{{ view.view_id }}">{{ view.view_name }}
+					<option value="{{ view.view_id }}"
+						{{ 'selected' if view.view_id == session['set_choice'] else '' }}
+					>{{ view.view_name }}
 				{% endfor %}
 			</select>
 		Metric: 
 			<select  name="metric_choice">
 				{% for metric in metrics %}
-					<option value="{{ metric }}">{{ metric }}
+					<option value="{{ metric }}"
+					{{ 'selected' if metric == session['metric_choice'] else '' }}
+				>{{ metric }}
 				{% endfor %}
 			</select>
 		Timeframe:
 			<select name="timeframe_choice">
 				{% for timeframe in timeframes %}
-					<option value="{{ timeframe }}">{{ timeframe }}
+					<option value="{{ timeframe }}"
+						{{ 'selected' if timeframe == session['timeframe_choice'] else '' }}
+					>{{ timeframe }}
 				{% endfor %}
 			</select><br>
 		Competitors: 
 		<div id="hotel_choices" name="hotel_choices">
 			{% for hotel in hotels_in_view %}
 				<input type="checkbox" name="hotel" value="{{ hotel.hotel_id }}"
-					{{ 'checked' if hotel.hotel_id in session['hotels_selection'] else 'test'}}
+					{{ 'checked' if hotel.hotel_id in session['hotels_selection'] else '' }}
 				>{{ hotel.hotel.hotel_name }}
 			{% endfor %}
 		</div>
-
+		<input type="submit">
 	</form>
 
 {% endblock %}
@@ -41,7 +49,7 @@
 	<script>
 		const form = document.querySelector('#chart_inputs');
 
-		form.addEventListener('change', form.submit());
+		// form.addEventListener('change', form.submit());
 	</script>
 
 {% endblock %}
