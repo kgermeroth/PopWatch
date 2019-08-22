@@ -29,7 +29,6 @@ def check_user_password():
 	# validate user entry
 	try:
 		# try to get user by the entered email address
-		print("\n\n\n\n\n\n\n\nWell we tried to query!")
 		stored_user = User.query.filter(User.email == entered_email).one()
 
 		# if user exists and password is correct
@@ -44,8 +43,9 @@ def check_user_password():
 				flash('Please define a comp set to continue')
 				return redirect('/create')
 
-			# if they do have a default page send them to the main dashboard
+			# if they do have a default page send them to the main dashboard and set initial session values for chart
 			else:
+				set_initial_session_options()
 				return redirect('/dashboard')
 
 		# if user exists but password is incorrect			
@@ -119,6 +119,9 @@ def process_new_set():
 
 	submit_to_database(submission)
 
+	# set session placeholders
+	set_initial_session_options()
+
 	flash('Your comp set has been submitted.')
 
 	return redirect('/dashboard')
@@ -127,35 +130,30 @@ def process_new_set():
 def show_dashboard():
 	"""Displays dashboard page"""
 
-	user_id = session['user_id']
-
-	# get user object from the session
-	user = User.query.get(user_id)
-
-	# set the session to have 'set_choice' with the default view. Update later via AJAX if choice changes
-	session['set_choice'] = user.default_view
-
-	# get a list of view objects for that user
-	views = user.views
-
-	# get the view object for the default view
-	default_view = View.query.filter(View.view_id == user.default_view).one()
-
-	# get a list of non-default views
-	non_default_views = [view for view in views if view.view_id != user.default_view]
-
-	metrics = ['Rank', 'Average Score', 'Number of Reviews']
-
-	timeframes = ['Weekly', 'Daily', 'Monthly']
-
+	user, views, default_view, non_default_views, metrics, timeframes, hotels_in_view = set_initial_inputs()
 
 	return render_template('dashboard.html', user=user,
 											 views=views,
 											 default_view=default_view,
 											 non_default_views=non_default_views,
 											 metrics=metrics,
-											 timeframes=timeframes)
+											 timeframes=timeframes,
+											 hotels_in_view=hotels_in_view)
 
+@app.route('/set-chart-inputs')
+def set_chart_inputs():
+	"""Takes inputs from dashboard rendering and update session accordingly"""
+
+	inputs = request.args
+
+	print('\n\n\n\n', inputs)
+
+	session['set_choice'] = inputs['comp_set_choice']
+	session['metric_choice'] = inputs['metric_choice']
+	session['timeframe_choice'] = inputs['timeframe_choice']
+	session['hotels_selection'] = [int(hotel) for hotel in (inputs.getlist('hotel'))]
+
+	return redirect('/dashboard')
 
 if __name__ == '__main__':
 

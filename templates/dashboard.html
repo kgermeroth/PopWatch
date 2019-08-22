@@ -4,7 +4,7 @@
 
 	<p>Dashboard</p>
 
-	<form action="/render-graph">
+	<form action="/set-chart-inputs" id="chart_inputs">
 		Comp Set: 
 			<select name="comp_set_choice">
 				<option value="{{ default_view.view_id }}">{{ default_view.view_name }}
@@ -23,9 +23,26 @@
 				{% for timeframe in timeframes %}
 					<option value="{{ timeframe }}">{{ timeframe }}
 				{% endfor %}
-			</select>
-
+			</select><br>
+		Competitors: 
+		<div id="hotel_choices" name="hotel_choices">
+			{% for hotel in hotels_in_view %}
+				<input type="checkbox" name="hotel" value="{{ hotel.hotel_id }}"
+					{{ 'checked' if hotel.hotel_id in session['hotels_selection'] else 'test'}}
+				>{{ hotel.hotel.hotel_name }}
+			{% endfor %}
+		</div>
 
 	</form>
 
 {% endblock %}
+
+{% block js %}
+	<script>
+		const form = document.querySelector('#chart_inputs');
+
+		form.addEventListener('change', form.submit());
+	</script>
+
+{% endblock %}
+

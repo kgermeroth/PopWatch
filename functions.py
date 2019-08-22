@@ -44,3 +44,56 @@ def submit_to_database(submission):
 
 			db.session.add(view_hotel)
 			db.session.commit()
+
+	# obtain default_view number
+	default = User.query.filter(User.user_id == user_id).one().default_view
+	return default
+
+
+def set_initial_inputs():
+	"""Sets up initial inputs"""
+
+	user_id = session['user_id']
+
+	# get user object from the session
+	user = User.query.get(user_id)
+
+	# set the session to have 'set_choice' with the default view. Update later via AJAX if choice changes
+	set_choice = session['set_choice']
+
+	# get a list of view objects for that user
+	views = user.views
+
+	# get the view object for the default view
+	default_view = View.query.filter(View.view_id == user.default_view).one()
+
+	# get a list of non-default views
+	non_default_views = [view for view in views if view.view_id != user.default_view]
+
+	metrics = ['Rank', 'Average Score', 'Number of Reviews']
+
+	timeframes = ['Weekly', 'Daily', 'Monthly']
+
+	hotels_in_view = ViewHotel.query.filter(ViewHotel.view_id == set_choice).all()
+
+	return (user, views, default_view, non_default_views, metrics, timeframes, hotels_in_view)
+
+def set_initial_session_options():
+	"""Sets initial session options so chart on dashboard will have values to work with"""
+
+	user_id = session['user_id']
+
+	# get user object from the session
+	user = User.query.get(user_id)
+
+	session['set_choice'] = user.default_view
+
+	hotel_views = ViewHotel.query.filter(ViewHotel.view_id == session['set_choice']).all()
+
+	session['hotels_selection'] = [hotel_view.hotel_id for hotel_view in hotel_views]
+
+	session['metric_choice'] = 'Rank'
+
+
+
+
