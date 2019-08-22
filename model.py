@@ -81,6 +81,8 @@ class ViewHotel(db.Model):
 	view_id = db.Column(db.Integer, db.ForeignKey('view.view_id'), primary_key=True)
 	hotel_id = db.Column(db.Integer, db.ForeignKey('hotels.hotel_id'), primary_key=True)
 
+	hotel = db.relationship('Hotel')
+
 	def __repr__(self):
 		return(f'<view_id={self.view_id} hotel_id={self.hotel_id}>')
 
