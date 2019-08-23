@@ -86,6 +86,17 @@ class ViewHotel(db.Model):
 	def __repr__(self):
 		return(f'<view_id={self.view_id} hotel_id={self.hotel_id}>')
 
+	def to_dict(self):
+		"""Converts a view into dictionary with hotel information"""
+
+		return { 
+				'view_id': self.view_id, 
+				'hotel': { 
+						'hotel_id' : self.hotel.hotel_id, 
+						'hotel_name' : self.hotel.hotel_name 
+						} 
+				}
+
 ######################################################
 # Helper functions
 
