@@ -164,13 +164,23 @@ def get_comp_set_hotels():
 	"""Gets view id for comp set from dashboard and returns the hotel ids"""
 
 	inputs = request.args
+	comp_set_choice = int(inputs['comp_set_choice'])
 
-	view_hotels = ViewHotel.query.filter(ViewHotel.view_id == int(inputs['comp_set_choice'])).all()
+	view_hotels = ViewHotel.query.filter(ViewHotel.view_id == comp_set_choice).all()
 
 	result = []
+	new_selected_hotels = []
 
 	for view_hotel_obj in view_hotels:
 		result.append(view_hotel_obj.to_dict())
+		new_selected_hotels.append(view_hotel_obj.hotel_id)
+
+	session['hotels_selection'] = new_selected_hotels
+	session['set_choice'] = comp_set_choice
+	session.modified = True
+
+	print('brand new hotels in session:', session['hotels_selection'])
+	print('comp set selection in session', comp_set_choice)
 
 	return jsonify(result)
 
