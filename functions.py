@@ -95,6 +95,55 @@ def set_initial_session_options():
 	session['metric_choice'] = 'Rank'
 	session['timeframe_choice'] = 'Weekly'
 
+def get_color(index):
+	"""Gets an rbga color from a list"""
+
+	color_list = ['rgba(111,183,214,1)', 'rgba(165,137,193,1)', 'rgba(252,169,133,1)', 'rgba(142,210,144,1)',
+				  'rgba(155,250,129,1)', 'rgba(249,140,82,1)', 'rgba(117,137,191,1)', 'rgba(72,181,163,1)']
+
+	return color_list[index]
+
+def get_chart_data():
+	"""Query database and get data into proper format"""
+
+	chosen_hotels = session['hotels_selection']
+	timeframe_choice = session['timeframe_choice']
+	metric_choice = session['metric_choice']
+
+	metric_conversion = {'Rank' : 'ranking', 'Average Score' : 'avg_score', 'Number of Reviews' : 'review_count'}
+
+	labels = []		# list of dates from scrapes
+	datasets = []
+
+	# run queries for each of the hotels and parse out the data
+	for i, hotel in enumerate(chosen_hotels):
+		
+		data = []					# this will hold the actual data values for each hotel
+
+		# do a query
+		scrapes = #some query
+
+		# loop through scrape information to parse out data
+		for j, scrape in enumerate(scrapes):
+			# for first set of hotels only, get the dates and add them to the labels list
+			if i == 0:
+				labels.append(scrape.shop_timestamp)
+
+			# for first scrape only, get the hotel_name and create a label
+			if j == 0:
+				label = scrape.hotel.hotel_name
+
+			# for all scrapes, get the data out!
+			data.append(scrape.metric_conversion[metric_choice])
+
+		{
+			'label' : label,
+			'fill' : False,
+			'backgroundColor' : get_color(i),
+			'borderColor' : get_color(i)
+
+		}
 
 
 
+	return {"labels" : labels, "datasets" : datasets}

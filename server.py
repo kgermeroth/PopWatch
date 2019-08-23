@@ -142,7 +142,7 @@ def show_dashboard():
 
 @app.route('/set-chart-inputs', methods=['POST'])
 def set_chart_inputs():
-	"""Takes inputs from dashboard rendering and update session accordingly"""
+	"""Takes inputs from dashboard and update session/chart accordingly"""
 
 	inputs = request.form
 
