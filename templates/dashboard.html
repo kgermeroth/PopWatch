@@ -46,12 +46,11 @@
 
 {% block js %}
 	<script>
-		// const form = document.querySelector('#set_choice')
-		const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input');	
 
-		function updateChartOnChange() {
-			console.log('changed form input');
-
+		// this function pulls data from the form and sends it to route to get chart data
+		// eventually the console.log(data) will push to chart.js
+		function gatherDataFromForm() {
+			
 			const hotels = new Array();
 			$("input:checkbox[name=hotel]:checked").each(function() {
 				hotels.push($(this).val())
@@ -66,26 +65,30 @@
 			(data) => {
 				console.log(data)
 			})
-
 		}
 
+		// Add event listeners to all elements of the form
+		const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input');
 
-// eventually the console.log(data) will push to chart.js
 		for (const element of form) {
-			element.addEventListener('change', updateChartOnChange);
+			element.addEventListener('change', gatherDataFromForm);
 		}
 
+		// Add a different event listener for comp set dropdowns
 		const hotel_selector = document.querySelector('#set_choice');
+
 		hotel_selector.addEventListener('change', () => {
-			console.log('hello world!');
 			const comp_set_choice = $('#set_choice').val();
 			$.get('/get-comp-set-hotels.json', {comp_set_choice: comp_set_choice}, (d) => {
-				console.log(d);
-				const comp_set_div = document.querySelector('#hotel_choices');
-				// comp_set_div
 
+				// this part of the function removes old comp set hotels and add new ones.
+				// first select the div that has all the hotel choices
+				const comp_set_div = document.querySelector('#hotel_choices');
+
+				// change the innerHTML to nothing (this removes them all)
 				comp_set_div.innerHTML = '';
 
+				// for each view_hotel in data received recreate the element with each attribute
 				for (const view_hotel of d) {
 					const element = document.createElement('input');
 					element.setAttribute('type', 'checkbox');
@@ -94,12 +97,15 @@
 					element.setAttribute('value', view_hotel.hotel.hotel_id);
 					element.setAttribute('checked', '');
 
+					// add the text part of the element (what actually displays to the user)
 					const text = document.createTextNode(view_hotel.hotel.hotel_name);
 
+					// add the element to the div so it actually shows up
 					comp_set_div.appendChild(element);
 					comp_set_div.appendChild(text);
 
-					element.addEventListener('change', updateChartOnChange);
+					// add event listener again!
+					element.addEventListener('change', gatherDataFromForm);
 				}
 			});
 		});

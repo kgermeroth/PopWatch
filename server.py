@@ -168,21 +168,20 @@ def get_comp_set_hotels():
 
 	view_hotels = ViewHotel.query.filter(ViewHotel.view_id == comp_set_choice).all()
 
-	result = []
+	view_hotel_dicts = []
 	new_selected_hotels = []
 
+	# create a dictionary of view objects (and add hotel_ids to a new list)
 	for view_hotel_obj in view_hotels:
-		result.append(view_hotel_obj.to_dict())
+		view_hotel_dicts.append(view_hotel_obj.to_dict())
 		new_selected_hotels.append(view_hotel_obj.hotel_id)
 
+	# update the session with the items that changed
 	session['hotels_selection'] = new_selected_hotels
 	session['set_choice'] = comp_set_choice
 	session.modified = True
 
-	print('brand new hotels in session:', session['hotels_selection'])
-	print('comp set selection in session', comp_set_choice)
-
-	return jsonify(result)
+	return jsonify(view_hotel_dicts)
 
 if __name__ == '__main__':
 
