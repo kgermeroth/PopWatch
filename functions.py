@@ -93,6 +93,7 @@ def set_initial_session_options():
 	session['hotels_selection'] = [hotel_view.hotel_id for hotel_view in hotel_views]
 
 	session['metric_choice'] = 'Rank'
+	session['timeframe_choice'] = 'Weekly'
 
 
 
