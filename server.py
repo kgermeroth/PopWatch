@@ -140,11 +140,11 @@ def show_dashboard():
 											 timeframes=timeframes,
 											 hotels_in_view=hotels_in_view)
 
-@app.route('/set-chart-inputs')
+@app.route('/set-chart-inputs', methods=['POST'])
 def set_chart_inputs():
 	"""Takes inputs from dashboard rendering and update session accordingly"""
 
-	inputs = request.args
+	inputs = request.form
 
 	print('\n\n\n\n', inputs)
 
@@ -153,7 +153,26 @@ def set_chart_inputs():
 	session['timeframe_choice'] = inputs['timeframe_choice']
 	session['hotels_selection'] = [int(hotel) for hotel in (inputs.getlist('hotel'))]
 
-	return redirect('/dashboard')
+	session.modified = True
+
+	# will query database, return jsonify, then in dashboard callback will update chart data
+
+	return jsonify({'cat':2})
+
+@app.route('/get-comp-set-hotels.json')
+def get_comp_set_hotels():
+	"""Gets view id for comp set from dashboard and returns the hotel ids"""
+
+	inputs = request.args
+
+	view_hotels = ViewHotel.query.filter(ViewHotel.view_id == int(inputs['comp_set_choice'])).all()
+
+	result = []
+
+	for view_hotel_obj in view_hotels:
+		result.append(view_hotel_obj.to_dict())
+
+	return jsonify(result)
 
 if __name__ == '__main__':
 

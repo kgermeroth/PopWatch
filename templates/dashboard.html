@@ -4,9 +4,9 @@
 
 	<p>Dashboard</p>
 
-	<form action="/set-chart-inputs" id="chart_inputs">
+	<form action="/set-chart-inputs" id="chart_inputs" method='POST'>
 		Comp Set: 
-			<select name="comp_set_choice">
+			<select id="set_choice" name="comp_set_choice">
 				<option value="{{ default_view.view_id }}"
 					{{ 'selected' if default_view.view_id == session['set_choice'] else '' }}
 				>{{ default_view.view_name }}
@@ -17,7 +17,7 @@
 				{% endfor %}
 			</select>
 		Metric: 
-			<select  name="metric_choice">
+			<select  id="metric_choice" name="metric_choice">
 				{% for metric in metrics %}
 					<option value="{{ metric }}"
 					{{ 'selected' if metric == session['metric_choice'] else '' }}
@@ -25,7 +25,7 @@
 				{% endfor %}
 			</select>
 		Timeframe:
-			<select name="timeframe_choice">
+			<select id="timeframe_choice" name="timeframe_choice">
 				{% for timeframe in timeframes %}
 					<option value="{{ timeframe }}"
 						{{ 'selected' if timeframe == session['timeframe_choice'] else '' }}
@@ -35,21 +35,75 @@
 		Competitors: 
 		<div id="hotel_choices" name="hotel_choices">
 			{% for hotel in hotels_in_view %}
-				<input type="checkbox" name="hotel" value="{{ hotel.hotel_id }}"
+				<input type="checkbox" class="hotel_choice" name="hotel" value="{{ hotel.hotel_id }}"
 					{{ 'checked' if hotel.hotel_id in session['hotels_selection'] else '' }}
 				>{{ hotel.hotel.hotel_name }}
 			{% endfor %}
 		</div>
-		<input type="submit">
 	</form>
 
 {% endblock %}
 
 {% block js %}
 	<script>
-		const form = document.querySelector('#chart_inputs');
+		// const form = document.querySelector('#set_choice')
+		const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input');	
 
-		// form.addEventListener('change', form.submit());
+		function updateChartOnChange() {
+			console.log('changed form input');
+
+			const hotels = new Array();
+			$("input:checkbox[name=hotel]:checked").each(function() {
+				hotels.push($(this).val())
+			});
+
+			$.post('/set-chart-inputs', {
+				'comp_set_choice' : $('#set_choice').val(),
+				'metric_choice' : $('#metric_choice').val(),
+				'timeframe_choice' : $('#timeframe_choice').val(),
+				'hotels_selection' : hotels
+				}, 
+			(data) => {
+				console.log(data)
+			})
+
+		}
+
+
+// eventually the console.log(data) will push to chart.js
+		for (const element of form) {
+			element.addEventListener('change', updateChartOnChange);
+		}
+
+		const hotel_selector = document.querySelector('#set_choice');
+		hotel_selector.addEventListener('change', () => {
+			console.log('hello world!');
+			const comp_set_choice = $('#set_choice').val();
+			$.get('/get-comp-set-hotels.json', {comp_set_choice: comp_set_choice}, (d) => {
+				console.log(d);
+				const comp_set_div = document.querySelector('#hotel_choices');
+				// comp_set_div
+
+				comp_set_div.innerHTML = '';
+
+				for (const view_hotel of d) {
+					const element = document.createElement('input');
+					element.setAttribute('type', 'checkbox');
+					element.setAttribute('class', 'hotel_choice');
+					element.setAttribute('name', 'hotel');
+					element.setAttribute('value', view_hotel.hotel.hotel_id);
+					element.setAttribute('checked', '');
+
+					const text = document.createTextNode(view_hotel.hotel.hotel_name);
+
+					comp_set_div.appendChild(element);
+					comp_set_div.appendChild(text);
+
+					element.addEventListener('change', updateChartOnChange);
+				}
+			});
+		});
+		
 	</script>
 
 {% endblock %}
