@@ -1,4 +1,6 @@
 from server import *
+from model import *
+import datetime
 
 def submit_to_database(submission):
 	"""Takes response object, parses it, and submits data to database."""
@@ -95,7 +97,7 @@ def set_initial_session_options():
 	session['metric_choice'] = 'Rank'
 	session['timeframe_choice'] = 'Weekly'
 
-def get_color(index):
+def get_border_color(index):
 	"""Gets an rbga color from a list"""
 
 	color_list = ['rgba(111,183,214,1)', 'rgba(165,137,193,1)', 'rgba(252,169,133,1)', 'rgba(142,210,144,1)',
@@ -103,47 +105,125 @@ def get_color(index):
 
 	return color_list[index]
 
+
+def get_background_color(index):
+	"""Gets an rbga color from a list"""
+
+	color_list = ['rgba(111,183,214,0.2)', 'rgba(165,137,193,0.2)', 'rgba(252,169,133,0.2)', 'rgba(142,210,144,0.2)',
+				  'rgba(155,250,129,0.2)', 'rgba(249,140,82,0.2)', 'rgba(117,137,191,0.2)', 'rgba(72,181,163,0.2)']
+
+	return color_list[index]
+
+
+def get_data_from_scrape(i, scrape):
+	"""Takes scrape and parses out data"""
+
+	global labels 
+	global data
+
+	# for first set of hotels only, get the dates and add them to the labels list
+	if i == 0:
+		labels.append(scrape.shop_timestamp)
+
+	# append the data to the data list
+	if metric_choice == 'Rank':
+		data.append(scrape.ranking)
+	elif metric_choice == 'Average Score':
+		data.append(scrape.avg_score)
+	elif metric_choice == 'Number of Reviews':
+		data.append(scrape.review_count)
+
+	return
+
+
 def get_chart_data():
 	"""Query database and get data into proper format"""
 
-	chosen_hotels = session['hotels_selection']
-	timeframe_choice = session['timeframe_choice']
-	metric_choice = session['metric_choice']
+	# chosen_hotels = session['hotels_selection']
+	# timeframe_choice = session['timeframe_choice']
+	# metric_choice = session['metric_choice']
 
-	metric_conversion = {'Rank' : 'ranking', 'Average Score' : 'avg_score', 'Number of Reviews' : 'review_count'}
+	chosen_hotels = [1, 9]
+	timeframe_choice = 'Weekly'
+	metric_choice = 'Rank'
 
 	labels = []		# list of dates from scrapes
 	datasets = []
+
+	current_time = datetime.datetime.now()
+	thirty_days_ago = current_time - datetime.timedelta(days=30)
 
 	# run queries for each of the hotels and parse out the data
 	for i, hotel in enumerate(chosen_hotels):
 		
 		data = []					# this will hold the actual data values for each hotel
 
+		# @TODO change queries so they take timeframe into account
+
 		# do a query
-		scrapes = #some query
+		scrapes = Scrape.query.filter(Scrape.hotel_id == hotel).all()
 
 		# loop through scrape information to parse out data
 		for j, scrape in enumerate(scrapes):
-			# for first set of hotels only, get the dates and add them to the labels list
-			if i == 0:
-				labels.append(scrape.shop_timestamp)
 
-			# for first scrape only, get the hotel_name and create a label
+			# for first shop set a label equal to the hotel's name
 			if j == 0:
 				label = scrape.hotel.hotel_name
 
-			# for all scrapes, get the data out!
-			data.append(scrape.metric_conversion[metric_choice])
+			# address weekly setting
+			if timeframe_choice == 'Weekly':
 
-		{
+				# if the shop is on a Sunday, get data
+				if scrape.shop_timestamp.weekday() == 0:
+					get_data_from_scrape(i, scrape)
+
+			# address daily setting
+			elif timeframe_choice == 'Daily':
+
+				# if the shop is after thirty days ago:
+				if scrape.shop_timestamp > thirty_days_ago:
+					get_data_from_scrape(i, scrape)
+
+		# get chart data compiled
+		chart_line_info = {
 			'label' : label,
 			'fill' : False,
-			'backgroundColor' : get_color(i),
-			'borderColor' : get_color(i)
+			'lineTension' : 0.5,
+			'backgroundColor' : get_background_color(i),
+			'borderColor' : get_border_color(i),
+			'borderCapStyle' : 'butt',
+			'borderDash' : [],
+			'boderDashOffset' : 0.0,
+			'borderJoinStyle' : 'miter',
+			'pointBorderColor' : get_border_color(i),
+			'pointBackgroundColor' : '#fff',
+			'pointHoverBorderColor' : get_border_color(i),
+			'pointHoverBorderWidth' : 2,
+			'pointRadius' : 3,
+			'pointHitRadius' : 10,
+			'data' : data,
+			'spanGaps' : False
+			}
 
-		}
+		datasets.append(chart_line_info)
 
-
-
+	print('labels: ', labels)
+	print('datasets: ', datasets)
 	return {"labels" : labels, "datasets" : datasets}
+
+
+
+
+if __name__ == '__main__':
+
+    app.debug = True
+
+    # make sure templates, etc. are not cached in debug mode
+    app.jinja_env.auto_reload = app.debug
+
+    connect_to_db(app)
+
+    # Use the DebugToolbar
+    DebugToolbarExtension(app)
+
+    app.run(port=5000, host='0.0.0.0')

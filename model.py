@@ -1,5 +1,5 @@
 """Models and database functions for hotels db."""
-from datetime import datetime
+import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -142,7 +142,7 @@ def example_data():
 	h5 = Hotel(hotel_id=5, hotel_name='Spero', ta_url='https://www.tripadvisor.com/Hotel_Review-g60713-d80802-Reviews-Hotel_Spero-San_Francisco_California.html')
 
 	# Add sample scrapes
-	now = datetime.now()
+	now = datetime.datetime.now()
 	s1 = Scrape(hotel_id=1, ta_id='N/A', shop_timestamp=now, ranking=136, num_hotels=242, avg_score=3.5, review_count=2000)
 	s2 = Scrape(hotel_id=1, ta_id='N/A', shop_timestamp=now, ranking=135, num_hotels=242, avg_score=3.5, review_count=2005)
 	s3 = Scrape(hotel_id=1, ta_id='N/A', shop_timestamp=now, ranking=135, num_hotels=242, avg_score=3.5, review_count=2010)

@@ -155,9 +155,10 @@ def set_chart_inputs():
 
 	session.modified = True
 
-	# will query database, return jsonify, then in dashboard callback will update chart data
+	chart_data = get_chart_data()
+	print('chart data: ', chart_data)
 
-	return jsonify({'cat':2})
+	return jsonify(chart_data)
 
 @app.route('/get-comp-set-hotels.json')
 def get_comp_set_hotels():
