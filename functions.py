@@ -74,7 +74,7 @@ def set_initial_inputs():
 
 	metrics = ['Rank', 'Average Score', 'Number of Reviews']
 
-	timeframes = ['Weekly', 'Daily', 'Monthly']
+	timeframes = ['Weekly', 'Daily']
 
 	hotels_in_view = ViewHotel.query.filter(ViewHotel.view_id == set_choice).all()
 
@@ -101,7 +101,7 @@ def get_border_color(index):
 	"""Gets an rbga color from a list"""
 
 	color_list = ['rgba(111,183,214,1)', 'rgba(165,137,193,1)', 'rgba(252,169,133,1)', 'rgba(142,210,144,1)',
-				  'rgba(155,250,129,1)', 'rgba(249,140,82,1)', 'rgba(117,137,191,1)', 'rgba(72,181,163,1)']
+				  'rgba(255,250,129,1)', 'rgba(249,140,82,1)', 'rgba(117,137,191,1)', 'rgba(72,181,163,1)']
 
 	return color_list[index]
 
@@ -110,48 +110,44 @@ def get_background_color(index):
 	"""Gets an rbga color from a list"""
 
 	color_list = ['rgba(111,183,214,0.2)', 'rgba(165,137,193,0.2)', 'rgba(252,169,133,0.2)', 'rgba(142,210,144,0.2)',
-				  'rgba(155,250,129,0.2)', 'rgba(249,140,82,0.2)', 'rgba(117,137,191,0.2)', 'rgba(72,181,163,0.2)']
+				  'rgba(255,250,129,0.2)', 'rgba(249,140,82,0.2)', 'rgba(117,137,191,0.2)', 'rgba(72,181,163,0.2)']
 
 	return color_list[index]
 
 
-def get_data_from_scrape(i, scrape):
-	"""Takes scrape and parses out data"""
-
-	global labels 
-	global data
-
-	# for first set of hotels only, get the dates and add them to the labels list
-	if i == 0:
-		labels.append(scrape.shop_timestamp)
-
-	# append the data to the data list
-	if metric_choice == 'Rank':
-		data.append(scrape.ranking)
-	elif metric_choice == 'Average Score':
-		data.append(scrape.avg_score)
-	elif metric_choice == 'Number of Reviews':
-		data.append(scrape.review_count)
-
-	return
 
 
 def get_chart_data():
 	"""Query database and get data into proper format"""
 
-	# chosen_hotels = session['hotels_selection']
-	# timeframe_choice = session['timeframe_choice']
-	# metric_choice = session['metric_choice']
-
-	chosen_hotels = [1, 9]
-	timeframe_choice = 'Weekly'
-	metric_choice = 'Rank'
+	chosen_hotels = session['hotels_selection']
+	timeframe_choice = session['timeframe_choice']
+	metric_choice = session['metric_choice']
 
 	labels = []		# list of dates from scrapes
 	datasets = []
 
+	def get_data_from_scrape(i, scrape):
+		"""Takes scrape and parses out data"""
+
+		# for first set of hotels only, get the dates and add them to the labels list
+		if i == 0:
+			timestamp = scrape.shop_timestamp
+			clean_stamp = timestamp.strftime('%a, %b %-d, %Y')
+			labels.append(clean_stamp)
+
+		# append the data to the data list
+		if metric_choice == 'Rank':
+			data.append(scrape.ranking)
+		elif metric_choice == 'Average Score':
+			data.append(scrape.avg_score)
+		elif metric_choice == 'Number of Reviews':
+			data.append(scrape.review_count)
+
+
 	current_time = datetime.datetime.now()
 	thirty_days_ago = current_time - datetime.timedelta(days=30)
+	six_months_ago = current_time - datetime.timedelta(days=180)
 
 	# run queries for each of the hotels and parse out the data
 	for i, hotel in enumerate(chosen_hotels):
@@ -174,7 +170,7 @@ def get_chart_data():
 			if timeframe_choice == 'Weekly':
 
 				# if the shop is on a Sunday, get data
-				if scrape.shop_timestamp.weekday() == 0:
+				if (scrape.shop_timestamp.weekday() == 6) and (scrape.shop_timestamp > six_months_ago):
 					get_data_from_scrape(i, scrape)
 
 			# address daily setting
@@ -212,18 +208,3 @@ def get_chart_data():
 	return {"labels" : labels, "datasets" : datasets}
 
 
-
-
-if __name__ == '__main__':
-
-    app.debug = True
-
-    # make sure templates, etc. are not cached in debug mode
-    app.jinja_env.auto_reload = app.debug
-
-    connect_to_db(app)
-
-    # Use the DebugToolbar
-    DebugToolbarExtension(app)
-
-    app.run(port=5000, host='0.0.0.0')

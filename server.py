@@ -146,17 +146,14 @@ def set_chart_inputs():
 
 	inputs = request.form
 
-	print('\n\n\n\n', inputs)
-
 	session['set_choice'] = int(inputs['comp_set_choice'])
 	session['metric_choice'] = inputs['metric_choice']
 	session['timeframe_choice'] = inputs['timeframe_choice']
-	session['hotels_selection'] = [int(hotel) for hotel in (inputs.getlist('hotel'))]
+	session['hotels_selection'] = [int(hotel) for hotel in (inputs.getlist('hotels_selection[]'))]
 
 	session.modified = True
 
 	chart_data = get_chart_data()
-	print('chart data: ', chart_data)
 
 	return jsonify(chart_data)
 

@@ -51,7 +51,7 @@
 	<script>
 
 	// chart stuff!
-	// const ctx = document.getElementById('myChart');
+	const ctx = document.getElementById('myChart');
 	// const myChart = new Chart(ctx, {
 	//     type: 'line',
 	//     data: {
@@ -103,9 +103,11 @@
 				'timeframe_choice' : $('#timeframe_choice').val(),
 				'hotels_selection' : hotels
 				}, 
-			(data) => {
-				console.log(data)
-			})
+				(data) => {
+				let myLineChart = Chart.Line(ctx, {
+												data: data
+											});
+				})
 		}
 
 		// Add event listeners to all elements of the form
@@ -120,7 +122,7 @@
 
 		hotel_selector.addEventListener('change', () => {
 			const comp_set_choice = $('#set_choice').val();
-			$.get('/get-comp-set-hotels.json', {comp_set_choice: comp_set_choice}, (d) => {
+			$.get('/get-comp-set-hotels.json', {comp_set_choice: comp_set_choice}, (data) => {
 
 				// this part of the function removes old comp set hotels and add new ones.
 				// first select the div that has all the hotel choices
@@ -130,7 +132,7 @@
 				comp_set_div.innerHTML = '';
 
 				// for each view_hotel in data received recreate the element with each attribute
-				for (const view_hotel of d) {
+				for (const view_hotel of data) {
 					const element = document.createElement('input');
 					element.setAttribute('type', 'checkbox');
 					element.setAttribute('class', 'hotel_choice');
@@ -147,6 +149,9 @@
 
 					// add event listener again!
 					element.addEventListener('change', gatherDataFromForm);
+					let myLineChart = Chart.Line(ctx, {
+												data: data
+											});
 				}
 			});
 		});
