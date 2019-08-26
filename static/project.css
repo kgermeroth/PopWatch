@@ -1,26 +1,37 @@
 .nav-link {
     color: white;
 }
+
 #navbar {
     background-color: rgb(111,183,214);
     height: 40px;
 }
+
 .nav-item {
 	display: inline;
 }
+
+#login {
+	border: solid, 2px, rgba(111,183,214,.5);
+}
+
 h1 {
 	margin-top: 20px;
 	margin-bottom: 40px;
 }
+
 .hotel_choice {
 	width: 60px;
 }
+
 .comp {
 	margin-bottom: 15px;
 }
+
 i {
 	margin-right: 20px;
 }
+
 .fa-plus {
 	color: green;
 }
