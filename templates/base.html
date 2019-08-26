@@ -36,7 +36,7 @@
     </div> -->
 	<ul>
 		{% for message in get_flashed_messages() %}
-			<li>{{ message }}</li>
+			<div class="alert alert-warning">{{ message }}</div>
 		{% endfor %}
 	</ul>
 	{% block content %}

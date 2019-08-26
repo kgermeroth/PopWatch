@@ -8,13 +8,16 @@
 .nav-item {
 	display: inline;
 }
-
 h1 {
 	margin-top: 20px;
 	margin-bottom: 40px;
 }
-
-
+.hotel_choice {
+	width: 60px;
+}
+.comp {
+	margin-bottom: 15px;
+}
 i {
 	margin-right: 20px;
 }

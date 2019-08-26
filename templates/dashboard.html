@@ -2,14 +2,14 @@
 
 {% block content %}
 <div class="container">
-	<div class="row col-12">
+	<div class="row col-12 justify-content-center">
 		<h1>Hotel Performance Dashboard</h1>
 	</div>
 
 	<form action="/set-chart-inputs.json" id="chart_inputs" method='POST'>
-		<div class="row">
+		<div class="row justify-content-center comp">
 			<div class="col-4">
-				Comp Set: 
+				<b>Comp Set:</b> 
 					<select id="set_choice" name="comp_set_choice">
 						<option value="{{ default_view.view_id }}"
 							{{ 'selected' if default_view.view_id == session['set_choice'] else '' }}
@@ -22,7 +22,7 @@
 					</select>
 			</div>
 			<div class="col-4">
-				Metric: 
+				<b>Metric:</b> 
 					<select  id="metric_choice" name="metric_choice">
 						{% for metric in metrics %}
 							<option value="{{ metric }}"
@@ -32,7 +32,7 @@
 					</select>
 			</div>
 			<div class="col-4">
-				Timeframe:
+				<b>Timeframe:</b>
 					<select id="timeframe_choice" name="timeframe_choice">
 						{% for timeframe in timeframes %}
 							<option value="{{ timeframe }}"
@@ -42,24 +42,27 @@
 					</select>
 			</div>
 		</div>
-	</div><br>
-	<div class="row">
-		<div class="col-4">
-			Competitors:
+	</div>
+	<div class="container justify-content-center comp">
+		<div class="row justify-content-start">
+			<div class="col-4">
+				<b>Competitors:</b>
+			</div>
+		</div>
+		<div class="row justify-content-start">
+			<div class="col-12" id="hotel_choices" name="hotel_choices">
+				{% for hotel in hotels_in_view %}
+					<input type="checkbox" class="hotel_choice" name="hotel" value="{{ hotel.hotel_id }}"
+						{{ 'checked' if hotel.hotel_id in session['hotels_selection'] else '' }}
+					>{{ hotel.hotel.hotel_name }}
+				{% endfor %}
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-12" id="hotel_choices" name="hotel_choices">
-			{% for hotel in hotels_in_view %}
-				<input type="checkbox" class="hotel_choice" name="hotel" value="{{ hotel.hotel_id }}"
-					{{ 'checked' if hotel.hotel_id in session['hotels_selection'] else '' }}
-				>{{ hotel.hotel.hotel_name }}
-			{% endfor %}
-		</div><br>
+	</form><br>
+	<div class="row justify-content-center">
+		<canvas class="col-8" id="myChart" width="400" height="200"></canvas>
 	</div>
-	</form>
-
-	<canvas id="myChart" width="200" height="100"></canvas>
 </div>
 
 {% endblock %}
@@ -93,56 +96,53 @@
 		})
 	}
 
-		// Call renderChart when page loads:
-		$(window).load(renderChart)
+	// Call renderChart when page loads:
+	$(window).load(renderChart)
 
-		// Add event listeners to all elements of the form
-		const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input');
+	// Add event listeners to all elements of the form
+	const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input');
 
-		for (const element of form) {
-			element.addEventListener('change', renderChart);
-		}
+	for (const element of form) {
+		element.addEventListener('change', renderChart);
+	}
 
-		// Add a different event listener for comp set dropdowns
-		const hotel_selector = document.querySelector('#set_choice');
+	// Add a different event listener for comp set dropdowns
+	const hotel_selector = document.querySelector('#set_choice');
 
-		hotel_selector.addEventListener('change', () => {
-			const comp_set_choice = $('#set_choice').val();
-			$.get('/get-comp-set-hotels.json', {comp_set_choice: comp_set_choice}, (data) => {
+	hotel_selector.addEventListener('change', () => {
+		const comp_set_choice = $('#set_choice').val();
+		$.get('/get-comp-set-hotels.json', {comp_set_choice: comp_set_choice}, (data) => {
 
-				// this part of the function removes old comp set hotels and add new ones.
-				// first select the div that has all the hotel choices
-				const comp_set_div = document.querySelector('#hotel_choices');
+			// this part of the function removes old comp set hotels and add new ones.
+			// first select the div that has all the hotel choices
+			const comp_set_div = document.querySelector('#hotel_choices');
 
-				// change the innerHTML to nothing (this removes them all)
-				comp_set_div.innerHTML = '';
+			// change the innerHTML to nothing (this removes them all)
+			comp_set_div.innerHTML = '';
 
-				// for each view_hotel in data received recreate the element with each attribute
-				for (const view_hotel of data) {
-					const element = document.createElement('input');
-					element.setAttribute('type', 'checkbox');
-					element.setAttribute('class', 'hotel_choice');
-					element.setAttribute('name', 'hotel');
-					element.setAttribute('value', view_hotel.hotel.hotel_id);
-					element.setAttribute('checked', '');
+			// for each view_hotel in data received recreate the element with each attribute
+			for (const view_hotel of data) {
+				const element = document.createElement('input');
+				element.setAttribute('type', 'checkbox');
+				element.setAttribute('class', 'hotel_choice');
+				element.setAttribute('name', 'hotel');
+				element.setAttribute('value', view_hotel.hotel.hotel_id);
+				element.setAttribute('checked', '');
 
-					// add the text part of the element (what actually displays to the user)
-					const text = document.createTextNode(view_hotel.hotel.hotel_name);
+				// add the text part of the element (what actually displays to the user)
+				const text = document.createTextNode(view_hotel.hotel.hotel_name);
 
-					// add the element to the div so it actually shows up
-					comp_set_div.appendChild(element);
-					comp_set_div.appendChild(text);
+				// add the element to the div so it actually shows up
+				comp_set_div.appendChild(element);
+				comp_set_div.appendChild(text);
 
-					// add event listener again!
-					element.addEventListener('change', renderChart);
-					let myLineChart = Chart.Line(ctx, {
-												data: data
-											});
-				}
-				// Need to render the chart again! Also will update session values
-				renderChart()
-			});
+				// add event listener again!
+				element.addEventListener('change', renderChart);
+			}
+			// Need to render the chart again! Also will update session values
+			renderChart()
 		});
+	});
 		
 	</script>
 
