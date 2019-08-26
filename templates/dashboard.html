@@ -2,7 +2,7 @@
 
 {% block content %}
 
-	<p>Dashboard</p>
+	<h1>Hotel Performance Dashboard</h1>
 
 	<form action="/set-chart-inputs" id="chart_inputs" method='POST'>
 		Comp Set: 
@@ -52,69 +52,37 @@
 
 	// chart stuff!
 	const ctx = document.getElementById('myChart');
-	// const myChart = new Chart(ctx, {
-	//     type: 'line',
-	//     data: {
-	//         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-	//         datasets: [{
-	//             label: '# of Votes',
-	//             data: [12, 19, 3, 5, 2, 3],
-	//             backgroundColor: [
-	//                 'rgba(255, 99, 132, 0.2)',
-	//                 'rgba(54, 162, 235, 0.2)',
-	//                 'rgba(255, 206, 86, 0.2)',
-	//                 'rgba(75, 192, 192, 0.2)',
-	//                 'rgba(153, 102, 255, 0.2)',
-	//                 'rgba(255, 159, 64, 0.2)'
-	//             ],
-	//             borderColor: [
-	//                 'rgba(255, 99, 132, 1)',
-	//                 'rgba(54, 162, 235, 1)',
-	//                 'rgba(255, 206, 86, 1)',
-	//                 'rgba(75, 192, 192, 1)',
-	//                 'rgba(153, 102, 255, 1)',
-	//                 'rgba(255, 159, 64, 1)'
-	//             ],
-	//             borderWidth: 1
-	//         }]
-	//     },
-	//     options: {
-	//         scales: {
-	//             yAxes: [{
-	//                 ticks: {
-	//                     beginAtZero: true
-	//                 }
-	//             }]
-	//         }
-	//     }
-	// });
-		// this function pulls data from the form and sends it to route to get chart data
-		// eventually the console.log(data) will push to chart.js
-		function gatherDataFromForm() {
-			
-			const hotels = new Array();
-			$("input:checkbox[name=hotel]:checked").each(function() {
-				hotels.push($(this).val())
-			});
 
-			$.post('/set-chart-inputs', {
-				'comp_set_choice' : $('#set_choice').val(),
-				'metric_choice' : $('#metric_choice').val(),
-				'timeframe_choice' : $('#timeframe_choice').val(),
-				'hotels_selection' : hotels
-				}, 
-				(data) => {
-				let myLineChart = Chart.Line(ctx, {
-												data: data
-											});
-				})
-		}
+		// this function pulls data from the form and sends it to route to get chart data
+
+	function renderChart() {
+		
+		const hotels = new Array();
+		$("input:checkbox[name=hotel]:checked").each(function() {
+			hotels.push($(this).val())
+		});
+
+		$.post('/set-chart-inputs', {
+			'comp_set_choice' : $('#set_choice').val(),
+			'metric_choice' : $('#metric_choice').val(),
+			'timeframe_choice' : $('#timeframe_choice').val(),
+			'hotels_selection' : hotels
+			}, 
+			(data) => {
+			let myLineChart = Chart.Line(ctx, {
+											data: data
+										});
+		})
+	}
+
+		// Call renderChart when page loads:
+		$(window).load(renderChart)
 
 		// Add event listeners to all elements of the form
 		const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input');
 
 		for (const element of form) {
-			element.addEventListener('change', gatherDataFromForm);
+			element.addEventListener('change', renderChart);
 		}
 
 		// Add a different event listener for comp set dropdowns
@@ -148,11 +116,13 @@
 					comp_set_div.appendChild(text);
 
 					// add event listener again!
-					element.addEventListener('change', gatherDataFromForm);
+					element.addEventListener('change', renderChart);
 					let myLineChart = Chart.Line(ctx, {
 												data: data
 											});
 				}
+				// Need to render the chart again! Also will update session values
+				renderChart()
 			});
 		});
 		

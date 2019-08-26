@@ -101,7 +101,7 @@ def get_border_color(index):
 	"""Gets an rbga color from a list"""
 
 	color_list = ['rgba(111,183,214,1)', 'rgba(165,137,193,1)', 'rgba(252,169,133,1)', 'rgba(142,210,144,1)',
-				  'rgba(255,250,129,1)', 'rgba(249,140,82,1)', 'rgba(117,137,191,1)', 'rgba(72,181,163,1)']
+				  'rgba(255,250,129,1)', 'rgba(249,140,182,1)', 'rgba(117,137,191,1)', 'rgba(72,181,163,1)']
 
 	return color_list[index]
 
@@ -110,7 +110,7 @@ def get_background_color(index):
 	"""Gets an rbga color from a list"""
 
 	color_list = ['rgba(111,183,214,0.2)', 'rgba(165,137,193,0.2)', 'rgba(252,169,133,0.2)', 'rgba(142,210,144,0.2)',
-				  'rgba(255,250,129,0.2)', 'rgba(249,140,82,0.2)', 'rgba(117,137,191,0.2)', 'rgba(72,181,163,0.2)']
+				  'rgba(255,250,129,0.2)', 'rgba(249,140,182,0.2)', 'rgba(117,137,191,0.2)', 'rgba(72,181,163,0.2)']
 
 	return color_list[index]
 
@@ -203,8 +203,6 @@ def get_chart_data():
 
 		datasets.append(chart_line_info)
 
-	print('labels: ', labels)
-	print('datasets: ', datasets)
 	return {"labels" : labels, "datasets" : datasets}
 
 
