@@ -140,7 +140,7 @@ def show_dashboard():
 											 timeframes=timeframes,
 											 hotels_in_view=hotels_in_view)
 
-@app.route('/set-chart-inputs', methods=['POST'])
+@app.route('/set-chart-inputs.json', methods=['POST'])
 def set_chart_inputs():
 	"""Takes inputs from dashboard and update session/chart accordingly"""
 

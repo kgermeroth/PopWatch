@@ -1,37 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
+	<div class="row col-3">
+		<h1>Hotel Performance Dashboard</h1>
+	</div>
 
-	<h1>Hotel Performance Dashboard</h1>
-
-	<form action="/set-chart-inputs" id="chart_inputs" method='POST'>
-		Comp Set: 
-			<select id="set_choice" name="comp_set_choice">
-				<option value="{{ default_view.view_id }}"
-					{{ 'selected' if default_view.view_id == session['set_choice'] else '' }}
-				>{{ default_view.view_name }}
-				{% for view in non_default_views %}
-					<option value="{{ view.view_id }}"
-						{{ 'selected' if view.view_id == session['set_choice'] else '' }}
-					>{{ view.view_name }}
-				{% endfor %}
-			</select>
-		Metric: 
-			<select  id="metric_choice" name="metric_choice">
-				{% for metric in metrics %}
-					<option value="{{ metric }}"
-					{{ 'selected' if metric == session['metric_choice'] else '' }}
-				>{{ metric }}
-				{% endfor %}
-			</select>
-		Timeframe:
-			<select id="timeframe_choice" name="timeframe_choice">
-				{% for timeframe in timeframes %}
-					<option value="{{ timeframe }}"
-						{{ 'selected' if timeframe == session['timeframe_choice'] else '' }}
-					>{{ timeframe }}
-				{% endfor %}
-			</select><br>
+	<form action="/set-chart-inputs.json" id="chart_inputs" method='POST'>
+		<div class="row">
+			<div class="col-4">
+				Comp Set: 
+					<select id="set_choice" name="comp_set_choice">
+						<option value="{{ default_view.view_id }}"
+							{{ 'selected' if default_view.view_id == session['set_choice'] else '' }}
+						>{{ default_view.view_name }}
+						{% for view in non_default_views %}
+							<option value="{{ view.view_id }}"
+								{{ 'selected' if view.view_id == session['set_choice'] else '' }}
+							>{{ view.view_name }}
+						{% endfor %}
+					</select>
+			</div>
+			<div class="col-4">
+				Metric: 
+					<select  id="metric_choice" name="metric_choice">
+						{% for metric in metrics %}
+							<option value="{{ metric }}"
+							{{ 'selected' if metric == session['metric_choice'] else '' }}
+						>{{ metric }}
+						{% endfor %}
+					</select>
+			</div>
+			<div class="col-4">
+				Timeframe:
+					<select id="timeframe_choice" name="timeframe_choice">
+						{% for timeframe in timeframes %}
+							<option value="{{ timeframe }}"
+								{{ 'selected' if timeframe == session['timeframe_choice'] else '' }}
+							>{{ timeframe }}
+						{% endfor %}
+					</select>
+			</div>
+		</div>
 		Competitors: 
 		<div id="hotel_choices" name="hotel_choices">
 			{% for hotel in hotels_in_view %}
@@ -43,6 +53,7 @@
 	</form>
 
 	<canvas id="myChart" width="200" height="100"></canvas>
+</div>
 
 {% endblock %}
 
@@ -62,7 +73,7 @@
 			hotels.push($(this).val())
 		});
 
-		$.post('/set-chart-inputs', {
+		$.post('/set-chart-inputs.json', {
 			'comp_set_choice' : $('#set_choice').val(),
 			'metric_choice' : $('#metric_choice').val(),
 			'timeframe_choice' : $('#timeframe_choice').val(),
