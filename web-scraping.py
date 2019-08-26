@@ -22,7 +22,7 @@ def get_ta_id(url):
 def get_time_stamp():
 	"""Collects time stamp after successful shop"""
 
-	return datetime.now()
+	return datetime.datetime.now()
 
 
 def create_html_file_name(hotel_id, now):
