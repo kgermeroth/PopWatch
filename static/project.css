@@ -5,9 +5,14 @@
     background-color: rgb(111,183,214);
     height: 40px;
 }
+.nav-item {
+	display: inline;
+}
 
-
-
+h1 {
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
 
 
 i {

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-	<div class="row col-3">
+	<div class="row col-12">
 		<h1>Hotel Performance Dashboard</h1>
 	</div>
 
@@ -42,14 +42,21 @@
 					</select>
 			</div>
 		</div>
-		Competitors: 
-		<div id="hotel_choices" name="hotel_choices">
+	</div><br>
+	<div class="row">
+		<div class="col-4">
+			Competitors:
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12" id="hotel_choices" name="hotel_choices">
 			{% for hotel in hotels_in_view %}
 				<input type="checkbox" class="hotel_choice" name="hotel" value="{{ hotel.hotel_id }}"
 					{{ 'checked' if hotel.hotel_id in session['hotels_selection'] else '' }}
 				>{{ hotel.hotel.hotel_name }}
 			{% endfor %}
-		</div>
+		</div><br>
+	</div>
 	</form>
 
 	<canvas id="myChart" width="200" height="100"></canvas>
