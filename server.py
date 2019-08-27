@@ -1,6 +1,6 @@
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, redirect, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, flash, session, jsonify, Markup
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
 from functions import *
@@ -36,11 +36,13 @@ def check_user_password():
 
 			# set the session id to be the user_id in the database
 			session['user_id'] = stored_user.user_id
-			flash('You are logged in.')
+			message = Markup('<div class="alert alert-success" role="alert">You are logged in.</div>')
+			flash(message)
 
 			# if user hasn't set a default view, send them to page to set up comp set
 			if stored_user.default_view is None:
-				flash('Please define a comp set to continue')
+				message = Markup('<div class="alert alert-secondary" role="alert">Please define a comp set to continue.</div>')
+				flash(message)
 				return redirect('/create')
 
 			# if they do have a default page send them to the main dashboard and set initial session values for chart
@@ -50,12 +52,14 @@ def check_user_password():
 
 		# if user exists but password is incorrect			
 		elif stored_user.password != entered_password:
-			flash('Password is incorrect. Please try again.')	
+			message = Markup('<div class="alert alert-danger" role="alert">Password is incorrect. Please try again.</div>')
+			flash(message)	
 			return redirect('/')
 
 		# if attempt to get user fails it is due to user not existing
 	except:
-		flash('That email does not exist. Please check spelling or register below.')
+		message = Markup('<div class="alert alert-danger" role="alert">That email does not exist. Please check spelling or register below.</div>')
+		flash(messagae)
 		return redirect('/')
 
 
@@ -73,7 +77,8 @@ def handle_registration():
 	new_password = request.form.get('password')
 
 	if User.query.filter(User.email==new_email).all():
-		flash('This email address already exists. Please use a different email address.')
+		message = Markup('<div class="alert alert-warning" role="alert">This email address already exists. Please use a different email address.</div>')
+		flash(message)
 		return redirect('/register')
 
 	else:
@@ -82,8 +87,8 @@ def handle_registration():
 		db.session.add(new_user)
 		db.session.commit()
 
-		flash('You have successfully registered!')
-		flash('Please log in with your new credentials')
+		message = Markup('<div class="alert alert-success" role="alert">You have successfully registered! Please log in with your new credentials.</div>')
+		flash(message)
 
 		return redirect('/')	
 
@@ -122,7 +127,8 @@ def process_new_set():
 	# set session placeholders
 	set_initial_session_options()
 
-	flash('Your comp set has been submitted.')
+	message = Markup('<div class="alert alert-success" role="alert">Your comp set has been submitted.</div>')
+	flash(message)
 
 	return redirect('/dashboard')
 

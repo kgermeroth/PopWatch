@@ -34,11 +34,11 @@
         <a class="nav-link" href="#">Settings</a>
         <a class="nav-link" href="#">Profile</a>       
     </div> -->
-	<ul>
+	<div class="flashes">
 		{% for message in get_flashed_messages() %}
-			<div class="alert alert-warning">{{ message }}</div>
+			{{ message }}
 		{% endfor %}
-	</ul>
+	</div>
 	{% block content %}
 
 	{% endblock %}
