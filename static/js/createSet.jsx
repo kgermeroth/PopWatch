@@ -12,7 +12,7 @@ class Add extends React.Component {
 
 	render() {
 		return (
-			<p>Add Hotel: <i 
+			<p><b>Add Hotel: </b><i 
 			onClick={this.addHotel} 
 			className="fas fa-plus"
 			></i></p> 
@@ -55,6 +55,7 @@ class HotelNameSelector extends React.Component {
 		// return the array of options in select tags
 		return (
 			<select
+				class="hotel_dropdown"
 				name="hotel_choice[]"	
 				onChange={this.props.handleChange}
 				value={this.props.value}

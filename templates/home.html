@@ -1,36 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container justify-content-center">
-	<div class="row">
-		<div class="col-12">
-			<h1>Monitor Your Hotel's TripAdvisor Activity with PopWatch</h1>
-		</div>
-	</div>
-	<div class="row justify-content-center">
-			<h2>Log in or register to get started</h2>
-	</div>
-	<div class="row justify-content-center" id="login">
-		<form action="/login">
-			<div class="row justify-content-center">
-				<div class="col-4">
-					Email: <input type="text" name="email"><br><br>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-4">
-					Password: <input type="password" name="password"><br><br>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-4">
-					<input type="submit">
-				</div>
-			</div>
-		</form>
-	</div><br><br><br>
-	<div class="row justify-content-center">
-		<p>Not yet a user? Click <a href="/register">here</a> to register.</p>
-	</div>
+<div class="row justify-content-center">
+		<h1>Monitor Your Hotel's TripAdvisor Activity with PopWatch</h1>
+</div>
+<div class="row justify-content-center">
+		<h2>Log in or register to get started</h2>
+</div>
+<div class="row justify-content-center">
+	<form action="/login" id="login">
+		Email: <input type="text" name="email"><br><br>
+		Password: <input type="password" name="password"><br><br>
+		<input type="submit">
+	</form>
+</div><br><br>
+<div class="row justify-content-center">
+	<p>Not yet a user? Click <a href="/register">here</a> to register.</p>
 </div>
 {% endblock %}
