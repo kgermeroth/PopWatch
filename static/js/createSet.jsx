@@ -50,10 +50,12 @@ class HotelNameSelector extends React.Component {
 		// the list of hotels comes from the property on the HotelContainer class which comes from the state on the HotelDropDowns when the component mounts
 		for (const hotel of this.props.hotels) {
 			// See if hotel is in the selected hotels list. If it's not then add to the dropdowns
-			if (!(this.props.selectedHotels.includes(hotel.hotel_id))) {
+			if ((!(this.props.selectedHotels.includes(hotel.hotel_id))) || this.props.value === hotel.hotel_id) {
 				hotel_options.push(<option key={hotel.hotel_id} value={hotel.hotel_id}>{hotel.hotel_name}</option>);
 			}
 		}
+
+		console.log(this.props.value)
 
 		// return the array of options in select tags
 		return (
@@ -62,7 +64,6 @@ class HotelNameSelector extends React.Component {
 				name="hotel_choice[]"	
 				onChange={this.props.handleChange}
 				value={this.props.value}
-				selectedHotels={this.props.selectedHotels}
 			>
 				{hotel_options}
 			</select>
@@ -119,14 +120,17 @@ class AllHotelDropDowns extends React.Component {
     handleChange(idx, event) {
     	const newHotelContainers = this.state.hotelContainers.slice();
     	const newSelectedHotels = this.state.selectedHotels.slice();
-    	const value = event.target.value;
+    	const value = parseInt(event.target.value,10);
 
     	newHotelContainers[idx] = { selectedHotel: value };
+    	newSelectedHotels.push(value);
 
-    	this.setState({ hotelContainers: newHotelContainers });
+    	this.setState({ hotelContainers: newHotelContainers,
+    					selectedHotels: newSelectedHotels });
 
-    	newSelectedHotels.push(parseInt(value, 10));
-    	this.setState({ selectedHotels: newSelectedHotels });
+    	console.log('new hotel containers', newHotelContainers);
+    	console.log('new selected hotels list',newSelectedHotels);
+    	
     }
 
     addHotel() {
