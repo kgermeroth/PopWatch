@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+	<h1>Add a New Hotel to the Database*</h1>
+</div>
+<div class="row justify-content-center">
+	<form action="/add-hotel-submission" method="POST" class="pretty_entry">
+		<b>Hotel Name:</b> <input type="text" name="hotel_name" required><br>
+		<b>TripAdvisor URL:</b> <input type="text" name="ta_url" required><br>
+		<input type="submit">
+	</form>
+</div><br><br>
+<div class="row justify-content-center">
+	<p id="note">*Please note: hotels added to the database will not begin to display data until the following day</p>
+</div>
+
+{% endblock %}

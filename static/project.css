@@ -11,7 +11,7 @@
 	display: inline;
 }
 
-#login {
+.pretty_entry {
 	border-style: solid;
 	border-width: 2px;
 	border-color: rgba(111,183,214,.3);
@@ -44,6 +44,10 @@ a {
 	color: rgb(111,183,213);
 }
 
+input {
+	margin-bottom: 15px;
+}
+
 .hotel_choice {
 	width: 60px;
 }
@@ -65,15 +69,6 @@ i {
 	width: 450px;
 }
 
-.register_form {
-	border-style: solid;
-	border-width: 2px;
-	border-color: rgba(111,183,214,.3);
-	border-radius: 10px;
-	padding: 15px;
-	width: 450px;	
-}
-
 .HotelContainer {
 	margin-bottom: 10px;
 }
@@ -84,4 +79,8 @@ i {
 }
 .fa-plus {
 	color: rgb(145,210,144);
+}
+
+#note {
+	color: rgb(111,183,214);
 }

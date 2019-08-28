@@ -187,6 +187,24 @@ def get_comp_set_hotels():
 
 	return jsonify(view_hotel_dicts)
 
+@app.route('/add-hotel')
+def display_add_hotel_form():
+	"""Renders template to add new hotel"""
+
+	return render_template('add_hotel.html')
+
+@app.route('/add-hotel-submission', methods=['POST'])
+def handle_new_hotel_submission():
+	"""Takes user input and submits it to database."""
+
+	inputs = request.form
+	
+	# check to see if URL is in database. If yes, flash hotel is already in there
+	# then check if name is in there (to avoid duplications)
+
+
+	return redirect('/add-hotel')
+
 if __name__ == '__main__':
 
     app.debug = True
