@@ -50,19 +50,27 @@ class HotelNameSelector extends React.Component {
 		// the list of hotels comes from the property on the HotelContainer class which comes from the state on the HotelDropDowns when the component mounts
 		for (const hotel of this.props.hotels) {
 			// See if hotel is in the selected hotels list. If it's not then add to the dropdowns.
-			// Also checks to see if the value matches the hotel id
+			// Also checks to see if the value matches the hotel id, will display the name for the dropdown it is
+			// selected for, but not the others (because the value is specific to dropdown on which it was selected)
 			if ((!(this.props.selectedHotels.includes(hotel.hotel_id))) || this.props.value === hotel.hotel_id) {
 				hotel_options.push(<option key={hotel.hotel_id} value={hotel.hotel_id}>{hotel.hotel_name}</option>);
 			}
 		}
 
+		let live = '';
+		if (this.props.value > 0) {
+			live = "disabled"
+		}
+
 		// return the array of options in select tags
+		// ternary can be used for disabled, what is below is shorthand for that (if condition is true, returns thing to the left of colon, if false returns things to the right)
 		return (
 			<select
 				className="hotel_dropdown"
 				name="hotel_choice[]"	
 				onChange={this.props.handleChange}
 				value={this.props.value}
+				disabled={this.props.value > 0}
 			>
 				{hotel_options}
 			</select>
@@ -146,12 +154,15 @@ class AllHotelDropDowns extends React.Component {
     	console.log('selected hotel was: ', selectedHotel)
 
     	const newSelectedHotels = this.state.selectedHotels.slice();
+
+    	// loop through selected hotels and remove the hotel that was just removed
     	newSelectedHotels.map((selection, idx) => {
     		if (selection === selectedHotel) {
     			newSelectedHotels.splice(idx,1)
     		}
     	});
 
+    	// make a copy of newHotelContainers and splice the appropriate hotelContainer
     	const newHotelContainers = this.state.hotelContainers.slice();
 		newHotelContainers.splice(idx, 1);
 		
