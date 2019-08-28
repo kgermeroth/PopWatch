@@ -14,11 +14,13 @@ app.secret_key = 'ABC123'
 # gives an error in jinga template if undefined variable rather than failing silently
 app.jinja_env.undefined = StrictUndefined
 
+
 @app.route('/')
 def show_login_form():
 	"""Displays the login form"""
 
 	return render_template('home.html')
+
 
 @app.route('/login')
 def check_user_password():
@@ -69,6 +71,7 @@ def show_registration_form():
 	"""Displays registration form."""
 
 	return render_template('register.html')
+
 
 @app.route('/register', methods=['POST'])
 def handle_registration():
@@ -133,6 +136,7 @@ def process_new_set():
 
 	return redirect('/dashboard')
 
+
 @app.route('/dashboard')
 def show_dashboard():
 	"""Displays dashboard page"""
@@ -146,6 +150,7 @@ def show_dashboard():
 											 metrics=metrics,
 											 timeframes=timeframes,
 											 hotels_in_view=hotels_in_view)
+
 
 @app.route('/set-chart-inputs.json', methods=['POST'])
 def set_chart_inputs():
@@ -163,6 +168,7 @@ def set_chart_inputs():
 	chart_data = get_chart_data()
 
 	return jsonify(chart_data)
+
 
 @app.route('/get-comp-set-hotels.json')
 def get_comp_set_hotels():
@@ -188,6 +194,7 @@ def get_comp_set_hotels():
 
 	return jsonify(view_hotel_dicts)
 
+
 @app.route('/add-hotel')
 def display_add_hotel_form():
 	"""Renders template to add new hotel"""
@@ -200,41 +207,10 @@ def handle_new_hotel_submission():
 
 	inputs = request.form
 
-	hotel_name = inputs['hotel_name']
-	ta_url = inputs['ta_url']
-
-	# evaluate to see if URL appears valid
-	match_obj = re.search(r'https:\/\/www.tripadvisor.com\/Hotel_Review-(\w+-\w+)-Reviews', ta_url)
-
-	# if there is a match object, that means TA URL is valid
-	if match_obj:
-		
-		# need to check to see if URL already exists
-		if Hotel.query.filter(Hotel.ta_url == ta_url).all():
-			message = Markup('<div class="alert alert-danger" role="alert">This hotel is already in the database.</div>')
-			flash(message)
-		
-		# if the URL does not yet exist it is a new hotel
-		else:
-			# check to see if the provided hotel name has been used before
-			if Hotel.query.filter(Hotel.hotel_name == hotel_name):
-				message = Markup('<div class="alert alert-danger" role="alert">The provided Hotel Name already exists. Please choose a new name.</div>')
-				flash(message)
-				
-			# if it hasn't been used before, submit it to database!
-			else:
-				hotel = Hotel(hotel_name=hotel_name, ta_url=ta_url)
-				db.session.add(hotel)
-				db.session.commit()
-
-				message = Markup(f'<div class="alert alert-success" role="alert">{hotel_name} has been successfully added to database! You may now add hotel to a comp set.</div>')
-				flash(message)
-	# if there is no match object, then it is not a valid TA URL 		
-	else:
-		message = Markup('<div class="alert alert-danger" role="alert">The provided URL does not appear to be valid.</div>')
-		flash(message)
+	submit_new_hotel(inputs)
 
 	return redirect('/add-hotel')
+
 
 if __name__ == '__main__':
 
