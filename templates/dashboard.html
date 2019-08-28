@@ -100,7 +100,7 @@
 	$(window).load(renderChart)
 
 	// Add event listeners to all elements of the form
-	const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input');
+	const form = document.querySelectorAll('#chart_inputs select, #chart_inputs input, .hotel_choice');
 
 	for (const element of form) {
 		element.addEventListener('change', renderChart);
