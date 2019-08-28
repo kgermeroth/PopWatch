@@ -18,8 +18,7 @@ def submit_to_database(submission):
 	user_id = int(session['user_id'])
 
 	# instantiate a View object and commit to database
-	view = View(user_id=user_id,
-				view_name=view_name)
+	view = View(user_id=user_id, view_name=view_name)
 	
 	db.session.add(view)
 	db.session.commit()
@@ -113,8 +112,6 @@ def get_background_color(index):
 				  'rgba(255,250,129,0.2)', 'rgba(249,140,182,0.2)', 'rgba(117,137,191,0.2)', 'rgba(72,181,163,0.2)']
 
 	return color_list[index]
-
-
 
 
 def get_chart_data():
