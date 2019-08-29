@@ -107,15 +107,7 @@ def show_manage_compset():
 def create_hotels_json():
 	"""Takes all hotels and converts them to JSON"""
 
-	# get a list of all hotel objects
-	db_hotels = Hotel.query.all()
-
-	hotels = []
-
-	# loop through each hotel object and add hotel id and hotel name to the list in key:value pairs
-	for hotel_obj in db_hotels:
-		hotel = {"hotel_id":hotel_obj.hotel_id, "hotel_name":hotel_obj.hotel_name}
-		hotels.append(hotel)
+	hotels = get_hotel_information()
 
 	return jsonify(hotels)
 
@@ -184,7 +176,7 @@ def get_comp_set_hotels():
 
 	# create a dictionary of view objects (and add hotel_ids to a new list)
 	for view_hotel_obj in view_hotels:
-		view_hotel_dicts.append(view_hotel_obj.to_dict())
+		view_hotel_dicts.append(view_hotel_obj.viewhotel_to_dict())
 		new_selected_hotels.append(view_hotel_obj.hotel_id)
 
 	# update the session with the items that changed
@@ -210,6 +202,32 @@ def handle_new_hotel_submission():
 	submit_new_hotel(inputs)
 
 	return redirect('/add-hotel')
+
+
+@app.route('/manage')
+def display_manage_set():
+	"""Displays manage comp set html file"""
+
+	return render_template('manage.html')
+
+
+@app.route('/sets.json')
+def get_comp_set_info():
+	"""Gets all needed info about comp sets and returns a json object of data"""
+
+	# get a list of hotel dictionaries which include hotel_id and hotel_name
+	hotels = get_hotel_information()
+
+	# get default view, list of dicts of view_num and view_name, and dictionary of all hotel_ids associated with a view
+	default_view, view_names, hotels_in_views = get_all_view_info()
+
+	return jsonify({
+				'hotels' : hotels,
+				'default_view' : default_view,
+				'view_names' : view_names,
+				'hotels_in_views' : hotels_in_views
+				})
+
 
 
 if __name__ == '__main__':

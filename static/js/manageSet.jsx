@@ -102,6 +102,9 @@ class AllHotelDropDowns extends React.Component {
     	super();
         this.state = {
             hotels: [],
+            defaultView: null,
+            compSetNames: [],
+            compSetHotels: [],
             hotelContainers: [
             	{ selectedHotel: 'Select Hotel' }			
             ],
@@ -114,9 +117,10 @@ class AllHotelDropDowns extends React.Component {
 
     componentDidMount() {
 	// AJAX request to get a list of hotels from db
-		const hotels = $.get('/hotels.json', (hotels)=> this.setState({
-			hotels
-		}));
+		const hotels = $.get('/sets.json', (data)=> {
+			console.log(data);
+			console.log('hotels', data['hotels'])
+		})
     }
 
     handleChange(idx, event) {
@@ -195,5 +199,5 @@ class AllHotelDropDowns extends React.Component {
 
 ReactDOM.render(
 	<AllHotelDropDowns />,
-	document.getElementById("hotel-dropdowns")
+	document.getElementById("manage_set")
 	);

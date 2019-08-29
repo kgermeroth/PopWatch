@@ -18,6 +18,12 @@ class Hotel(db.Model):
 	def __repr__(self):
 		return f'<hotel_id={self.hotel_id} hotel_name={self.hotel_name}>'
 
+	def hotel_to_dict(self):
+		"""Converts a hotel object into dictionary with hotel information"""
+
+		return {'hotel_id': self.hotel_id, 'hotel_name' : self.hotel_name}
+
+
 class Scrape(db.Model):
 	"""Scrape model - details info collected from each scrape"""
 
@@ -68,10 +74,16 @@ class View(db.Model):
 
 	user = db.relationship('User', foreign_keys='View.user_id', backref='views')
 	viewhotels = db.relationship('ViewHotel')
+	hotels = db.relationship('Hotel', secondary='view_hotel', backref='views')
 
 
 	def __repr__(self):
 		return(f'<view_id={self.view_id} user_id={self.user_id} view_name={self.view_name}>')
+
+	def view_to_dict(self):
+		"""Converts a view object into a dictionary with view_id and view_name"""
+
+		return {'view_id': self.view_id, 'view_name': self.view_name}
 
 class ViewHotel(db.Model):
 	"""View Hotel Model - the hotels associated with a view."""
@@ -86,7 +98,7 @@ class ViewHotel(db.Model):
 	def __repr__(self):
 		return(f'<view_id={self.view_id} hotel_id={self.hotel_id}>')
 
-	def to_dict(self):
+	def viewhotel_to_dict(self):
 		"""Converts a view into dictionary with hotel information"""
 
 		return { 

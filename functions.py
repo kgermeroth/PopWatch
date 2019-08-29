@@ -114,6 +114,52 @@ def get_background_color(index):
 	return color_list[index]
 
 
+def get_hotel_information():
+	"""Returns a list of all hotel objects in dictionary form"""
+
+	# get a list of all hotel objects
+	db_hotels = Hotel.query.all()
+
+	hotels = []
+
+	# loop through each hotel object and add hotel id and hotel name to the list in key:value pairs
+	for hotel_obj in db_hotels:
+		hotels.append(hotel_obj.hotel_to_dict())
+
+	return hotels
+
+
+def get_all_view_info():
+	"""Gets all view data needed for manage set page"""
+
+	# list of dicts with view_ids and view_name
+	view_names = []
+
+	# dictionary of hotels in views
+	hotels_in_views = {}
+
+	user_id = session['user_id']
+
+	# query for all views under the user's id
+	views = View.query.filter(View.user_id == user_id).all()
+
+	default_view = views[0].user.default_view
+
+	for view in views:
+		# create a list of view_ids and view_names
+		view_names.append(view.view_to_dict())
+
+		# create a dictionary of all hotel_ids in the comp set
+		hotel_ids = []
+
+		for hotel in view.hotels:
+			hotel_ids.append(hotel.hotel_id)
+
+		hotels_in_views[view.view_id] = hotel_ids
+		
+	return 	(default_view, view_names, hotels_in_views)
+
+
 def get_chart_data():
 	"""Query database and get data into proper format"""
 
