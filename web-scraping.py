@@ -56,35 +56,29 @@ def use_regex(file_to_save_to):
 
 	#find ranking and total number of hotels
 	match_obj = re.search(r'ranked #(\d+) of (\d+)', the_text)
-	rank = match_obj.group(1)
-	num_hotels = match_obj.group(2)
 
-	if rank is None:
+	if not match_obj: 
 		rank = ''
-	else:
-		rank = int(rank)
-
-	if num_hotels is None:
 		num_hotels = ''
 	else:
-		num_hotels = int(num_hotels)
+		rank = int(match_obj.group(1))
+		num_hotels = int(match_obj.group(2))
 
 	# find the ranking
 	match_obj = re.search(r'rated (\d?\.?\d+) of', the_text)
-	avgscore = match_obj.group(1)
 
-	if avgscore is None:
+	if not match_obj: 
 		avgscore = ''
 	else:
-		avgscore = float(avgscore)
+		avgscore = float(match_obj.group(1))
 
 	# find review count
 	match_obj = re.search(r'See (\d?\,?\d+) traveler', the_text)
-	reviewcount = match_obj.group(1)
-
-	if reviewcount is None:
+	
+	if not match_obj:
 		reviewcount = ''
 	else:
+		reviewcount = match_obj.group(1)
 		# need to account for commas before converting to int
 		if len(reviewcount) < 4:															#less than 1,000 reviews
 			reviewcount = int(reviewcount)
