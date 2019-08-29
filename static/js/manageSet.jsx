@@ -79,7 +79,6 @@ class SingleHotelContainer extends React.Component {
 	constructor() {
 		super();
 	}
-	// write handleChange function with event to get hotel_id
 
 	render() {
 		return (<div className="HotelContainer">
@@ -95,6 +94,28 @@ class SingleHotelContainer extends React.Component {
 	}
 }
 
+// This component is the dropdown that lists all the comp sets
+class CompSetDropdown extends React.Component {
+	constructor () {
+		super();
+	}
+
+	render() {
+
+		const comp_sets = [];
+
+		for (const set of this.props.compSetNames) {
+			comp_sets.push(<option key={set.view_id} value={set.view_id} selected={this.props.currentSetChoice === set.view_id}>{set.view_name}</option>);
+		}
+
+		return (
+			<select
+				className="comp_set_dropdown"
+				name="comp_sets"
+				>{ comp_sets }</select>)
+	}
+}
+
 // This component holds everything: multiple HotelContainers (which are the hotel dropdown and trash icon) and the addHotel icon
 class AllHotelDropDowns extends React.Component {
 
@@ -106,7 +127,8 @@ class AllHotelDropDowns extends React.Component {
             compSetNames: [],
             compSetHotels: [],
             hotelContainers: [],
-            selectedHotels: []
+            selectedHotels: [],
+            currentSetChoice: null
         };
         this.addHotel = this.addHotel.bind(this);
         this.dropHotelContainer = this.dropHotelContainer.bind(this);
@@ -116,7 +138,7 @@ class AllHotelDropDowns extends React.Component {
     componentDidMount() {
 	// AJAX request to get a list of hotels from db
 		const hotels = $.get('/sets.json', (data)=> {
-			
+			console.log(data);
 			const defaultHotelsSelected = data['hotels_in_views'][data['default_view']];
 			const newHotelContainers = this.state.hotelContainers.slice();
 			const newSelectedHotels = this.state.selectedHotels;
@@ -126,12 +148,17 @@ class AllHotelDropDowns extends React.Component {
 				newSelectedHotels.push(hotel);
 			}
 
+			for (const set of data['view_names']) {
+				console.log('view_id:', set.view_id, 'view_name:', set.view_name)
+			}
+
 			this.setState({ hotels: data['hotels'],
 							defaultView: data['default_view'],
 							compSetNames: data['view_names'],
 							compSetHotels: data['hotels_in_views'],
 							hotelContainers: newHotelContainers,
-							selectedHotels: newSelectedHotels
+							selectedHotels: newSelectedHotels,
+							currentSetChoice: data['default_view']
 						})
 		})
     }
@@ -194,12 +221,17 @@ class AllHotelDropDowns extends React.Component {
                 	hotels={this.state.hotels}
                 	selectedHotel={hotelContainer.selectedHotel}
                 	selectedHotels={this.state.selectedHotels}
+                	
             	/>
             );
         });
 
         return (
             <div>
+            	<CompSetDropdown 
+            		compSetNames={this.state.compSetNames} 
+            		currentSetChoice={this.state.currentSetChoice}
+            	/>
                 <div className="selected-hotels">
                     {hotelContainers}
                 </div>
