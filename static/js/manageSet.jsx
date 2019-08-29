@@ -112,6 +112,7 @@ class CompSetDropdown extends React.Component {
 			<select
 				className="comp_set_dropdown"
 				name="comp_sets"
+				onChange={this.props.onChange}
 				>{ comp_sets }</select>)
 	}
 }
@@ -138,7 +139,7 @@ class AllHotelDropDowns extends React.Component {
     componentDidMount() {
 	// AJAX request to get a list of hotels from db
 		const hotels = $.get('/sets.json', (data)=> {
-			console.log(data);
+
 			const defaultHotelsSelected = data['hotels_in_views'][data['default_view']];
 			const newHotelContainers = this.state.hotelContainers.slice();
 			const newSelectedHotels = this.state.selectedHotels;
@@ -146,10 +147,6 @@ class AllHotelDropDowns extends React.Component {
 			for (const hotel of defaultHotelsSelected) {
 				newHotelContainers.push({ selectedHotel: hotel });
 				newSelectedHotels.push(hotel);
-			}
-
-			for (const set of data['view_names']) {
-				console.log('view_id:', set.view_id, 'view_name:', set.view_name)
 			}
 
 			this.setState({ hotels: data['hotels'],
@@ -210,6 +207,25 @@ class AllHotelDropDowns extends React.Component {
     					selectedHotels: newSelectedHotels });
     }
 
+    changeCompSet(event) {
+    	// update selected hotel
+    	const newSetChoice = parseInt(event.target.value,10);
+    	const newHotelContainers = [];
+    	const newSelectedHotels = [];
+
+    	// update hotelContainers
+    	for (const hotel of this.state.compSetHotels[newSetChoice]) {
+			newHotelContainers.push({ selectedHotel: hotel });
+			newSelectedHotels.push(hotel);
+		}
+
+		this.setState({	currentSetChoice: newSetChoice,
+						hotelContainers: newHotelContainers,
+						selectedHotels: newSelectedHotels
+		})
+
+    }
+
     render() {
 
         const hotelContainers = this.state.hotelContainers.map((hotelContainer, idx) => {
@@ -231,6 +247,7 @@ class AllHotelDropDowns extends React.Component {
             	<CompSetDropdown 
             		compSetNames={this.state.compSetNames} 
             		currentSetChoice={this.state.currentSetChoice}
+            		onChange={(event) => this.changeCompSet(event)}
             	/>
                 <div className="selected-hotels">
                     {hotelContainers}
