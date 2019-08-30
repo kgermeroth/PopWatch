@@ -141,6 +141,18 @@ class Default extends React.Component {
 	}
 }
 
+class Delete extends React.Component {
+	constructor () {
+		super();
+	}
+
+	render() {
+		return (
+			<input type="checkbox" name="delete"></input>
+			)
+	}
+}
+
 // This component holds everything: multiple HotelContainers (which are the hotel dropdown and trash icon) and the addHotel icon
 class AllHotelDropDowns extends React.Component {
 
@@ -309,6 +321,10 @@ class AllHotelDropDowns extends React.Component {
                 </div>
 
                 <Add onClick={this.addHotel}/>
+                <div class="delete_set">
+                	<b>DELETE ENTIRE COMP SET  </b>
+                	<Delete />
+                </div>
            </div> 
         );
 	};
