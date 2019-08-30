@@ -18,3 +18,4 @@
 18|Zelos|https://www.tripadvisor.com/Hotel_Review-g60713-d80797-Reviews-Hotel_Zelos_San_Francisco-San_Francisco_California.html
 19|Carlton|https://www.tripadvisor.com/Hotel_Review-g60713-d80925-Reviews-Hotel_Carlton_a_Joie_de_Vivre_hotel-San_Francisco_California.html
 20|Vertigo|https://www.tripadvisor.com/Hotel_Review-g60713-d81803-Reviews-Hotel_Vertigo-San_Francisco_California.html
+22|BEI Hotel|https://www.tripadvisor.com/Hotel_Review-g60713-d81035-Reviews-BEI_Hotel_San_Francisco-San_Francisco_California.html
