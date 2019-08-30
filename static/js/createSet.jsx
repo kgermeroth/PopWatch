@@ -65,7 +65,7 @@ class HotelNameSelector extends React.Component {
 				name="hotel_choice[]"	
 				onChange={this.props.handleChange}
 				value={this.props.value}
-				disabled={this.props.value > 0}
+				readonly={this.props.value > 0}
 			>
 				{hotel_options}
 			</select>
@@ -186,8 +186,7 @@ class AllHotelDropDowns extends React.Component {
                 <div className="selected-hotels">
                     {hotelContainers}
                 </div>
-
-                <Add onClick={this.addHotel}/>
+               	<Add onClick={this.addHotel}/>
            </div> 
         );
 	};

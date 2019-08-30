@@ -65,7 +65,7 @@ class HotelNameSelector extends React.Component {
 				name="hotel_choice[]"	
 				onChange={this.props.handleChange}
 				value={this.props.value}
-				disabled={this.props.value > 0}
+				readonly={this.props.value > 0}
 			>
 				{hotel_options}
 			</select>
@@ -104,8 +104,8 @@ class CompSetDropdown extends React.Component {
 
 		const comp_sets = [];
 
-		for (const set of this.props.compSetNames) {
-			comp_sets.push(<option key={set.view_id} value={set.view_id} selected={this.props.currentSetChoice === set.view_id}>{set.view_name}</option>);
+		for (const set of this.props.compSetIDAndName) {
+			comp_sets.push(<option key={set.view_id} value={set.view_id} defaultValue={this.props.currentSetChoice === set.view_id}>{set.view_name}</option>);
 		}
 
 		return (
@@ -117,6 +117,20 @@ class CompSetDropdown extends React.Component {
 	}
 }
 
+class CompSetName extends React.Component {
+	constructor () {
+		super();
+	}
+
+	render() {
+		console.log("current selected hotel", this.props.currentSetChoice);
+		console.log("currentSetName", this.props.currentSetName);
+		return (
+			<input type="text" name="set_name" value="Sir Francis Drake"></input>
+			)
+	}
+}
+
 // This component holds everything: multiple HotelContainers (which are the hotel dropdown and trash icon) and the addHotel icon
 class AllHotelDropDowns extends React.Component {
 
@@ -125,7 +139,8 @@ class AllHotelDropDowns extends React.Component {
         this.state = {
             hotels: [],
             defaultView: null,
-            compSetNames: [],
+            compSetIDAndName: [],
+            compSetNameDict: {},
             compSetHotels: [],
             hotelContainers: [],
             selectedHotels: [],
@@ -139,19 +154,28 @@ class AllHotelDropDowns extends React.Component {
     componentDidMount() {
 	// AJAX request to get a list of hotels from db
 		const hotels = $.get('/sets.json', (data)=> {
-
+			console.log(data);
+			//this returns a list of all hotels that are in the default view
 			const defaultHotelsSelected = data['hotels_in_views'][data['default_view']];
-			const newHotelContainers = this.state.hotelContainers.slice();
-			const newSelectedHotels = this.state.selectedHotels;
-			
+			const newHotelContainers = [];
+			const newSelectedHotels = [];
+			const newCompSetNameDict = {};
+
+			// loop through each hotel that is in the default view, create a hotel container with it, and add it to selected hotels
 			for (const hotel of defaultHotelsSelected) {
 				newHotelContainers.push({ selectedHotel: hotel });
 				newSelectedHotels.push(hotel);
 			}
 
+			// create a dictionary of view id and view name
+			for (const view in data['view_names']) {
+				newCompSetNameDict[view['view_id']] = view['view_name']
+			}
+
 			this.setState({ hotels: data['hotels'],
 							defaultView: data['default_view'],
-							compSetNames: data['view_names'],
+							compSetIDAndName: data['view_names'],
+							compSetNameDict: newCompSetNameDict,
 							compSetHotels: data['hotels_in_views'],
 							hotelContainers: newHotelContainers,
 							selectedHotels: newSelectedHotels,
@@ -244,11 +268,15 @@ class AllHotelDropDowns extends React.Component {
 
         return (
             <div>
+            	<b>Comp Set Selection: </b>
             	<CompSetDropdown 
-            		compSetNames={this.state.compSetNames} 
+            		compSetIDAndName={this.state.compSetIDAndName} 
             		currentSetChoice={this.state.currentSetChoice}
+            		currentSetNameDict={this.state.compSetNameDict}
             		onChange={(event) => this.changeCompSet(event)}
-            	/>
+            	/> <br />
+            	<b>Comp Set Name: </b> <CompSetName /> <br />       	
+                <b>Competitors:</b>
                 <div className="selected-hotels">
                     {hotelContainers}
                 </div>
