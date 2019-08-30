@@ -121,10 +121,10 @@ class CompSetName extends React.Component {
 	}
 
 	render() {
-		console.log("current selected hotel", this.props.currentSetChoice);
-		console.log("currentSetName", this.props.currentSetName);
+		let currentSetChoice = this.props.currentSetChoice;
+
 		return (
-			<input type="text" name="set_name" value="Sir Francis Drake"></input>
+			<input type="text" name="set_name" defaultValue="test"></input>
 			)
 	}
 }
@@ -142,7 +142,8 @@ class AllHotelDropDowns extends React.Component {
             compSetHotels: [],
             hotelContainers: [],
             selectedHotels: [],
-            currentSetChoice: null
+            currentSetChoice: null,
+            currentSetName: null
         };
         this.addHotel = this.addHotel.bind(this);
         this.dropHotelContainer = this.dropHotelContainer.bind(this);
@@ -152,7 +153,7 @@ class AllHotelDropDowns extends React.Component {
     componentDidMount() {
 	// AJAX request to get a list of hotels from db
 		const hotels = $.get('/sets.json', (data)=> {
-			console.log(data);
+
 			//this returns a list of all hotels that are in the default view
 			const defaultHotelsSelected = data['hotels_in_views'][data['default_view']];
 			const newHotelContainers = [];
@@ -165,10 +166,14 @@ class AllHotelDropDowns extends React.Component {
 				newSelectedHotels.push(hotel);
 			}
 
+			console.log(data);
+
 			// create a dictionary of view id and view name
-			for (const view in data['view_names']) {
+			for (const view of data['view_names']) {
 				newCompSetNameDict[view['view_id']] = view['view_name']
 			}
+			
+			const newSetName = newCompSetNameDict[data['default_view']];
 
 			this.setState({ hotels: data['hotels'],
 							defaultView: data['default_view'],
@@ -177,7 +182,8 @@ class AllHotelDropDowns extends React.Component {
 							compSetHotels: data['hotels_in_views'],
 							hotelContainers: newHotelContainers,
 							selectedHotels: newSelectedHotels,
-							currentSetChoice: data['default_view']
+							currentSetChoice: data['default_view'],
+							currentSetName: newSetName
 						})
 		})
     }
