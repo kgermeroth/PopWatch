@@ -129,6 +129,18 @@ class CompSetName extends React.Component {
 	}
 }
 
+class Default extends React.Component {
+	constructor () {
+		super();
+	}
+
+	render() {
+		return (
+			<input type="checkbox" name="default" checked={this.props.defaultHotel === this.props.currentHotel}></input>
+			)
+	}
+}
+
 // This component holds everything: multiple HotelContainers (which are the hotel dropdown and trash icon) and the addHotel icon
 class AllHotelDropDowns extends React.Component {
 
@@ -285,7 +297,12 @@ class AllHotelDropDowns extends React.Component {
             	<b>Comp Set Name: </b> 
             	<CompSetName 
             		currentSetName={this.state.compSetNameDict[this.state.currentSetChoice]}
-            	/> <br />       	
+            	/> <br /> 
+            	<b>Default: </b>      
+            	<Default 
+            		defaultHotel={this.state.defaultView}
+            		currentHotel={this.state.currentSetChoice}
+            		/><br />	
                 <b>Competitors:</b>
                 <div className="selected-hotels">
                     {hotelContainers}
