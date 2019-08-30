@@ -124,7 +124,7 @@ class CompSetName extends React.Component {
 		let currentSetChoice = this.props.currentSetChoice;
 
 		return (
-			<input type="text" name="set_name" defaultValue={this.props.currentSetName}></input>
+			<input type="text" name="set_name" id="set_name" defaultValue={this.props.currentSetName}></input>
 			)
 	}
 }
@@ -136,7 +136,7 @@ class Default extends React.Component {
 
 	render() {
 		return (
-			<input type="checkbox" name="default" checked={this.props.defaultHotel === this.props.currentHotel}></input>
+			<input type="checkbox" name="default" id="default" defaultChecked={this.props.defaultHotel === this.props.currentHotel}></input>
 			)
 	}
 }
@@ -148,7 +148,19 @@ class Delete extends React.Component {
 
 	render() {
 		return (
-			<input type="checkbox" name="delete"></input>
+			<input type="checkbox" name="delete" className="delete"></input>
+			)
+	}
+}
+
+class Submit extends React.Component {
+	constructor () {
+		super();
+	}
+
+	render() {
+		return (
+			<input type="submit" name="submit_data" onClick={this.props.onClick}></input>
 			)
 	}
 }
@@ -281,6 +293,10 @@ class AllHotelDropDowns extends React.Component {
 
     }
 
+    submitData() {
+
+    }
+
     render() {
 
         const hotelContainers = this.state.hotelContainers.map((hotelContainer, idx) => {
@@ -298,7 +314,7 @@ class AllHotelDropDowns extends React.Component {
         });
 
         return (
-            <div>
+            <div className="comp_set_form">
             	<b>Comp Set Selection: </b>
             	<CompSetDropdown 
             		compSetIDAndName={this.state.compSetIDAndName} 
@@ -321,10 +337,11 @@ class AllHotelDropDowns extends React.Component {
                 </div>
 
                 <Add onClick={this.addHotel}/>
-                <div class="delete_set">
+                <div className="delete_set">
                 	<b>DELETE ENTIRE COMP SET  </b>
                 	<Delete />
                 </div>
+                <Submit onClick={this.submitData}/>
            </div> 
         );
 	};
