@@ -124,7 +124,7 @@ class CompSetName extends React.Component {
 		let currentSetChoice = this.props.currentSetChoice;
 
 		return (
-			<input type="text" name="set_name" defaultValue="test"></input>
+			<input type="text" name="set_name" defaultValue={this.props.currentSetName}></input>
 			)
 	}
 }
@@ -142,12 +142,13 @@ class AllHotelDropDowns extends React.Component {
             compSetHotels: [],
             hotelContainers: [],
             selectedHotels: [],
-            currentSetChoice: null,
-            currentSetName: null
+            currentSetChoice: null
         };
+
         this.addHotel = this.addHotel.bind(this);
         this.dropHotelContainer = this.dropHotelContainer.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.changeCompSet = this.changeCompSet.bind(this);
     }
 
     componentDidMount() {
@@ -166,14 +167,10 @@ class AllHotelDropDowns extends React.Component {
 				newSelectedHotels.push(hotel);
 			}
 
-			console.log(data);
-
 			// create a dictionary of view id and view name
 			for (const view of data['view_names']) {
 				newCompSetNameDict[view['view_id']] = view['view_name']
 			}
-			
-			const newSetName = newCompSetNameDict[data['default_view']];
 
 			this.setState({ hotels: data['hotels'],
 							defaultView: data['default_view'],
@@ -183,7 +180,6 @@ class AllHotelDropDowns extends React.Component {
 							hotelContainers: newHotelContainers,
 							selectedHotels: newSelectedHotels,
 							currentSetChoice: data['default_view'],
-							currentSetName: newSetName
 						})
 		})
     }
@@ -242,6 +238,7 @@ class AllHotelDropDowns extends React.Component {
     }
 
     changeCompSet(event) {
+
     	// update selected hotel
     	const newSetChoice = parseInt(event.target.value,10);
     	const newHotelContainers = [];
@@ -255,7 +252,7 @@ class AllHotelDropDowns extends React.Component {
 
 		this.setState({	currentSetChoice: newSetChoice,
 						hotelContainers: newHotelContainers,
-						selectedHotels: newSelectedHotels
+						selectedHotels: newSelectedHotels,
 		})
 
     }
@@ -282,10 +279,13 @@ class AllHotelDropDowns extends React.Component {
             	<CompSetDropdown 
             		compSetIDAndName={this.state.compSetIDAndName} 
             		currentSetChoice={this.state.currentSetChoice}
-            		currentSetNameDict={this.state.compSetNameDict}
-            		onChange={(event) => this.changeCompSet(event)}
+            		
+            		onChange={this.changeCompSet}
             	/> <br />
-            	<b>Comp Set Name: </b> <CompSetName /> <br />       	
+            	<b>Comp Set Name: </b> 
+            	<CompSetName 
+            		currentSetName={this.state.compSetNameDict[this.state.currentSetChoice]}
+            	/> <br />       	
                 <b>Competitors:</b>
                 <div className="selected-hotels">
                     {hotelContainers}
