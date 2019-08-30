@@ -58,14 +58,12 @@ class HotelNameSelector extends React.Component {
 		}
 
 		// return the array of options in select tags
-		// ternary can be used for disabled, what is below is shorthand for that (if condition is true, returns thing to the left of colon, if false returns things to the right)
 		return (
 			<select
 				className="hotel_dropdown"
 				name="hotel_choice[]"	
 				onChange={this.props.handleChange}
 				value={this.props.value}
-				readonly={this.props.value > 0}
 			>
 				{hotel_options}
 			</select>
@@ -186,14 +184,20 @@ class AllHotelDropDowns extends React.Component {
 
     handleChange(idx, event) {
     	const newHotelContainers = this.state.hotelContainers.slice();
-    	const newSelectedHotels = this.state.selectedHotels.slice();
+    	const newSelectedHotels = [];
     	const value = parseInt(event.target.value,10);
+    	const selectedValues = document.querySelectorAll('.hotel_dropdown');
 
     	newHotelContainers[idx] = { selectedHotel: value };
     	newSelectedHotels.push(value);
 
+    	for (const select of selectedValues) {
+    		newSelectedHotels.push(parseInt(select.value, 10))
+    	}
+
+
     	this.setState({ hotelContainers: newHotelContainers,
-    					selectedHotels: newSelectedHotels });    	
+    					selectedHotels: newSelectedHotels });   	
     }
 
     addHotel() {
