@@ -228,7 +228,15 @@ def get_comp_set_info():
 				'hotels_in_views' : hotels_in_views
 				})
 
+@app.route('/handle-set-changes', methods=['POST'])
+def handle_set_changes():
+	"""Takes in changes to comp set and processes them"""
 
+	inputs = request.form
+
+	print('\n\ninputs from React:', inputs, '\n\n')
+
+	return redirect('/manage')
 
 if __name__ == '__main__':
 

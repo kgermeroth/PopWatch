@@ -185,6 +185,8 @@ class AllHotelDropDowns extends React.Component {
         this.dropHotelContainer = this.dropHotelContainer.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.changeCompSet = this.changeCompSet.bind(this);
+        this.submitData = this.submitData.bind(this);  	// note: you can also use an arrow function in the event handler to avoid having to bind this
+        												//  <Submit onClick={() => this.submitData()}/>
     }
 
     componentDidMount() {
@@ -294,7 +296,23 @@ class AllHotelDropDowns extends React.Component {
     }
 
     submitData() {
+    	// collect data
+    	const deleteSet = document.querySelector('.delete').checked;
+    	const compId = this.state.currentSetChoice;
+    	const compName = document.querySelector('#set_name').value;
+    	const defaultOption = document.querySelector('#default').checked;
+    	const hotelsInSet = this.state.selectedHotels;
 
+    	// consolidate all data into one package
+    	const data = {	
+    					'delete_all' : deleteSet,
+    					'set_id' : compId,
+    					'set_name' : compName,
+    					'default_choice' : defaultOption,
+    					'hotels_in_set' : hotelsInSet
+    				}
+
+    	$.post('/handle-set-changes', data)
     }
 
     render() {
