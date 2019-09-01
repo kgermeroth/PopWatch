@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
 from functions import *
+from manage_set_funcs import get_all_view_info, handle_set_changes
 import re
 
 app = Flask(__name__)
@@ -235,6 +236,8 @@ def handle_set_changes():
 	inputs = request.form
 
 	print('\n\ninputs from React:', inputs, '\n\n')
+
+	handle_set_changes(inputs)
 
 	return redirect('/manage')
 

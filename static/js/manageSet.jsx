@@ -339,7 +339,7 @@ class AllHotelDropDowns extends React.Component {
             		currentSetChoice={this.state.currentSetChoice}
             		
             		onChange={this.changeCompSet}
-            	/> <br />
+            	/> <br /><br />
             	<b>Comp Set Name: </b> 
             	<CompSetName 
             		currentSetName={this.state.compSetNameDict[this.state.currentSetChoice]}

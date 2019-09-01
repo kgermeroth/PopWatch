@@ -84,3 +84,7 @@ i {
 .note {
 	color: rgb(111,183,214);
 }
+
+.delete_set {
+	color: red;
+}
