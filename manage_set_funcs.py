@@ -1,5 +1,6 @@
 from server import *
-from model import Hotel, Scrape, User, View, ViewHotel
+from model import Hotel, Scrape, User, View, ViewHotel, db
+from flask_sqlalchemy import SQLAlchemy
 
 def get_all_view_info():
 	"""Gets all view data needed for manage set page"""
@@ -52,9 +53,18 @@ def handle_set_changes(inputs):
 			db.session.commit()
 		
 		# delete all view_hotels with that view_id
+		view_hotels_to_delete = ViewHotel.query.filter(ViewHotel.view_id == view_id).all()
+		for view_hotel in view_hotels_to_delete:
+			db.session.delete(view_hotel)
+			db.session.commit()
 		
 		# delete that view_id
-		# flash that comp set has been deleted
+		view_to_delete = View.query.filter(View.view_id == view_id).one()
+		db.session.delete(view_to_delete)
+		db.session.commit()
+
+		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div>')
+
 	# if set not to be deleted:
 		# query the view by view_id
 		# compare view_name to submitted name
