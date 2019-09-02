@@ -115,11 +115,26 @@ def handle_set_changes(inputs):
 		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully updated.</div>')
 		flash(message)
 
-	# do a user query
-		# if user default is null:
-			# get all views for user
-			# if there are no views, redirect to create set page and flash message comp set must be created
-			# else:
-				# take first available set and set default to that
-				# flash message saying which set name was set to the default
+	# check to see if user default is empty after changes, and if so either assign a new comp set or dump user on create set page
+	user = User.query.filter(User.user_id == user_id).one()
+	if not user.default_view:
+		print('the if statement ran ok')
+		avail_views = user.views
+		print('avail_views', avail_views)
+		# if there are no views, redirect to create set page and flash message comp set must be created
+		if not avail_views:
+			message = Markup('<div class="alert alert-danger" role="alert">You have no defined comp sets. Please create one to continue.</div>')
+			flash(message)
+			return redirect('/create')
+		else:
+			user.default_view = avail_views[0].view_id
+			db.session.add(user)
+			db.session.commit()
+			message = Markup(f'<div class="alert alert-warning" role="alert">{avail_views[0].view_name}</div>')
+			flash(message)
+	else:
+		print('The else statement ran ok')
+
+	return redirect('/manage')
+				
 

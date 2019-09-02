@@ -237,9 +237,7 @@ def handle_set_changes():
 
 	print('\n\ninputs from React:', inputs, '\n\n')
 
-	manage_set_funcs.handle_set_changes(inputs)
-
-	return redirect('/manage')
+	return manage_set_funcs.handle_set_changes(inputs)
 
 if __name__ == '__main__':
 
