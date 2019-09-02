@@ -1,5 +1,5 @@
 from server import *
-from model import *
+from model import Hotel, Scrape, User, View, ViewHotel
 
 def get_all_view_info():
 	"""Gets all view data needed for manage set page"""
@@ -35,16 +35,26 @@ def handle_set_changes(inputs):
 	"""Takes data from manage set form and updates database as needed"""
 
 	# get view_id of comp set we are modifying
+	view_id = int(inputs['set_id'])
+
 	# get user_id from session
-	# run a user query (to be used later)
+	user_id = session['user_id']
+
+	user = User.query.filter(User.user_id == user_id).one()
 
 	# check to see if the set is to be deleted
-	# if yes, check to see if this set is the default
-		# if it is, change the default to be null
-		# else
-			# delete all view_hotels with that view_id
-			# delete that view_id
-			# flash that comp set has been deleted
+	if inputs['delete_all'] == 'true':
+
+		# check to see if this set is the default
+		if user.default_view == view_id:
+			user.default_view = None
+			db.session.add(user)
+			db.session.commit()
+		
+		# delete all view_hotels with that view_id
+		
+		# delete that view_id
+		# flash that comp set has been deleted
 	# if set not to be deleted:
 		# query the view by view_id
 		# compare view_name to submitted name
