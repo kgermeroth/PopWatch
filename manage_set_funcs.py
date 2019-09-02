@@ -65,13 +65,22 @@ def handle_set_changes(inputs):
 
 		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div>')
 
-	# if set not to be deleted:
-		# query the view by view_id
-		# compare view_name to submitted name
-		# if not view.view_name == submitted name:
-			# set view name to submitted name and submit to db
+	else:
+		view = View.query.filter(View.view_id == view_id).one()
+		submitted_name = inputs['set_name']
+
+		# compare view_name to submitted name and if they don't match update the comp set name in the database
+		if not view.view_name == submitted_name:
+			view.view_name = submitted_name
+			db.session.add(view)
+			db.session.commit()
+
 		# if default is checked:
-			# update default for user to this comp set
+		if inputs['default_choice'] == 'true':
+			user.default_view = view_id
+			db.session.add(user)
+			db.session.commit()
+
 		# compare sets to see what needs to be updated using set math
 		# variable for original set
 		# variable for submitted set
