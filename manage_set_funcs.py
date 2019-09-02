@@ -64,6 +64,7 @@ def handle_set_changes(inputs):
 		db.session.commit()
 
 		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div>')
+		flash(message)
 
 	else:
 		view = View.query.filter(View.view_id == view_id).one()
@@ -82,15 +83,38 @@ def handle_set_changes(inputs):
 			db.session.commit()
 
 		# compare sets to see what needs to be updated using set math
-		# variable for original set
-		# variable for submitted set
+		original = set()
+		for view_hotel in view.viewhotels:
+			original.add(view_hotel.hotel_id)
+
+		print('original:', original)
+
+		submitted = set()
+
+		for hotel in (inputs.getlist('hotels_in_set[]')):
+			submitted.add(int(hotel))
+
+		print('submitted', submitted)
+
 		# hotels to be deleted = original set - submitted set
+		to_delete = original - submitted
+
+		for hotel in to_delete:
+			delete_view = ViewHotel.query.filter(ViewHotel.view_id == view_id, ViewHotel.hotel_id == hotel).one()
+			db.session.delete(delete_view)
+			db.session.commit()
+
 		# hotels to be added = new set - original set
-		# if the list to delete (make sure that is what is returned) is not empty:
-			# loop through list and delete hotels from view_hotels table
-		# if the list to add is not empty:
-			# loop through list and add hotels to view_hotels table
-		# flash the comp set has been updated
+		to_add = submitted - original
+
+		for hotel in to_add:
+			add_view = ViewHotel(view_id=view_id, hotel_id=hotel)
+			db.session.add(add_view)
+			db.session.commit()
+
+		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully updated.</div>')
+		flash(message)
+
 	# do a user query
 		# if user default is null:
 			# get all views for user
