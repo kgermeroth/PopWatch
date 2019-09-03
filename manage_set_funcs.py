@@ -64,10 +64,11 @@ def handle_set_changes(inputs):
 		db.session.delete(view_to_delete)
 		db.session.commit()
 
+		check_for_user_default(user_id)
+
 		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div>')
 		flash(message)
 
-		return redirect('/manage')
 
 	else:
 		view = View.query.filter(View.view_id == view_id).one()
@@ -115,20 +116,25 @@ def handle_set_changes(inputs):
 			db.session.add(add_view)
 			db.session.commit()
 
+		check_for_user_default(user_id)
+
 		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully updated.</div>')
 		flash(message)
+
+
+def check_for_user_default(user_id):
+	"""Checks to see if user has a default view and handles if not"""
 
 	# check to see if user default is empty after changes, and if so either assign a new comp set or dump user on create set page
 	user = User.query.filter(User.user_id == user_id).one()
 	if not user.default_view:
-		print('the if statement ran ok')
+
 		avail_views = user.views
-		print('avail_views', avail_views)
+
 		# if there are no views, redirect to create set page and flash message comp set must be created
 		if not avail_views:
 			message = Markup('<div class="alert alert-danger" role="alert">You have no defined comp sets. Please create one to continue.</div>')
 			flash(message)
-			return redirect('/create')
 
 		# if there are views, choose the first one and assign it as the default
 		else:
@@ -147,8 +153,4 @@ def handle_set_changes(inputs):
 		default_hotels = ViewHotel.query.filter(ViewHotel.view_id == user.default_view)
 		session['hotels_selection'] = [hotel_view.hotel_id for hotel_view in default_hotels]
 		session.modified = True
-
-
-
-				
 
