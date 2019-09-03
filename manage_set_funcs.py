@@ -1,5 +1,6 @@
 from server import *
 from model import Hotel, Scrape, User, View, ViewHotel, db
+from flask import Flask, render_template, request, redirect, flash, session, jsonify, Markup
 from flask_sqlalchemy import SQLAlchemy
 
 def get_all_view_info():
@@ -66,6 +67,8 @@ def handle_set_changes(inputs):
 		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div>')
 		flash(message)
 
+		return redirect('/manage')
+
 	else:
 		view = View.query.filter(View.view_id == view_id).one()
 		submitted_name = inputs['set_name']
@@ -126,15 +129,26 @@ def handle_set_changes(inputs):
 			message = Markup('<div class="alert alert-danger" role="alert">You have no defined comp sets. Please create one to continue.</div>')
 			flash(message)
 			return redirect('/create')
+
+		# if there are views, choose the first one and assign it as the default
 		else:
 			user.default_view = avail_views[0].view_id
 			db.session.add(user)
 			db.session.commit()
-			message = Markup(f'<div class="alert alert-warning" role="alert">{avail_views[0].view_name}</div>')
+			session['set_choice'] = user.default_view
+
+			default_hotels = ViewHotel.query.filter(ViewHotel.view_id == user.default_view)
+			session['hotels_selection'] = [hotel_view.hotel_id for hotel_view in default_hotels]
+			session.modified = True
+			message = Markup(f'<div class="alert alert-warning" role="alert">{avail_views[0].view_name} has been assigned as your current default.</div>')
 			flash(message)
 	else:
-		print('The else statement ran ok')
+		session['set_choice'] = user.default_view
+		default_hotels = ViewHotel.query.filter(ViewHotel.view_id == user.default_view)
+		session['hotels_selection'] = [hotel_view.hotel_id for hotel_view in default_hotels]
+		session.modified = True
 
-	return redirect('/manage')
+
+
 				
 

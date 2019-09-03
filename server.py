@@ -235,9 +235,9 @@ def handle_set_changes():
 
 	inputs = request.form
 
-	print('\n\ninputs from React:', inputs, '\n\n')
+	manage_set_funcs.handle_set_changes(inputs)
 
-	return manage_set_funcs.handle_set_changes(inputs)
+	return redirect('/manage')
 
 if __name__ == '__main__':
 
