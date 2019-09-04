@@ -28,14 +28,14 @@
 	        </div>
 	      </li>
 	    </div>
+	    <div class="d-flex justify-content-end">
+	    	<li class="nav-item">
+	       		<a class="nav-link" href="/log-off">Log Out</a>
+	       	</li>
+    	</div>
 	</nav>
 
-<!--     <div class="d-flex justify-content-end">
-        <a class="nav-link" href="#">Login</a>
-        <a class="nav-link" href="#">Favorite Melons</a>
-        <a class="nav-link" href="#">Settings</a>
-        <a class="nav-link" href="#">Profile</a>       
-    </div> -->
+
 	<div class="flashes">
 		{% for message in get_flashed_messages() %}
 			{{ message }}

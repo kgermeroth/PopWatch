@@ -229,6 +229,7 @@ def get_comp_set_info():
 				'hotels_in_views' : hotels_in_views
 				})
 
+
 @app.route('/handle-set-changes.json', methods=['POST'])
 def handle_set_changes():
 	"""Takes in changes to comp set and processes them"""
@@ -241,6 +242,22 @@ def handle_set_changes():
 		return jsonify(messages[0], '')
 
 	return jsonify(messages)
+
+
+@app.route('/log-off')
+def log_user_off():
+	"""Logs user off and resets session"""
+
+	session['user_id'] = None
+	session['set_choice'] = None
+	session['hotels_selection'] = None
+
+	session.modified = True
+
+	message = Markup('<div class="alert alert-success" role="alert">You have been logged off.</div>')
+	flash(message)
+
+	return redirect('/')
 
 if __name__ == '__main__':
 
