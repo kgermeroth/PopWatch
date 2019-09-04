@@ -103,7 +103,7 @@ class CompSetDropdown extends React.Component {
 		const comp_sets = [];
 
 		for (const set of this.props.compSetIDAndName) {
-			comp_sets.push(<option key={set.view_id} value={set.view_id} selected={this.props.currentSetChoice === set.view_id}>{set.view_name}</option>);
+			comp_sets.push(<option key={set.view_id} value={set.view_id} >{set.view_name}</option>);
 		}
 
 		return (
@@ -111,6 +111,7 @@ class CompSetDropdown extends React.Component {
 				className="comp_set_dropdown"
 				name="comp_sets"
 				onChange={this.props.onChange}
+				value={this.props.currentSetChoice || ''}
 				>{ comp_sets }</select>)
 	}
 }
@@ -123,7 +124,7 @@ class CompSetName extends React.Component {
 	render() {
 
 		return (
-			<input type="text" name="set_name" id="set_name" defaultValue={this.props.currentSetName} onChange={this.props.onChange}></input>
+			<input type="text" name="set_name" id="set_name" defaultValue={this.props.currentSetName} onChange={this.props.onChange}/>
 			)
 	}
 }
@@ -135,7 +136,7 @@ class Default extends React.Component {
 
 	render() {
 		return (
-			<input type="checkbox" name="default" id="default" checked={this.props.checked} onChange={this.props.onChange}></input>
+			<input type="checkbox" name="default" id="default" checked={this.props.checked} onChange={this.props.onChange}/>
 			)
 	}
 }
@@ -147,7 +148,7 @@ class Delete extends React.Component {
 
 	render() {
 		return (
-			<input type="checkbox" name="delete" className="delete"></input>
+			<input type="checkbox" name="delete" className="delete" />
 			)
 	}
 }
@@ -159,7 +160,7 @@ class Submit extends React.Component {
 
 	render() {
 		return (
-			<input type="submit" name="submit_data" onClick={this.props.onClick}></input>
+			<input type="submit" name="submit_data" onClick={this.props.onClick} />
 			)
 	}
 }
@@ -330,26 +331,29 @@ class App extends React.Component {
 
     		// clean out the old div where flash messages display
     		const flash_div = document.querySelector('.flashes');
-    		flash_div.innerhtml = '';
+    		flash_div.innerHTML = '';
+
+    		let newHTML = '';
 
     		// build new div for flash
     		for (const message of data) {
     			if (message !== ''){
-	    			const element = document.createElement('div');
-	    			element.setAttribute('class', message['class']);
-	    			element.setAttribute('role', message['role']);
+	    			// const element = document.createElement('div');
+	    			// element.setAttribute('class', message['class']);
+	    			// element.setAttribute('role', message['role']);
 	    			// element.setAttribute('html', message['text']);
 
 
-	    			const text = document.createTextNode(message['text']);
+	    			// const text = document.createTextNode(message['text']);
 
 	    			// flash_div.appendChild(element);
 	    			// flash_div.appendChild(text);
-	    			$(".flashes").html(message);
+	    			newHTML += message;
 
     			}
-    		}
 
+    		}
+    		$(".flashes").html(newHTML);
     		// reload page? May make sense anyway
 
     	})

@@ -67,7 +67,7 @@ def handle_set_changes(inputs):
 		default_message = check_for_user_default(user_id)
 
 		# message = {'class' : "alert alert-success", 'role' : "alert", 'text' : 'Your comp set has been successfully deleted.'}
-		message = '<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div'
+		message = '<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div>'
 
 
 		return (message, default_message)
@@ -118,7 +118,7 @@ def handle_set_changes(inputs):
 		default_message = check_for_user_default(user_id)
 
 		# message = {'class' : "alert alert-success", 'role' : "alert", 'text' : 'Your comp set has been successfully updated.'}
-		message = '<div class="alert alert-success" role="alert">Your comp set has been successfully updated.</div'
+		message = '<div class="alert alert-success" role="alert">Your comp set has been successfully updated.</div>'
 
 
 		return (message, default_message)
@@ -137,7 +137,7 @@ def check_for_user_default(user_id):
 		if not avail_views:
 
 			# message = {'class' : "alert alert-danger", 'role' : "alert", 'text' : 'You have no defined comp sets. Please create one to continue.'}
-			message = '<div class="alert alert-danger" role="alert">You have no defined comp sets. Please create one to continue.</div'
+			message = '<div class="alert alert-danger" role="alert">You have no defined comp sets. Please create one to continue.</div>'
 
 			return message
 
@@ -153,7 +153,7 @@ def check_for_user_default(user_id):
 			session.modified = True
 
 			# message = {'class' : "alert alert-warning", 'role' : "alert", 'text' : f'{avail_views[0].view_name} has been assigned as your current default.'}
-			message = f'<div class="alert alert-warning" role="alert">{avail_views[0].view_name} has been assigned as your default comp set.</div'
+			message = f'<div class="alert alert-warning" role="alert">{avail_views[0].view_name} has been assigned as your default comp set.</div>'
 			return message
 	else:
 		session['set_choice'] = user.default_view
