@@ -256,8 +256,6 @@ class App extends React.Component {
     }
 
     dropHotelContainer(idx, selectedHotel) {
-    	console.log('selected hotel was: ', selectedHotel)
-
     	const newSelectedHotels = this.state.selectedHotels.slice();
 
     	// loop through selected hotels and remove the hotel that was just removed
@@ -327,7 +325,6 @@ class App extends React.Component {
 
     	$.post('/handle-set-changes.json', data, (data) => {
     		// this function will display flash messages
-    		console.log(data);
 
     		// clean out the old div where flash messages display
     		const flash_div = document.querySelector('.flashes');
