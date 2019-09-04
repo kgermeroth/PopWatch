@@ -103,7 +103,7 @@ class CompSetDropdown extends React.Component {
 		const comp_sets = [];
 
 		for (const set of this.props.compSetIDAndName) {
-			comp_sets.push(<option key={set.view_id} value={set.view_id} defaultValue={this.props.currentSetChoice === set.view_id}>{set.view_name}</option>);
+			comp_sets.push(<option key={set.view_id} value={set.view_id} selected={this.props.currentSetChoice === set.view_id}>{set.view_name}</option>);
 		}
 
 		return (
@@ -165,7 +165,7 @@ class Submit extends React.Component {
 }
 
 // This component holds everything: multiple HotelContainers (which are the hotel dropdown and trash icon) and the addHotel icon
-class AllHotelDropDowns extends React.Component {
+class App extends React.Component {
 
     constructor() {
     	super();
@@ -381,6 +381,6 @@ class AllHotelDropDowns extends React.Component {
 }
 
 ReactDOM.render(
-	<AllHotelDropDowns />,
+	<App />,
 	document.getElementById("manage_set")
 	);
