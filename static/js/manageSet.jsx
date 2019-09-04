@@ -121,10 +121,9 @@ class CompSetName extends React.Component {
 	}
 
 	render() {
-		let currentSetChoice = this.props.currentSetChoice;
 
 		return (
-			<input type="text" name="set_name" id="set_name" defaultValue={this.props.currentSetName}></input>
+			<input type="text" name="set_name" id="set_name" defaultValue={this.props.currentSetName} onChange={this.props.onChange}></input>
 			)
 	}
 }
@@ -136,7 +135,7 @@ class Default extends React.Component {
 
 	render() {
 		return (
-			<input type="checkbox" name="default" id="default" defaultChecked={this.props.defaultHotel === this.props.currentHotel}></input>
+			<input type="checkbox" name="default" id="default" checked={this.props.checked} onChange={this.props.onChange}></input>
 			)
 	}
 }
@@ -186,7 +185,7 @@ class AllHotelDropDowns extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.changeCompSet = this.changeCompSet.bind(this);
         this.submitData = this.submitData.bind(this);  	// note: you can also use an arrow function in the event handler to avoid having to bind this
-        												//  <Submit onClick={() => this.submitData()}/>
+		this.changeDefaultBox = this.changeDefaultBox.bind(this);			//  <Submit onClick={() => this.submitData()}/>
     }
 
     componentDidMount() {
@@ -218,6 +217,7 @@ class AllHotelDropDowns extends React.Component {
 							hotelContainers: newHotelContainers,
 							selectedHotels: newSelectedHotels,
 							currentSetChoice: data['default_view'],
+							checkDefaultBox: true
 						})
 		})
     }
@@ -281,6 +281,7 @@ class AllHotelDropDowns extends React.Component {
     	const newSetChoice = parseInt(event.target.value,10);
     	const newHotelContainers = [];
     	const newSelectedHotels = [];
+    	let checkDefaultValue;
 
     	// update hotelContainers
     	for (const hotel of this.state.compSetHotels[newSetChoice]) {
@@ -288,11 +289,22 @@ class AllHotelDropDowns extends React.Component {
 			newSelectedHotels.push(hotel);
 		}
 
+		if (this.state.defaultView === newSetChoice) {
+    		checkDefaultValue = true
+    	} else {
+    		checkDefaultValue = false
+    	}
+
 		this.setState({	currentSetChoice: newSetChoice,
 						hotelContainers: newHotelContainers,
 						selectedHotels: newSelectedHotels,
+						checkDefaultBox: checkDefaultValue 
 		})
 
+    }
+
+    changeDefaultBox() {
+    	this.setState({ checkDefaultBox: !this.state.checkDefaultBox })
     }
 
     submitData() {
@@ -312,7 +324,11 @@ class AllHotelDropDowns extends React.Component {
     					'hotels_in_set' : hotelsInSet
     				}
 
-    	$.post('/handle-set-changes', data)
+    	$.post('/handle-set-changes', data, (data) => {
+    		// this function will display flash messages
+    		// clean out the old div where flash messages display
+
+    	})
     }
 
     render() {
@@ -337,7 +353,6 @@ class AllHotelDropDowns extends React.Component {
             	<CompSetDropdown 
             		compSetIDAndName={this.state.compSetIDAndName} 
             		currentSetChoice={this.state.currentSetChoice}
-            		
             		onChange={this.changeCompSet}
             	/> <br /><br />
             	<b>Comp Set Name: </b> 
@@ -346,8 +361,8 @@ class AllHotelDropDowns extends React.Component {
             	/> <br /> 
             	<b>Default: </b>      
             	<Default 
-            		defaultHotel={this.state.defaultView}
-            		currentHotel={this.state.currentSetChoice}
+            		checked={this.state.checkDefaultBox}
+            		onChange={this.changeDefaultBox}
             		/><br />	
                 <b>Competitors:</b>
                 <div className="selected-hotels">
