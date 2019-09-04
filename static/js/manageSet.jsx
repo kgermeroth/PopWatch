@@ -324,9 +324,33 @@ class App extends React.Component {
     					'hotels_in_set' : hotelsInSet
     				}
 
-    	$.post('/handle-set-changes', data, (data) => {
+    	$.post('/handle-set-changes.json', data, (data) => {
     		// this function will display flash messages
+    		console.log(data);
+
     		// clean out the old div where flash messages display
+    		const flash_div = document.querySelector('.flashes');
+    		flash_div.innerhtml = '';
+
+    		// build new div for flash
+    		for (const message of data) {
+    			if (message !== ''){
+	    			const element = document.createElement('div');
+	    			element.setAttribute('class', message['class']);
+	    			element.setAttribute('role', message['role']);
+	    			// element.setAttribute('html', message['text']);
+
+
+	    			const text = document.createTextNode(message['text']);
+
+	    			// flash_div.appendChild(element);
+	    			// flash_div.appendChild(text);
+	    			$(".flashes").html(message);
+
+    			}
+    		}
+
+    		// reload page? May make sense anyway
 
     	})
     }

@@ -229,15 +229,18 @@ def get_comp_set_info():
 				'hotels_in_views' : hotels_in_views
 				})
 
-@app.route('/handle-set-changes', methods=['POST'])
+@app.route('/handle-set-changes.json', methods=['POST'])
 def handle_set_changes():
 	"""Takes in changes to comp set and processes them"""
 
 	inputs = request.form
 
-	manage_set_funcs.handle_set_changes(inputs)
+	messages = manage_set_funcs.handle_set_changes(inputs)
 
-	return redirect('/manage')
+	if messages[1] == 'no message':
+		return jsonify(messages[0], '')
+
+	return jsonify(messages)
 
 if __name__ == '__main__':
 

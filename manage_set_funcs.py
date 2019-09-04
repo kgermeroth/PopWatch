@@ -64,10 +64,13 @@ def handle_set_changes(inputs):
 		db.session.delete(view_to_delete)
 		db.session.commit()
 
-		check_for_user_default(user_id)
+		default_message = check_for_user_default(user_id)
 
-		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div>')
-		flash(message)
+		# message = {'class' : "alert alert-success", 'role' : "alert", 'text' : 'Your comp set has been successfully deleted.'}
+		message = '<div class="alert alert-success" role="alert">Your comp set has been successfully deleted.</div'
+
+
+		return (message, default_message)
 
 
 	else:
@@ -91,14 +94,10 @@ def handle_set_changes(inputs):
 		for view_hotel in view.viewhotels:
 			original.add(view_hotel.hotel_id)
 
-		print('original:', original)
-
 		submitted = set()
 
 		for hotel in (inputs.getlist('hotels_in_set[]')):
 			submitted.add(int(hotel))
-
-		print('submitted', submitted)
 
 		# hotels to be deleted = original set - submitted set
 		to_delete = original - submitted
@@ -116,10 +115,13 @@ def handle_set_changes(inputs):
 			db.session.add(add_view)
 			db.session.commit()
 
-		check_for_user_default(user_id)
+		default_message = check_for_user_default(user_id)
 
-		message = Markup('<div class="alert alert-success" role="alert">Your comp set has been successfully updated.</div>')
-		flash(message)
+		# message = {'class' : "alert alert-success", 'role' : "alert", 'text' : 'Your comp set has been successfully updated.'}
+		message = '<div class="alert alert-success" role="alert">Your comp set has been successfully updated.</div'
+
+
+		return (message, default_message)
 
 
 def check_for_user_default(user_id):
@@ -133,8 +135,11 @@ def check_for_user_default(user_id):
 
 		# if there are no views, redirect to create set page and flash message comp set must be created
 		if not avail_views:
-			message = Markup('<div class="alert alert-danger" role="alert">You have no defined comp sets. Please create one to continue.</div>')
-			flash(message)
+
+			# message = {'class' : "alert alert-danger", 'role' : "alert", 'text' : 'You have no defined comp sets. Please create one to continue.'}
+			message = '<div class="alert alert-danger" role="alert">You have no defined comp sets. Please create one to continue.</div'
+
+			return message
 
 		# if there are views, choose the first one and assign it as the default
 		else:
@@ -146,11 +151,15 @@ def check_for_user_default(user_id):
 			default_hotels = ViewHotel.query.filter(ViewHotel.view_id == user.default_view)
 			session['hotels_selection'] = [hotel_view.hotel_id for hotel_view in default_hotels]
 			session.modified = True
-			message = Markup(f'<div class="alert alert-warning" role="alert">{avail_views[0].view_name} has been assigned as your current default.</div>')
-			flash(message)
+
+			# message = {'class' : "alert alert-warning", 'role' : "alert", 'text' : f'{avail_views[0].view_name} has been assigned as your current default.'}
+			message = f'<div class="alert alert-warning" role="alert">{avail_views[0].view_name} has been assigned as your default comp set.</div'
+			return message
 	else:
 		session['set_choice'] = user.default_view
 		default_hotels = ViewHotel.query.filter(ViewHotel.view_id == user.default_view)
 		session['hotels_selection'] = [hotel_view.hotel_id for hotel_view in default_hotels]
 		session.modified = True
+
+		return 'no message'
 
