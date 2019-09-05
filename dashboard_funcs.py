@@ -160,6 +160,8 @@ def get_csv_data():
 		row.append(scrape.review_count)
 		row.append(scrape.num_hotels)
 
+		rows.append(row)
+
 	# run queries for each of the hotels and parse out the data
 	for hotel in chosen_hotels:
 		
@@ -184,7 +186,5 @@ def get_csv_data():
 				# if the shop is after thirty days ago:
 				if scrape.shop_timestamp > thirty_days_ago:
 					add_data_to_row()
-
-			rows.append(row)
 
 	return rows
