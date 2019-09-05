@@ -166,11 +166,12 @@
 			'hotels_selection' : hotels
 			}, 
 			(data) => {
-				console.log(data)
+
+				let csvContent = "data:text/csv;charset=utf-8," + data.map(e => e.join(",")).join("\n");
+
+				var encodedUri = encodeURI(csvContent);
+				window.open(encodedUri);
 		})
-		// get request to route
-		// collect input data info
-		// convert to csv
 	}
 		
 	</script>
