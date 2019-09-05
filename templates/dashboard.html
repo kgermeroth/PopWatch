@@ -167,7 +167,7 @@
 			}, 
 			(data) => {
 
-				let csvContent = "data:text/csv;charset=utf-8," + data.map(e => e.join(",")).join("\n");
+				let csvContent = "data:text/csv;charset=utf-8," + data.map(e => e.join(",")).join("\r\n");
 
 				var encodedUri = encodeURI(csvContent);
 				window.open(encodedUri);

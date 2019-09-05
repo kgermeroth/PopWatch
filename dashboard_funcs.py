@@ -56,17 +56,16 @@ def get_chart_data():
 	timeframe_choice = session['timeframe_choice']
 	metric_choice = session['metric_choice']
 
-	labels = []		# list of dates from scrapes
+	all_dates = set()		
 	datasets = []
 
-	def get_data_from_scrape(i, scrape):
+	def get_data_from_scrape(scrape):
 		"""Takes scrape and parses out data"""
 
-		# for first set of hotels only, get the dates and add them to the labels list
-		if i == 0:
-			timestamp = scrape.shop_timestamp
-			clean_stamp = timestamp.strftime('%a, %b %-d, %Y')
-			labels.append(clean_stamp)
+		# get the dates and add them to the all_dates set
+		timestamp = scrape.shop_timestamp
+		date_only = timestamp.date()
+		all_dates.add(date_only)
 
 		# append the data to the data list
 		if metric_choice == 'Rank':
@@ -103,15 +102,17 @@ def get_chart_data():
 
 				# if the shop is on a Sunday, get data
 				if (scrape.shop_timestamp.weekday() == 6) and (scrape.shop_timestamp > six_months_ago):
-					get_data_from_scrape(i, scrape)
+					get_data_from_scrape(scrape)
 
 			# address daily setting
 			elif timeframe_choice == 'Daily':
 
 				# if the shop is after thirty days ago:
 				if scrape.shop_timestamp > thirty_days_ago:
-					get_data_from_scrape(i, scrape)
+					get_data_from_scrape(scrape)
 
+
+	
 		# get chart data compiled
 		chart_line_info = {
 			'label' : label,
@@ -135,7 +136,23 @@ def get_chart_data():
 
 		datasets.append(chart_line_info)
 
-	return {"labels" : labels, "datasets" : datasets}
+	# convert the date set into a sorted list with the desired format
+	labels = list(all_dates)
+
+	labels.sort()
+
+	new_date = []
+
+	for label in labels:
+		new_date.append(label.strftime('%a, %b %-d, %Y'))
+
+	# go through all data sets and pad the data as needed
+	data_points = len(new_date)
+
+	print('\n\n\ndatasets:',datasets)
+
+
+	return { "labels" : new_date, "datasets" : datasets}
 
 def get_csv_data():
 	"""Pulls appropriate data and sends to html page in correct format"""
