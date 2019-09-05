@@ -59,6 +59,7 @@
 			</div>
 		</div>
 	</div>
+	<button type="button" class="csv_button">Download CSV Data</button>
 	</form><br>
 	<div class="row justify-content-center">
 		<canvas class="col-8" id="myChart" width="400" height="200"></canvas>
@@ -143,8 +144,37 @@
 			renderChart()
 		});
 	});
+
+	// handle downloading csv
+
+	// add event listener to button
+
+	const csvButton = document.querySelector('.csv_button');
+
+	csvButton.addEventListener('click', getCsvData);
+
+	function getCsvData() {
+		const hotels = new Array();
+		$("input:checkbox[name=hotel]:checked").each(function() {
+			hotels.push($(this).val())
+		});
+
+		$.post('/get-csv-data.json', {
+			'comp_set_choice' : $('#set_choice').val(),
+			'metric_choice' : $('#metric_choice').val(),
+			'timeframe_choice' : $('#timeframe_choice').val(),
+			'hotels_selection' : hotels
+			}, 
+			(data) => {
+				console.log(data)
+		})
+		// get request to route
+		// collect input data info
+		// convert to csv
+	}
 		
 	</script>
+	}
 
 {% endblock %}
 

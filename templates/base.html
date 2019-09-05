@@ -13,25 +13,33 @@
 	<nav id="navbar" class="navbar fixed_top navbar-expand-lg navbar-light">
 	    <div class="d-flex justify-content-start">
 	    	<li class="nav-item">
-	        	<a class="navbar-brand" href="#">PopWatch</a>
+	        	<a class="navbar-brand" href="/">PopWatch</a>
 	        </li>
-	        <li class="nav-item">
-	        	<a class="nav-link" href="/dashboard">Dashboard</a>
-	        </li>
-	        <li class="nav-item dropdown">
-	        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	          Manage Comp Sets</a>
-	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	          <a class="dropdown-item" href="/create">Create a New Set</a>
-	          <a class="dropdown-item" href="/manage">Manage Existing Comp Set</a>
-	          <a class="dropdown-item" href="/add-hotel">Add Hotel to Database</a>
-	        </div>
-	      </li>
+	        {% if session.get('hotels_selection') %}
+		        <li class="nav-item">
+		        	<a class="nav-link" href="/dashboard">Dashboard</a>
+		        </li>
+		    {% endif %}
+		    {% if session.get('user_id')%}
+		        <li class="nav-item dropdown">
+		        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Manage Comp Sets</a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			          <a class="dropdown-item" href="/create">Create a New Set</a>
+			          {% if session.get('set_choice') %}
+			          	<a class="dropdown-item" href="/manage">Manage Existing Comp Set</a>
+			          {% endif %}
+			          <a class="dropdown-item" href="/add-hotel">Add Hotel to Database</a>
+			        </div>
+		      	</li>
+		    {% endif %}
 	    </div>
 	    <div class="d-flex justify-content-end">
-	    	<li class="nav-item">
-	       		<a class="nav-link" href="/log-off">Log Out</a>
-	       	</li>
+	    	{% if session.get('user_id') %}
+		    	<li class="nav-item">
+		       		<a class="nav-link" href="/log-off">Log Out</a>
+		       	</li>
+		    {% endif %}
     	</div>
 	</nav>
 

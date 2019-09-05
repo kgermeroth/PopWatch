@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
 from functions import *
-import manage_set_funcs
+import manage_set_funcs, dashboard_funcs
 import re
 
 app = Flask(__name__)
@@ -134,7 +134,7 @@ def process_new_set():
 def show_dashboard():
 	"""Displays dashboard page"""
 
-	user, views, default_view, non_default_views, metrics, timeframes, hotels_in_view = set_initial_inputs()
+	user, views, default_view, non_default_views, metrics, timeframes, hotels_in_view = dashboard_funcs.set_initial_inputs()
 
 	return render_template('dashboard.html', user=user,
 											 views=views,
@@ -158,7 +158,7 @@ def set_chart_inputs():
 
 	session.modified = True
 
-	chart_data = get_chart_data()
+	chart_data = dashboard_funcs.get_chart_data()
 
 	return jsonify(chart_data)
 
@@ -186,6 +186,23 @@ def get_comp_set_hotels():
 	session.modified = True
 
 	return jsonify(view_hotel_dicts)
+
+
+@app.route('/get-csv-data.json', methods=['POST'])
+def get_csv_data():
+	"""Takes selected inputs from dashboard page and collects data to be converted into csv file"""
+
+	inputs = request.form
+
+	session['set_choice'] = int(inputs['comp_set_choice'])
+	session['timeframe_choice'] = inputs['timeframe_choice']
+	session['hotels_selection'] = [int(hotel) for hotel in (inputs.getlist('hotels_selection[]'))]
+
+	session.modified = True
+
+	csv_rows = dashboard_funcs.get_csv_data()
+
+	return jsonify(csv_rows)
 
 
 @app.route('/add-hotel')
