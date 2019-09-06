@@ -13,7 +13,12 @@
 	<nav id="navbar" class="navbar fixed_top navbar-expand-lg navbar-light">
 	    <div class="d-flex justify-content-start">
 	    	<li class="nav-item">
-	        	<a class="navbar-brand" href="/">PopWatch</a>
+	    		{% if not session.get('user_id') %}
+	        		<a class="navbar-brand" href="/">PopWatch</a>
+	        	{% endif %}
+	        	{% if session.get('user_id') %}
+	        		<a class="navbar-brand" href="/dashboard">PopWatch</a>
+	        	{% endif %}
 	        </li>
 	        {% if session.get('hotels_selection') %}
 		        <li class="nav-item">
