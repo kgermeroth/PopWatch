@@ -22,14 +22,18 @@ class FlaskTests(unittest.TestCase):
 		result = self.client.get('/')
 		self.assertIn(b'TripAdvisor Activity', result.data)
 
-	# def test_dashboard_page(self):
+	def test_dashboard_page(self):
 
-	# 	with self.client as c:
-	# 		with c.session_transaction() as sess:
-	# 			sess['user_id'] = 1
+		with self.client as c:
+			with c.session_transaction() as sess:
+				sess['user_id'] = 1
+				sess['set_choice'] = 1
+				sess['metric_choice'] = 'Rank'
+				sess['timeframe_choice'] = 'Daily'
+				sess['hotels_selection'] = []
 
-	# 	result = self.client.get('/dashboard')
-	# 	self.assertIn(b'Performance Dashboard', result.data)
+		result = self.client.get('/dashboard')
+		self.assertIn(b'Performance Dashboard', result.data)
 
 	# def test_create_set_page(self):
 	# 	result = self.client.get('/create')
