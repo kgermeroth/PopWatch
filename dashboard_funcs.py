@@ -141,18 +141,21 @@ def get_chart_data():
 
 	labels.sort()
 
-	new_date = []
+	clean_dates = []
 
 	for label in labels:
-		new_date.append(label.strftime('%a, %b %-d, %Y'))
+		clean_dates.append(label.strftime('%a, %b %-d, %Y'))
 
 	# go through all data sets and pad the data as needed
-	data_points = len(new_date)
+	num_dates = len(clean_dates)
 
-	print('\n\n\ndatasets:',datasets)
+	for dataset in datasets:
+		data_length = len(dataset['data'])
+		if data_length != num_dates:
+			dataset['data'] = ([None] * (num_dates - data_length)) + dataset['data']
 
+	return { "labels" : clean_dates, "datasets" : datasets}
 
-	return { "labels" : new_date, "datasets" : datasets}
 
 def get_csv_data():
 	"""Pulls appropriate data and sends to html page in correct format"""
