@@ -1,9 +1,9 @@
 
-from model import *
+from model import example_data, db
 
-import unittest
+import unittest, datetime
 from server import app
-
+from flask_sqlalchemy import SQLAlchemy
 
 class FlaskTests(unittest.TestCase):
 	"""Tests for TripAdvisor Site"""
@@ -20,24 +20,45 @@ class FlaskTests(unittest.TestCase):
 
 	def test_login_page(self):
 		result = self.client.get('/')
-		self.assertIn(b'Monitor TripAdvisor', result.data)
+		self.assertIn(b'TripAdvisor Activity', result.data)
+
+	# def test_dashboard_page(self):
+
+	# 	with self.client as c:
+	# 		with c.session_transaction() as sess:
+	# 			sess['user_id'] = 1
+
+	# 	result = self.client.get('/dashboard')
+	# 	self.assertIn(b'Performance Dashboard', result.data)
+
+	# def test_create_set_page(self):
+	# 	result = self.client.get('/create')
+	# 	self.assertIn(b'Create Your Comp Set', result.data)
+
+	# def test_manage_set_page(self):
+	# 	result = self.client.get('/manage')
+	# 	self.assertIn(b'Manage Your Comp Set', result.data)
+
+	# def test_add_hotel_page(self):
+	# 	result = self.client.get('/add-hotel')
+	# 	self.assertIn(b'Add a New Hotel', result.data)
 
 class FlaskDatabaseTests(unittest.TestCase):
 	""" Test database related items"""
 
 
-	def init_app(self):
+	def init_app(self, app):
 		"""Need to make a Flask app so we can use Flask-SQLALchemy"""
 
-		connect_to_db(app)
+		self.connect_to_db(app)
 
 		client = app.test_client
 		self.client = app.test_client()
 
-	def connect_to_db(app):
+	def connect_to_db(self, app):
 		"""Connect the database to our Flask app"""
 
-		app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///testdb'
+		app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///testdb'
 		app.config['TESTING'] = True
 		app.config['SQLALCHEMY_ECHO'] = False
 		app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -48,7 +69,7 @@ class FlaskDatabaseTests(unittest.TestCase):
 	def setUp(self):
 		"""Stuff to do before every test."""
 
-		init_app()
+		self.init_app(app)
 		db.create_all()
 		example_data()
 
@@ -69,7 +90,7 @@ def no_test_dbsetup():
 	def connect_to_db(app):
 		"""Connect the database to our Flask app"""
 
-		app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///testdb'
+		app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///testdb'
 		app.config['TESTING'] = True
 		app.config['SQLALCHEMY_ECHO'] = False
 		app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

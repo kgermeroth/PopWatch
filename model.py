@@ -124,7 +124,7 @@ def connect_to_db(app):
 	"""Connect the database to our Flask app"""
 
 	# Configure to use our database
-	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///hotels'
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///hotels'
 	app.config['SQLALCHEMY_ECHO'] = False
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db.app = app
@@ -139,6 +139,12 @@ if __name__ == '__main__':
 
 def example_data():
 	"""Create some sample data"""
+	users = User.query.all()
+
+	for user in users:
+		user.default_view = None
+		db.session.add(user)
+		db.session.commit()
 
 	ViewHotel.query.delete()
 	View.query.delete()
@@ -215,6 +221,12 @@ def example_data():
 	db.session.add_all([vh1, vh2, vh3, vh4, vh5, vh6, vh7, vh8, vh9, vh10, vh11, vh12, vh13, vh14, vh15, vh16])
 	db.session.commit()
 
-	# u1.defaultview = 1
-	# u2.defaultview = 4
-	# db.session.commit()
+	u1 = User.query.filter(User.user_id == 1).one()
+	u1.default_view = 1
+
+	u2 = User.query.filter(User.user_id == 2).one()
+	u2.default_view = 4
+
+	db.session.add_all([u1, u2])
+	db.session.commit()
+
