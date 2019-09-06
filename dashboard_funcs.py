@@ -172,9 +172,11 @@ def get_csv_data():
 	def add_data_to_row():
 		"""Takes info from scrape and adds it to the row"""
 
+		clean_date = scrape.shop_timestamp.strftime('%d %b %Y')
+
 		row.append(scrape.hotel_id)
 		row.append(scrape.hotel.hotel_name)
-		row.append(scrape.shop_timestamp)
+		row.append(clean_date)
 		row.append(scrape.ranking)
 		row.append(scrape.avg_score)
 		row.append(scrape.review_count)

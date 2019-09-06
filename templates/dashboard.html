@@ -170,12 +170,18 @@
 				let csvContent = "data:text/csv;charset=utf-8," + data.map(e => e.join(",")).join("\r\n");
 
 				var encodedUri = encodeURI(csvContent);
-				window.open(encodedUri);
+				var link = document.createElement("a");
+				link.setAttribute("href", encodedUri);
+				link.setAttribute("download", "trip_advisor_data.csv");
+				document.body.appendChild(link); // Required for FF
+
+				link.click();
+				// window.open(encodedUri);
 		})
 	}
 		
 	</script>
-	}
+	
 
 {% endblock %}
 
