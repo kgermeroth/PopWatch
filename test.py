@@ -35,17 +35,17 @@ class FlaskTests(unittest.TestCase):
 		result = self.client.get('/dashboard')
 		self.assertIn(b'Performance Dashboard', result.data)
 
-	# def test_create_set_page(self):
-	# 	result = self.client.get('/create')
-	# 	self.assertIn(b'Create Your Comp Set', result.data)
+	def test_create_set_page(self):
+		result = self.client.get('/create')
+		self.assertIn(b'Create Your Comp Set', result.data)
 
-	# def test_manage_set_page(self):
-	# 	result = self.client.get('/manage')
-	# 	self.assertIn(b'Manage Your Comp Set', result.data)
+	def test_manage_set_page(self):
+		result = self.client.get('/manage')
+		self.assertIn(b'Manage Your Comp Set', result.data)
 
-	# def test_add_hotel_page(self):
-	# 	result = self.client.get('/add-hotel')
-	# 	self.assertIn(b'Add a New Hotel', result.data)
+	def test_add_hotel_page(self):
+		result = self.client.get('/add-hotel')
+		self.assertIn(b'Add a New Hotel', result.data)
 
 class FlaskDatabaseTests(unittest.TestCase):
 	""" Test database related items"""
