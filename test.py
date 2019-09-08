@@ -82,6 +82,7 @@ class FlaskDatabaseTests(unittest.TestCase):
 
 		pass
 
+
 def no_test_dbsetup():
 	"""Set up test database when no tests exist"""
 	def init_app():
