@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center">
-	<h1>Submit the form below to register</h1>
-</div>
-<div class="row justify-content-center">
-	<form action="/register" method="POST" class="pretty_entry">
-		Email: <input type="text" name="email"><br>
-		Password: <input type="password" name="password"><br>
-		<input type="submit">
-	</form>
+<div class="container">
+	<div class="row justify-content-center">
+		<h1>Submit the form below to register</h1>
+	</div>
+	<div class="row justify-content-center">
+		<form action="/register" method="POST" class="pretty_entry">
+			Email: <input type="text" name="email"><br>
+			Password: <input type="password" name="password"><br>
+			<input type="submit">
+		</form>
+	</div>
 </div>
 
 {% endblock %}
