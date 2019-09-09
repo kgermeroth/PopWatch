@@ -34,8 +34,8 @@ def set_initial_inputs():
 def get_border_color(index):
 	"""Gets an rbga color from a list"""
 
-	color_list = ['rgba(111,183,214,1)', 'rgba(165,137,193,1)', 'rgba(252,169,133,1)', 'rgba(142,210,144,1)',
-				  'rgba(255,250,129,1)', 'rgba(249,140,182,1)', 'rgba(117,137,191,1)', 'rgba(72,181,163,1)']
+	color_list = ['rgba(50,140,193,1)', 'rgba(235,110,128,1)', 'rgba(0,143,149,1)', 'rgba(109,121,147,1)',
+				  'rgba(254,166,128,1)', 'rgba(110,196,216,1)', 'rgba(205,83,96,1)', 'rgba(73,39,74,1)']
 
 	return color_list[index]
 
@@ -43,8 +43,8 @@ def get_border_color(index):
 def get_background_color(index):
 	"""Gets an rbga color from a list"""
 
-	color_list = ['rgba(111,183,214,0.2)', 'rgba(165,137,193,0.2)', 'rgba(252,169,133,0.2)', 'rgba(142,210,144,0.2)',
-				  'rgba(255,250,129,0.2)', 'rgba(249,140,182,0.2)', 'rgba(117,137,191,0.2)', 'rgba(72,181,163,0.2)']
+	color_list = ['rgba(50,140,193,0.2)', 'rgba(235,110,128,0.2)', 'rgba(0,143,149,0.2)', 'rgba(109,121,147,0.2)',
+				  'rgba(254,166,128,0.2)', 'rgba(110,196,216,0.2)', 'rgba(205,83,96,0.2)', 'rgba(73,39,74,0.2)']
 
 	return color_list[index]
 

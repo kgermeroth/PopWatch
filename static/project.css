@@ -2,6 +2,10 @@
     color: white;
 }
 
+.brand {
+	font-size: 24px;
+}
+
 #navbar {
     background-color: #494E6B;
     height: 40px;
@@ -9,6 +13,7 @@
 
 .nav-item {
 	display: inline;
+	color: white;
 }
 
 .pretty_entry {
@@ -24,16 +29,16 @@
 h1 {
 	margin-top: 20px;
 	margin-bottom: 40px;
-	color: #494E6B;
 }
 
 h2 {
-	color: #494E6B;
 	margin-bottom: 40px;
 }
 
-h3, h4, a {
+h1, h2, h3, h4, a {
+	font-family: 'Montserrat', sans-serif;
 	color: #494E6B;
+
 }
 
 
@@ -71,17 +76,19 @@ i {
 	width: 300px;
 }
 .fa-plus {
-	color: rgb(145,210,144);
+	color: #66ABBC;
 }
 
 .note {
-	color: rgb(111,183,214);
+	color: #CD5360;
 }
 
 .delete_set {
-	color: #874C62;
+	color: #CD5360;
 }
 
 body {
 	color: #192231;
+	font-family: 'Montserrat', sans-serif;
+
 }

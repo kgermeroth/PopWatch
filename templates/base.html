@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link href="/static/project.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.11/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
 
 
 </head>
@@ -14,10 +16,10 @@
 	    <div class="d-flex justify-content-start">
 	    	<li class="nav-item">
 	    		{% if not session.get('user_id') %}
-	        		<a class="navbar-brand" href="/">PopWatch</a>
+	        		<a class="nav-link brand" href="/">PopWatch</a>
 	        	{% endif %}
 	        	{% if session.get('user_id') %}
-	        		<a class="navbar-brand" href="/dashboard">PopWatch</a>
+	        		<a class="nav-link brand" href="/dashboard">PopWatch</a>
 	        	{% endif %}
 	        </li>
 	        {% if session.get('hotels_selection') %}
