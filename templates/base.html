@@ -12,31 +12,31 @@
 
 </head>
 <body>
-	<nav id="navbar" class="navbar fixed_top navbar-expand-lg navbar-light">
-	    <div class="d-flex justify-content-start">
+	<nav id="navbar" class="navbar fixed_top navbar-light">
+	    <div class="d-flex justify-content-start align-items-center">
 	    	<li class="nav-item">
 	    		{% if not session.get('user_id') %}
-	        		<a class="nav-link brand" href="/">PopWatch</a>
+	        		<a class="nav-link brand fade-in-color" href="/">PopWatch</a>
 	        	{% endif %}
 	        	{% if session.get('user_id') %}
-	        		<a class="nav-link brand" href="/dashboard">PopWatch</a>
+	        		<a class="nav-link brand fade-in-color" href="/dashboard">PopWatch</a>
 	        	{% endif %}
 	        </li>
 	        {% if session.get('hotels_selection') %}
 		        <li class="nav-item">
-		        	<a class="nav-link" href="/dashboard">Dashboard</a>
+		        	<a class="nav-link fade-in-color" href="/dashboard">Dashboard</a>
 		        </li>
 		    {% endif %}
 		    {% if session.get('user_id')%}
 		        <li class="nav-item dropdown">
-		        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        	<a class="nav-link dropdown-toggle fade-in-color" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          Manage Comp Sets</a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-			          <a class="dropdown-item" href="/create">Create a New Set</a>
+			          <a class="dropdown-item fade-in-color" href="/create">Create a New Set</a>
 			          {% if session.get('set_choice') %}
-			          	<a class="dropdown-item" href="/manage">Manage Existing Comp Set</a>
+			          	<a class="dropdown-item fade-in-color" href="/manage">Manage Existing Comp Set</a>
 			          {% endif %}
-			          <a class="dropdown-item" href="/add-hotel">Add Hotel to Database</a>
+			          <a class="dropdown-item fade-in-color" href="/add-hotel">Add Hotel to Database</a>
 			        </div>
 		      	</li>
 		    {% endif %}
@@ -44,7 +44,7 @@
 	    <div class="d-flex justify-content-end">
 	    	{% if session.get('user_id') %}
 		    	<li class="nav-item">
-		       		<a class="nav-link" href="/log-off">Log Out</a>
+		       		<a class="nav-link fade-in-color" href="/log-off">Log Out</a>
 		       	</li>
 		    {% endif %}
     	</div>
