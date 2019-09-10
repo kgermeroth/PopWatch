@@ -31,6 +31,11 @@
 
 }
 
+.pretty_entry input {
+	width: 100%;
+	clear: both;
+}
+
 h1, h2 {
 	margin-top: 30px;
 }
@@ -96,6 +101,8 @@ i {
 body {
 	color: #192231;
 	font-family: 'Montserrat', sans-serif;
+	background-image: url("/media/storage/home/kristin/src/TripAdvisor_Project/static/SF_photo.jpg");
+	background-size: cover;
 
 }
 
@@ -105,4 +112,8 @@ body {
 
 .csv_button {
 	margin-bottom: 20px;
+}
+
+body {
+
 }
