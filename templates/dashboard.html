@@ -95,7 +95,27 @@
 			}, 
 			(data) => {
 			let myLineChart = Chart.Line(ctx, {
-											data: data
+											data: data,
+											options: {
+												legend: {
+													labels: {
+														fontColor: '#192231'
+													}
+												},
+												scales: {
+													yAxes: [{
+										                ticks: {
+										                    fontColor: '#192231'
+										                },
+										            }],
+													xAxes: [{
+										                ticks: {
+										                    fontColor: '#192231'
+										                },
+										            }]
+												}
+											
+											}
 										});
 		})
 	}
