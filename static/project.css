@@ -8,7 +8,7 @@
 }
 
 #navbar {
-    background-color: #494E6B;
+    background-color: rgba(25,34,49,.6);
     align-items: center;
 }
 
@@ -24,11 +24,11 @@
 .pretty_entry {
 	border-style: solid;
 	border-width: 2px;
-	border-color: #98878F;
+	background-color: rgba(255,255,255,.2);
+	border-color: rgba(255,255,255,.6);
 	border-radius: 10px;
 	padding: 15px;
 	width: 500px;
-	background-color: rgba(255,255,255,.2);
 	color: white;
 
 }
@@ -67,7 +67,8 @@ i {
 .comp_set_form{
 	border-style: solid;
 	border-width: 2px;
-	border-color: #98878F;
+	background-color: rgba(255,255,255,.2);
+	border-color: rgba(255,255,255,.6);
 	border-radius: 10px;
 	padding: 15px;
 	width: 450px;
@@ -92,10 +93,6 @@ i {
 	cursor: pointer;
 }
 
-.note {
-	color: #CD5360;
-}
-
 .delete_set {
 	color: #CD5360;
 }
@@ -118,4 +115,14 @@ body {
 
 .button {
 	font-color: #CD5360;
+}
+
+#myChart {
+	color: white;
+	border-style: solid;
+	border-width: 2px;
+	background-color: rgba(255,255,255,.9);
+	border-color: rgba(255,255,255,.6);
+	border-radius: 10px;
+	padding: 20px;
 }
