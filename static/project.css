@@ -28,6 +28,8 @@
 	border-radius: 10px;
 	padding: 15px;
 	width: 500px;
+	background-color: rgba(255,255,255,.2);
+	color: white;
 
 }
 
@@ -41,7 +43,7 @@ h1, h2 {
 }
 h1, h2, h3, h4, a {
 	font-family: 'Montserrat', sans-serif;
-	color: #494E6B;
+	color: white;
 	margin-bottom: 20px;
 
 }
@@ -99,9 +101,9 @@ i {
 }
 
 body {
-	color: #192231;
+	color: white;
 	font-family: 'Montserrat', sans-serif;
-	background-image: url("/media/storage/home/kristin/src/TripAdvisor_Project/static/SF_photo.jpg");
+	background-image: url("SF_photo.jpg");
 	background-size: cover;
 
 }
@@ -114,6 +116,6 @@ body {
 	margin-bottom: 20px;
 }
 
-body {
-
+.button {
+	font-color: #CD5360;
 }
