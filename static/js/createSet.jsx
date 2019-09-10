@@ -189,7 +189,7 @@ class AllHotelDropDowns extends React.Component {
                 <div className="selected-hotels">
                     {hotelContainers}
                 </div>
-               	<Add onClick={this.addHotel}/>
+               	<Add onClick={this.addHotel} />
            </div> 
         );
 	};
