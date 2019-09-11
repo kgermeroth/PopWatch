@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="container">
-	<div class="row col-12 justify-content-center">
+		<div class="row col-12 justify-content-center">
 		<h1>Hotel Performance Dashboard</h1>
 	</div>
 	<div class="row justify-content-end">
@@ -75,10 +76,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
 	<script>
 
+
 	// chart stuff!
 	const ctx = document.getElementById('myChart');
 
-		// this function pulls data from the form and sends it to route to get chart data
+	// this function pulls data from the form and sends it to route to get chart data
 
 	function renderChart() {
 		
@@ -199,7 +201,7 @@
 				document.body.appendChild(link); // Required for FF
 
 				link.click();
-				// window.open(encodedUri);
+
 		})
 	}
 		

@@ -122,7 +122,7 @@ body {
 	border-style: solid;
 	border-width: 2px;
 	background-color: rgba(255,255,255,.9);
-	border-color: rgba(255,255,255,.6);
+	border-color: rgba(255,255,255,1);
 	border-radius: 10px;
 	padding: 20px;
 }

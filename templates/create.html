@@ -1,15 +1,7 @@
 {% extends 'base.html' %}
 
-{% block js %}
-	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
-	<script src="/static/js/createSet.jsx" type="text/jsx"></script>
-{% endblock %}
-
-
-
 {% block content %}
+
 <div class="container">
 	<div class="row justify-content-center">
 		<h1>Create Your Comp Set Below</h1>
@@ -25,7 +17,15 @@
 	</div>
 </div>
 
-	
+{% endblock %}
 
+{% block js %}
+	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+	<script src="/static/js/createSet.jsx" type="text/jsx"></script>
 
+	<script>
+
+	</script>
 {% endblock %}
