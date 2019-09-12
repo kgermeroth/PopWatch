@@ -10,8 +10,8 @@
 **PopWatch** is an easy-to-use tool for hoteliers to track TripAdvisor ranking, average score, and number of reviews for an unlimited number of user-defined competitive sets.
 
 ## <a name="tech-stack"></a>Tech Stack
-**Front End:**HTML5, JavaScript, AJAX, React, Bootstrap, chart.js
-**Back End:**Python, Flask, PostgreSQL, SQLAlchemy 
+__Front End:__ HTML5, JavaScript, AJAX, React, Bootstrap, chart.js
+__Back End:__ Python, Flask, PostgreSQL, SQLAlchemy 
 
 ## <a name="setup"></a>Setup/Installation
 
@@ -24,4 +24,4 @@ To have this app running on your local computer, please follow the below steps:
 
 Cone repository:
 ```
-$ git clone https://github.com/kgermeroth/TripAdvisor-project.git
+$ git clone https://github.com/kgermeroth/PopWatch.git
