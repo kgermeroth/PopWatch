@@ -10,7 +10,7 @@
 **PopWatch** is an easy-to-use tool for hoteliers to track TripAdvisor ranking, average score, and number of reviews for an unlimited number of user-defined competitive sets.
 
 ## <a name="tech-stack"></a>Tech Stack
-__Front End:__ HTML5, JavaScript, AJAX, React, Bootstrap, chart.js<br/>
+__Front End:__ HTML5, Jinja2, CSS, JavaScript, AJAX, React, Bootstrap, chart.js<br/>
 __Back End:__ Python, Flask, PostgreSQL, SQLAlchemy <br/>
 
 ## <a name="setup"></a>Setup/Installation

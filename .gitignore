@@ -6,3 +6,4 @@ to_convert.csv
 __pycache__/
 new_data.csv
 static/js/ashleyCodeReview.jsx
+secrets.sh
