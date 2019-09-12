@@ -1,4 +1,4 @@
-import webbrowser, requests, re, csv, time
+import webbrowser, requests, re, csv, time, os
 from datetime import datetime
 from model import *
 
@@ -34,7 +34,9 @@ def create_html_file_name(hotel_id, now):
 def write_html_to_file(full_page, filename):
 	"""Writes data to a text file"""
 
-	filepath = '/media/storage/home/kristin/src/TripAdvisor_Project/hotel_html_pages/' + filename
+	working_dir = str(os.path.dirname(os.path.realpath(__file__)))
+
+	filepath = working_dir + '/hotel_html_pages/' + filename
 
 	# creates a new text file and opens it in write mode
 	text_file = open(filepath, 'w')
@@ -97,7 +99,9 @@ def store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewco
 
 	row = [hotel_id, ta_id, now.isoformat(), rank, num_hotels, avgscore, reviewcount]
 
-	with open('/media/storage/home/kristin/src/TripAdvisor_Project/hotel_data.csv', 'a') as csvFile:
+	working_dir = str(os.path.dirname(os.path.realpath(__file__)))
+
+	with open(working_dir + '/hotel_data.csv', 'a') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerow(row)
 
