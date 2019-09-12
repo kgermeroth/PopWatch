@@ -145,13 +145,11 @@ def scrape_store_webpages():
 		now = get_time_stamp()																		# get the time stamp
 		filename = create_html_file_name(hotel_id, now)												# creates a filename for the file html will be stored in
 		filepath = write_html_to_file(text, filename)												# takes html text and puts it into a file with the created filename
-		# soup_object = convert_html_file(filepath)													# takes the html file and converts it into a soup object
-		# rank, avgscore, num_hotels, reviewcount = get_data_out_of_soup(soup_object) 			# takes soup object and parses it to pull data
 		rank, avgscore, num_hotels, reviewcount = use_regex(filepath)							# takes html file and parses with regex
 		store_data_in_csv(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)		# takes all data and writes it to csv file
-		store_data_in_database(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)
+		store_data_in_database(hotel_id, ta_id, now, rank, num_hotels, avgscore, reviewcount)	# takes all data and writes it to database
 
-		# wait two minutes until next shop
+		# wait 60 seconds until next shop (prevent TripAdvisor lockout)
 		time.sleep(60)
 
 if __name__ == '__main__':

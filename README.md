@@ -62,7 +62,7 @@ Data collection: the code in web-scraping.py needs to be run on a daily basis. A
 $ python3 web-scraping.py
 ```
 
-Consider scheduling with cronjobs or similar. Note that filepaths in web-scraping.py (lines 37 and 100) may need to be absolute file paths
+Consider scheduling with cronjobs or similar. Note that filepaths in web-scraping.py (lines 37 and 100) may need to be absolute file paths.
 
 Run app from the command line:
 ```
