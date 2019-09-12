@@ -1,4 +1,4 @@
-hotel_html_pages/
+hotel_html_pages/*.html
 env/
 conversion.py
 converted.csv

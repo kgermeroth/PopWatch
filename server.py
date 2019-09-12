@@ -4,13 +4,12 @@ from flask import Flask, render_template, request, redirect, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
 from functions import *
-import manage_set_funcs, dashboard_funcs
-import re
+import manage_set_funcs, dashboard_funcs, re, os
 
 app = Flask(__name__)
 
 # required to run Flask sessions and debug toolbar
-app.secret_key = 'ABC123'
+app.secret_key = os.environ['POPWATCH_SECRET_KEY']
 
 # gives an error in jinga template if undefined variable rather than failing silently
 app.jinja_env.undefined = StrictUndefined
