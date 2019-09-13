@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
 from functions import *
-import manage_set_funcs, dashboard_funcs, re, os
+import manage_set_funcs, dashboard_funcs, add_hotel_funcs, re, os
 
 app = Flask(__name__)
 
@@ -212,11 +212,17 @@ def display_add_hotel_form():
 
 @app.route('/add-hotel-submission', methods=['POST'])
 def handle_new_hotel_submission():
-	"""Takes user input and submits it to database."""
+	"""Takes user input and submits it to database.
+
+		Also adds hotel to back-up csv file."""
 
 	inputs = request.form
 
-	submit_new_hotel(inputs)
+	ta_url = inputs['ta_url']
+
+	add_hotel_funcs.submit_new_hotel(inputs)
+
+	add_hotel_funcs.add_hotel_txtfile(ta_url)
 
 	return redirect('/add-hotel')
 
