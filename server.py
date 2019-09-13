@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from model import *
 from functions import *
-import manage_set_funcs, dashboard_funcs, add_hotel_funcs, re, os
+import util, manage_set_funcs, dashboard_funcs, create_set_funcs, add_hotel_funcs, re, os
 
 app = Flask(__name__)
 
@@ -50,7 +50,7 @@ def check_user_password():
 
 			# if they do have a default page send them to the main dashboard and set initial session values for chart
 			else:
-				set_initial_session_options()
+				util.set_initial_session_options()
 				return redirect('/dashboard')
 
 		# if user exists but password is incorrect			
@@ -107,7 +107,7 @@ def show_manage_compset():
 def create_hotels_json():
 	"""Takes all hotels and converts them to JSON"""
 
-	hotels = get_hotel_information()
+	hotels = util.get_hotel_information()
 
 	return jsonify(hotels)
 
@@ -118,10 +118,10 @@ def process_new_set():
 	
 	submission = request.form
 
-	submit_to_database(submission)
+	create_set_funcs.submit_to_database(submission)
 
 	# set session placeholders
-	set_initial_session_options()
+	util.set_initial_session_options()
 
 	message = Markup('<div class="alert alert-success" role="alert">Your comp set has been submitted.</div>')
 	flash(message)
@@ -239,7 +239,7 @@ def get_comp_set_info():
 	"""Gets all needed info about comp sets and returns a json object of data"""
 
 	# get a list of hotel dictionaries which include hotel_id and hotel_name
-	hotels = get_hotel_information()
+	hotels = util.get_hotel_information()
 
 	# get default view, list of dicts of view_num and view_name, and dictionary of all hotel_ids associated with a view
 	default_view, view_names, hotels_in_views = manage_set_funcs.get_all_view_info()
