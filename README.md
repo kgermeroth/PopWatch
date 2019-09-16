@@ -4,6 +4,7 @@
 
 * [Summary](#summary)
 * [Tech Stack](#tech-stack)
+* [Features](#features)
 * [Setup/Installation](#setup)
 
 ## <a name="summary"></a>Summary
@@ -12,6 +13,15 @@
 ## <a name="tech-stack"></a>Tech Stack
 __Front End:__ HTML5, Jinja2, CSS, JavaScript, AJAX, React, Bootstrap, chart.js<br/>
 __Back End:__ Python, Flask, PostgreSQL, SQLAlchemy <br/>
+
+## <a name="features"></a>Features
+
+Log in to create as many views of hotels (aka competitive sets, or comp sets for short!) as desired:
+
+Search for plants by name, water, sun, temperature, or humidity needs. User account registration not required.
+  
+![Create Set](/PopWatch/static/videos/createset.gif)
+<br/><br/><br/>
 
 ## <a name="setup"></a>Setup/Installation
 
@@ -68,3 +78,5 @@ Run app from the command line:
 ```
 $ python3 server.py
 ```
+
+Visit localhost:5000 on your browser and enjoy!
