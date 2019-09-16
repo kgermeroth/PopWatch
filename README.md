@@ -6,6 +6,7 @@
 * [Tech Stack](#tech-stack)
 * [Features](#features)
 * [Setup/Installation](#setup)
+* [About the Developer](#developer)
 
 ## <a name="summary"></a>Summary
 **PopWatch** is an easy-to-use tool for hoteliers to track TripAdvisor ranking, average score, and number of reviews for an unlimited number of user-defined competitive sets.
@@ -21,7 +22,7 @@ Log in to create as many views of hotels (aka competitive sets, or comp sets for
 ![Create Set](/static/videos/createset4.gif)
 <br/><br/><br/>
 
-Once at least one set is created, visit the Dashboard page to see data in chart format. Just click the inputs to change the chart!
+Once one set is created, visit the Dashboard page to see data in chart format. Just click the inputs to change the chart!
 ![Dashboard](/static/videos/dashboard.gif)
 <br/><br/><br/>
 
@@ -29,7 +30,7 @@ You can even download the data as csv to manipulate on your own:
 ![csv](/static/videos/downloadcsv.png)
 <br/><br/><br/>
 
-If you want to modify a comp set you created, head on over to the Manage Existing Comp Set page and make any needed changes:
+If you want to modify a comp set head over to the Manage Existing Comp Set page and make any needed changes:
 ![modify](/static/videos/modifyset.gif)
 <br/><br/><br/>
 
@@ -94,3 +95,9 @@ $ python3 server.py
 ```
 
 Visit localhost:5000 on your browser and enjoy!
+
+## <a name="developer"></a>About the Developer
+
+Kristin Germeroth is a 10 year hospitality veteran who specialized in revenue management. She transitioned into software engineering in mid-2019 in search of a more creative and challenging career path. Her heavy involvement creating Excel-based tools made software engineering a logical choice. 
+
+Learn more about Kristin on her <a href="www.linkedin.com/in/kgermeroth/">LinkedIn.</a>
