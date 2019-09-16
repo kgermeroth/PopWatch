@@ -18,7 +18,7 @@ __Back End:__ Python, Flask, PostgreSQL, SQLAlchemy <br/>
 
 Log in to create as many views of hotels (aka competitive sets, or comp sets for short!) as desired:
 
-![Create Set](/static/videos/createset1.gif)
+![Create Set](/static/videos/createset2.gif)
 <br/><br/><br/>
 
 ## <a name="setup"></a>Setup/Installation
