@@ -18,9 +18,7 @@ __Back End:__ Python, Flask, PostgreSQL, SQLAlchemy <br/>
 
 Log in to create as many views of hotels (aka competitive sets, or comp sets for short!) as desired:
 
-Search for plants by name, water, sun, temperature, or humidity needs. User account registration not required.
-  
-![Create Set](PopWatch/static/videos/createset.gif)
+![Create Set](/static/videos/createset.gif)
 <br/><br/><br/>
 
 ## <a name="setup"></a>Setup/Installation
