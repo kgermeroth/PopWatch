@@ -23,3 +23,4 @@
 25|Hotel Proper|https://www.tripadvisor.com/Hotel_Review-g60713-d80799-Reviews-San_Francisco_Proper_Hotel-San_Francisco_California.html
 26|Virgin Hotels SF|https://www.tripadvisor.com/Hotel_Review-g60713-d15319025-Reviews-Virgin_Hotels_San_Francisco-San_Francisco_California.html
 27|Argonaut Hotel|https://www.tripadvisor.com/Hotel_Review-g60713-d268533-Reviews-Argonaut_Hotel_A_Noble_House_Hotel-San_Francisco_California.html
+28|Hotel Huntington|https://www.tripadvisor.com/Hotel_Review-g60713-d115625-Reviews-Huntington_Hotel-San_Francisco_California.html

@@ -21,6 +21,22 @@ Log in to create as many views of hotels (aka competitive sets, or comp sets for
 ![Create Set](/static/videos/createset4.gif)
 <br/><br/><br/>
 
+Once at least one set is created, visit the Dashboard page to see data in chart format. Just click the inputs to change the chart!
+![Dashboard](/static/videos/dashboard.gif)
+<br/><br/><br/>
+
+You can even download the data as csv to manipulate on your own:
+![csv](/static/videos/downloadcsv.png)
+<br/><br/><br/>
+
+If you want to modify a comp set you created, head on over to the Manage Existing Comp Set page and make any needed changes:
+![modify](/static/videos/modifyset.gif)
+<br/><br/><br/>
+
+If a hotel you'd like to shop isn't yet available it can be added on the Add Hotel page:
+![add](/static/videos/addhotel.gif)
+
+
 ## <a name="setup"></a>Setup/Installation
 
 #### Requirements:
