@@ -9,3 +9,6 @@ MarkupSafe==1.0
 psycopg2-binary==2.7.5
 SQLAlchemy==1.2.8
 Werkzeug==0.14.1
+requests==2.22.0
+requests-oauthlib==1.2.0
+requests-unixsocket==0.1.5
