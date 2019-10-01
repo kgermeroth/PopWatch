@@ -67,6 +67,14 @@ Install dependencies:
 $ pip3 install -r requirements.txt
 ```
 
+For Flask to run properly you need to set a secret key. Create a file called 'secrets.sh' in the project directory and create a key:
+![Secret](/static/videos/secret_key.png)
+
+Add the key to your environmental variables (this will need to be done each time you restart your virtual environment):
+```
+source secrets.sh
+```
+
 Create database 'hotels':
 ```
 $ createdb hotels
