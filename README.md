@@ -72,7 +72,7 @@ For Flask to run properly you need to set a secret key. Make a file called 'secr
 
 Add the key to your environmental variables (this will need to be done each time you restart your virtual environment):
 ```
-source secrets.sh
+$ source secrets.sh
 ```
 
 Create database 'hotels':
