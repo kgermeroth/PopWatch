@@ -7,3 +7,4 @@ __pycache__/
 new_data.csv
 static/js/ashleyCodeReview.jsx
 secrets.sh
+do_the_regex.py
